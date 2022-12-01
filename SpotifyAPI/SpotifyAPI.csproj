@@ -10,4 +10,10 @@
       <PackageReference Include="SpotifyAPI.Web" Version="7.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Microsoft.Maui.Essentials">
+        <HintPath>..\..\..\..\..\..\Program Files\dotnet\packs\Microsoft.Maui.Essentials.Ref.android\7.0.49\ref\net7.0-android30.0\Microsoft.Maui.Essentials.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
