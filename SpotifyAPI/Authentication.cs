@@ -3,7 +3,7 @@ using SpotifyAPI.Web;
 
 namespace SpotifyAPI;
 
-public static class Connection
+public static class Authentication
 {
     private static string _verifier;
     private static PKCETokenResponse _initialResponse;

@@ -38,6 +38,6 @@ public class CallBackListener
         context.Response.Close();
 
         var code = Regex.Match(respURL, "(?<=code=).*").ToString();
-        Connection.GetCallback(code);
+        Authentication.GetCallback(code);
     }
 }

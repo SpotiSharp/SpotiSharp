@@ -34,29 +34,29 @@ public class MainPageViewModel : INotifyPropertyChanged
 
     private void ConnectToSpotifyAPIFunc()
     {
-        Connection.Authenticate();
+        Authentication.Authenticate();
     }
 
     private async void SongBackFunc()
     {
-        await Connection.SpotifyClient.Player.SkipPrevious();
+        await Authentication.SpotifyClient.Player.SkipPrevious();
     }
     
     private async void SongNextFunc()
     {
-        await Connection.SpotifyClient.Player.SkipNext();
+        await Authentication.SpotifyClient.Player.SkipNext();
     }
     
     private async void SongPausePlayFunc()
     {
-        var playContext = await Connection.SpotifyClient.Player.GetCurrentPlayback();
+        var playContext = await Authentication.SpotifyClient.Player.GetCurrentPlayback();
         if (playContext == null || playContext.IsPlaying == false)
         {
-            await Connection.SpotifyClient.Player.ResumePlayback();
+            await Authentication.SpotifyClient.Player.ResumePlayback();
         }
         else
         {
-            await Connection.SpotifyClient.Player.PausePlayback();
+            await Authentication.SpotifyClient.Player.PausePlayback();
         }
     }
     
