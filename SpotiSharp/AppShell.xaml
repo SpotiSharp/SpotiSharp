@@ -4,11 +4,21 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:SpotiSharp"
-    Shell.FlyoutBehavior="Disabled">
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="false">
+    <TabBar>
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage"/>
+        
+        <ShellContent
+            Title="Manage Playlists"
+            ContentTemplate="{DataTemplate local:ManagePlayListsPage}"
+            Route="ManagePlayListsPage" />
+        <ShellContent
+            Title="Authentication"
+            ContentTemplate="{DataTemplate local:AuthenticationPage}"
+            Route="AuthenticationPage" />
+    </TabBar>
 </Shell>

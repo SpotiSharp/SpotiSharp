@@ -2,17 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SpotiSharp.MainPage">
-
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
             VerticalOptions="Center">
-            <Button
-                x:Name="Connect"
-                Text="Connect"
-                Command="{Binding ConnectToSpotifyAPI}"
-                HorizontalOptions="Center" />
             <Button
                 x:Name="SongBack"
                 Text="back"
@@ -30,5 +24,4 @@
                 HorizontalOptions="Center" />
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

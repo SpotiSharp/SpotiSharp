@@ -11,7 +11,6 @@ public class MainPageViewModel : INotifyPropertyChanged
 
     public MainPageViewModel()
     {
-        ConnectToSpotifyAPI = new Command(ConnectToSpotifyAPIFunc);
         SongBack = new Command(SongBackFunc);
         SongNext = new Command(SongNextFunc);
         SongPausePlay = new Command(SongPausePlayFunc);
@@ -30,11 +29,6 @@ public class MainPageViewModel : INotifyPropertyChanged
         storage = value;
         OnPropertyChanged(propertyName);
         return true;
-    }
-
-    private void ConnectToSpotifyAPIFunc()
-    {
-        Authentication.Authenticate();
     }
 
     private async void SongBackFunc()
@@ -60,7 +54,6 @@ public class MainPageViewModel : INotifyPropertyChanged
         }
     }
     
-    public ICommand ConnectToSpotifyAPI { private set; get; }
     public ICommand SongBack { private set; get; }
     public ICommand SongNext { private set; get; }
     public ICommand SongPausePlay { private set; get; }
