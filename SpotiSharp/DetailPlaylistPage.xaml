@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:spotiSharp="clr-namespace:SpotiSharp"
+             x:Class="SpotiSharp.DetailPlaylistPage">
+    <ContentPage.Content>
+        <FlexLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                           Source="{Binding ImageURL}" 
+                           Aspect="AspectFill"
+                           HeightRequest="150"
+                           WidthRequest="150"/>
+                    <Label Grid.Row="0" Grid.Column="1"
+                           Text="{Binding PlaylistName}" />
+                    <Label Grid.Row="1" Grid.Column="1"
+                           Text="{Binding PlaylistDescription}" />
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" 
+                                Command="{Binding ClonePlaylist}"
+                                Text="Clone" />
+                        <Button Grid.Column="1" 
+                                Command="{Binding EditPlaylist}"
+                                Text="Edit" />
+                        <Button Grid.Column="2" 
+                                Command="{Binding DeletePlaylist}"
+                                Text="Delete"
+                                BackgroundColor="Red" />
+                    </Grid>
+                </Grid>
+                <spotiSharp:SongsListView Grid.Row="1" Grid.Column="0"
+                                          x:Name="SongsListView"
+                                          PlayListId="{Binding PlaylistId}" />
+            </Grid>
+        </FlexLayout>
+    </ContentPage.Content>
+</ContentPage>
