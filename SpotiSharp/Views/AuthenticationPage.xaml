@@ -7,11 +7,25 @@
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0">
-            <HorizontalStackLayout>
-            <Image Source="{Binding ProfilePictureURL}"/>
-            <RoundRectangle CornerRadius="1" Background="{Binding AuthenticationStatusColor}"/>
-            <Label Text="{Binding UserName}"/>
-            </HorizontalStackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Row="0" Grid.Column="0"
+                       Source="{Binding ProfilePictureURL}" />
+                <RoundRectangle Grid.Row="0" Grid.Column="1"
+                                CornerRadius="1"
+                                HeightRequest="10"
+                                WidthRequest="10"
+                                Background="{Binding AuthenticationStatusColor}" />
+                <Label Grid.Row="0" Grid.Column="2"
+                       Text="{Binding UserName}" />
+            </Grid>
             <Button
                 x:Name="Connect"
                 Text="Connect"

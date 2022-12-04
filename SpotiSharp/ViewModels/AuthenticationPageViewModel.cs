@@ -7,6 +7,30 @@ namespace SpotiSharp.ViewModels;
 
 public class AuthenticationPageViewModel : INotifyPropertyChanged
 {
+    private string _profilePictureURL;
+    
+    public string ProfilePictureURL
+    {
+        get { return _profilePictureURL; }
+        set { SetProperty(ref _profilePictureURL, value); }
+    }
+    
+    private Brush _authenticationStatusColor;
+    
+    public Brush AuthenticationStatusColor
+    {
+        get { return _authenticationStatusColor; }
+        set { SetProperty(ref _authenticationStatusColor, value); }
+    }
+    
+    private string _userName;
+    
+    public string UserName
+    {
+        get { return _userName; }
+        set { SetProperty(ref _userName, value); }
+    }
+    
     public event PropertyChangedEventHandler PropertyChanged;
 
     public AuthenticationPageViewModel()
@@ -32,6 +56,15 @@ public class AuthenticationPageViewModel : INotifyPropertyChanged
     private void ConnectToSpotifyAPIFunc()
     {
         Authentication.Authenticate();
+    }
+
+    private void RefreshProfile()
+    {
+        var profile = new Profile();
+        UserName = profile.UserName != null ? profile.UserName : "Not Authenticated";
+        ProfilePictureURL = profile.ProfilePictureURL != null ? profile.UserName : string.Empty;
+        AuthenticationStatusColor = profile.IsAuthenticated ? Brush.Green : Brush.Red;
+
     }
     
     public ICommand ConnectToSpotifyAPI { private set; get; }

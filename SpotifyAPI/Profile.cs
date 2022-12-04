@@ -4,10 +4,12 @@ namespace SpotifyAPI;
 
 public class Profile
 {
-    public string UserName { get; private set; } 
+    public string UserName { get; private set; }
     public string ProfilePictureURL { get; private set; }
     
     public Followers UserFollows { get; private set; }
+
+    public bool IsAuthenticated { get; private set; } = false;
 
     public Profile()
     {
@@ -15,6 +17,7 @@ public class Profile
         UserName = GetUserName();
         ProfilePictureURL = GetProfilePictureURL();
         UserFollows = GetUserFollows();
+        IsAuthenticated = true;
     }
     
     public string GetUserName()
