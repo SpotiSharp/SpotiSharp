@@ -8,7 +8,7 @@ public static class Authentication
     private static string _verifier;
     private static PKCETokenResponse _initialResponse;
     // loaded from local file for development
-    private static string _clientId = File.ReadAllLines("./SpotifyKeys/clientId.txt")[0];
+    private static readonly string _clientId = File.ReadAllLines("./SpotifyKeys/clientId.txt")[0];
 
     public static SpotifyClient SpotifyClient { get; private set; }
 

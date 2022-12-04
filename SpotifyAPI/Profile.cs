@@ -1,0 +1,34 @@
+﻿using SpotifyAPI.Web;
+
+namespace SpotifyAPI;
+
+public class Profile
+{
+    public string UserName { get; private set; } 
+    public string ProfilePictureURL { get; private set; }
+    
+    public Followers UserFollows { get; private set; }
+
+    public Profile()
+    {
+        if (Authentication.SpotifyClient == null) return;
+        UserName = GetUserName();
+        ProfilePictureURL = GetProfilePictureURL();
+        UserFollows = GetUserFollows();
+    }
+    
+    public string GetUserName()
+    {
+        return Authentication.SpotifyClient.UserProfile.Current().Result.DisplayName;
+    }
+    
+    public string GetProfilePictureURL()
+    {
+        return Authentication.SpotifyClient.UserProfile.Current().Result.Images[0].Url;
+    }
+
+    public Followers GetUserFollows()
+    {
+        return Authentication.SpotifyClient.UserProfile.Current().Result.Followers;
+    }
+}
