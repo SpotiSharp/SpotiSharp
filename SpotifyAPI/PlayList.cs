@@ -2,28 +2,21 @@
 
 namespace SpotifyAPI;
 
-public class PlayList
+public static class PlayList
 {
-    public Paging<SimplePlaylist> PlayLists { get; private set; }
-
-    public PlayList()
+    public static FullPlaylist GetPlaylistById(string playlistId)
     {
-        if (Authentication.SpotifyClient == null) return;
-        PlayLists = GetAllPlaylists();
+        return Authentication.SpotifyClient.Playlists.Get(playlistId).Result;
     }
 
-    public Paging<SimplePlaylist> GetAllPlaylists()
+    public static Paging<SimplePlaylist> GetAllUserPlaylists()
     {
         return Authentication.SpotifyClient.Playlists.CurrentUsers().Result;
     }
 
-    public Task<FullTrack> GetTrackById(string trackId)
+    public static Paging<PlaylistTrack<IPlayableItem>>? GetTracksByPlaylistId(string playlistId)
     {
-        return Authentication.SpotifyClient.Tracks.Get(trackId);
-    }
-
-    public Task<FullPlaylist> GetTracksByPlaylistId(string playlistId)
-    {
-        return Authentication.SpotifyClient.Playlists.Get(playlistId);
+        FullPlaylist playlist = GetPlaylistById(playlistId);
+        return playlist.Tracks;
     }
 }
