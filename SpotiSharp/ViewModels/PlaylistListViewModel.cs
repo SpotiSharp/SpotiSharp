@@ -11,11 +11,7 @@ public class PlaylistListViewModel : INotifyPropertyChanged
     public Playlist SelectedPlaylist
     {
         get { return _selectedPlaylist; }
-        set
-        {
-            SetProperty(ref _selectedPlaylist, value);
-            GoToPlaylistDetail();
-        }
+        set { SetProperty(ref _selectedPlaylist, value); }
     }
 
     private List<Playlist> _playLists;
@@ -49,7 +45,7 @@ public class PlaylistListViewModel : INotifyPropertyChanged
         return true;
     }
 
-    private async void GoToPlaylistDetail()
+    public async void GoToPlaylistDetail()
     {
         if (SelectedPlaylist == null) return;
         string playlistId = SelectedPlaylist.PlaylistId;

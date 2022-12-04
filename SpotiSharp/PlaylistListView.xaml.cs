@@ -8,5 +8,10 @@ public partial class PlaylistListView : ContentView
     {
         InitializeComponent();
         BindingContext = new PlaylistListViewModel();
+        
+        MainListView.ItemTapped += (sender, args) =>
+        {
+            if (BindingContext is PlaylistListViewModel playlistListViewModel) playlistListViewModel.GoToPlaylistDetail();
+        };
     }
 }
