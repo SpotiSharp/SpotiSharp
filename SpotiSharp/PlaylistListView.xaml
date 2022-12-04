@@ -3,7 +3,8 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SpotiSharp.PlaylistListView">
-    <ListView ItemsSource="{Binding UserRelatedPLayLists}">
+    <ListView ItemsSource="{Binding PlayLists}"
+              SelectedItem="{Binding SelectedPlaylist}">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
@@ -13,8 +14,8 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                                x:Name="PlayListImage"

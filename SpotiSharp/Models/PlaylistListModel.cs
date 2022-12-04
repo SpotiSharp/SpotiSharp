@@ -1,7 +1,4 @@
-﻿using SpotifyAPI;
-using SpotifyAPI.Web;
-
-namespace SpotiSharp.Models;
+﻿namespace SpotiSharp.Models;
 
 public class PlaylistListModel
 {
@@ -9,11 +6,11 @@ public class PlaylistListModel
     
     public PlaylistListModel()
     {
-        var playlistApi = new PlayList();
-        if (playlistApi?.PlayLists?.Items == null) return;
-        foreach (var playlist in playlistApi.PlayLists.Items)
+        var userPlaylists = SpotifyAPI.PlayList.GetAllUserPlaylists();
+        if (userPlaylists.Items == null) return;
+        foreach (var playlist in userPlaylists.Items)
         {
-            PlayLists.Add(new Playlist(playlist.Images[0].Url, playlist.Name, playlist.Tracks.Total));
+            PlayLists.Add(new Playlist(playlist.Id, playlist.Images[0].Url, playlist.Name, playlist.Tracks.Total));
         }
     }
 }

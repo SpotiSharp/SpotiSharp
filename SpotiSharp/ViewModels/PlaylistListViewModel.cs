@@ -1,25 +1,35 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using SpotifyAPI;
 using SpotiSharp.Models;
 
 namespace SpotiSharp.ViewModels;
 
 public class PlaylistListViewModel : INotifyPropertyChanged
 {
-    private List<Playlist> _userRelatedPLayLists;
+    private Playlist _selectedPlaylist;
 
-    public List<Playlist> UserRelatedPLayLists
+    public Playlist SelectedPlaylist
     {
-        get { return _userRelatedPLayLists; }
-        set { SetProperty(ref _userRelatedPLayLists, value); }
+        get { return _selectedPlaylist; }
+        set
+        {
+            SetProperty(ref _selectedPlaylist, value);
+            GoToPlaylistDetail();
+        }
+    }
+
+    private List<Playlist> _playLists;
+
+    public List<Playlist> PlayLists
+    {
+        get { return _playLists; }
+        set { SetProperty(ref _playLists, value); }
     }
 
     public PlaylistListViewModel()
     {
         var playlistListModel = new PlaylistListModel();
-
-        UserRelatedPLayLists = playlistListModel.PlayLists;
+        PlayLists = playlistListModel.PlayLists;
     }
     
     public event PropertyChangedEventHandler PropertyChanged;
@@ -37,5 +47,18 @@ public class PlaylistListViewModel : INotifyPropertyChanged
         storage = value;
         OnPropertyChanged(propertyName);
         return true;
+    }
+
+    private async void GoToPlaylistDetail()
+    {
+        if (SelectedPlaylist == null) return;
+        string playlistId = SelectedPlaylist.PlaylistId;
+        
+        var navigationParameter = new Dictionary<string, object>
+        {
+            { "PlaylistId",  playlistId}
+        };
+
+        await Shell.Current.GoToAsync($"DetailPlaylistPage", navigationParameter);
     }
 }
