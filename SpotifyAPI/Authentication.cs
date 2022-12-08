@@ -30,7 +30,7 @@ public static class Authentication
         (_verifier,string challenge) = PKCEUtil.GenerateCodes();
         
         var loginRequest = new LoginRequest(
-            new Uri("http://localhost:5000/callback"),
+            new Uri("http://127.0.0.1:5000/callback"),
             _clientId,
             LoginRequest.ResponseType.Code
         )
@@ -79,7 +79,7 @@ public static class Authentication
     internal static async Task GetCallback(string code)
     {
         _initialResponse = await new OAuthClient().RequestToken(
-            new PKCETokenRequest(_clientId, code, new Uri("http://localhost:5000/callback"), _verifier)
+            new PKCETokenRequest(_clientId, code, new Uri("http://127.0.0.1:5000/callback"), _verifier)
         );
 
         SpotifyClient = new SpotifyClient(_initialResponse.AccessToken);
