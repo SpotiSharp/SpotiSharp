@@ -9,7 +9,7 @@ public class CallBackListener
 
     public void StartListener()
     {
-        _httpListener.Prefixes.Add("http://localhost:5000/callback/");
+        _httpListener.Prefixes.Add("http://127.0.0.1:5000/callback/");
         _httpListener.Start();
         var _responseThread = new Thread(ResponseThread);
         _responseThread.Start();
