@@ -14,7 +14,7 @@
         
         <ShellContent
             Title="Manage Playlists"
-            ContentTemplate="{DataTemplate local:ManagePlayListsPage}"
+            ContentTemplate="{DataTemplate local:ManagePlaylistsPage}"
             Route="ManagePlayListsPage" />
         <ShellContent
             Title="Authentication"

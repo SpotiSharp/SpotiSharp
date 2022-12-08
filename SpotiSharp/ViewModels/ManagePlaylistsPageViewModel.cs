@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace SpotiSharp.ViewModels;
 
-public class ManagePlayListsViewModel : INotifyPropertyChanged
+public class ManagePlaylistsPageViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
 

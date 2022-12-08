@@ -4,7 +4,7 @@ using SpotiSharp.Models;
 
 namespace SpotiSharp.ViewModels;
 
-public class DetailPlaylistViewModel : INotifyPropertyChanged
+public class DetailPlaylistPageViewModel : INotifyPropertyChanged
 {
     private string _playlistId;
 
@@ -46,7 +46,7 @@ public class DetailPlaylistViewModel : INotifyPropertyChanged
     private DetailPlaylistModel _detailPlaylistModel;
     
     
-    public DetailPlaylistViewModel()
+    public DetailPlaylistPageViewModel()
     {
         _detailPlaylistModel = new DetailPlaylistModel();
     }
