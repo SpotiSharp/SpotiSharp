@@ -8,6 +8,9 @@ namespace SpotiSharp.ViewModels;
 
 public class PlayerBarViewModel : INotifyPropertyChanged
 {
+    private static PlayerBarViewModel _playerBarViewModel;
+    public static PlayerBarViewModel Instance => _playerBarViewModel ??= new PlayerBarViewModel();
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     private string _songName;
@@ -26,14 +29,45 @@ public class PlayerBarViewModel : INotifyPropertyChanged
         set { SetProperty(ref _songImageURL, value); }
     }
 
-    public PlayerBarViewModel()
-    {
+    private PlayerBarViewModel()
+    { 
+        _playerBarViewModel = this;
         TogglePlaying = new Command(TogglePlayingFunc);
         SongBack = new Command(SongBackFunc);
         SongSkip = new Command(SongSkipFunc);
         ChangeRepeat = new Command(ChangeRepeatFunc);
         ChangeShuffle = new Command(ChangeShuffleFunc);
 
+        var refreshThread = new Thread(RefreshPlayerValuesLoop);
+        refreshThread.Start();
+    }
+    
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+    {
+        if (Object.Equals(storage, value))
+            return false;
+
+        storage = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
+
+    private void RefreshPlayerValuesLoop()
+    {
+        while (true)
+        {
+            RefreshPlayerValues();
+            Thread.Sleep(500);
+        }
+    }
+
+    private void RefreshPlayerValues()
+    {
         CurrentlyPlaying currentPlayingSong;
         try
         {
@@ -62,21 +96,6 @@ public class PlayerBarViewModel : INotifyPropertyChanged
         }
     }
     
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-    {
-        if (Object.Equals(storage, value))
-            return false;
-
-        storage = value;
-        OnPropertyChanged(propertyName);
-        return true;
-    }
-    
     private void TogglePlayingFunc()
     {
         Player.TogglePlaybackStatus();
@@ -84,12 +103,12 @@ public class PlayerBarViewModel : INotifyPropertyChanged
     
     private void SongBackFunc()
     {
-        Player.SkipToPreviousSong();
+        if (Player.SkipToPreviousSong()) RefreshPlayerValues();
     }
     
     private void SongSkipFunc()
     {
-        Player.SkipToNextSong();
+        if (Player.SkipToNextSong()) RefreshPlayerValues();
     }
     
     private void ChangeRepeatFunc()
