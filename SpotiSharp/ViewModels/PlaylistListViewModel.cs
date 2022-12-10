@@ -48,7 +48,7 @@ public class PlaylistListViewModel : INotifyPropertyChanged
     public async void GoToPlaylistDetail()
     {
         if (SelectedPlaylist == null) return;
-        string playlistId = SelectedPlaylist.PlaylistId;
+        string playlistId = SelectedPlaylist.PlayListId;
         
         var navigationParameter = new Dictionary<string, object>
         {
