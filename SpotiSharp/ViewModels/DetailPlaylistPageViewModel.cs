@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using SpotiSharp.Models;
+﻿using SpotiSharp.Models;
 
 namespace SpotiSharp.ViewModels;
 
-public class DetailPlaylistPageViewModel : INotifyPropertyChanged
+public class DetailPlaylistPageViewModel : BaseViewModel
 {
     private string _playlistId;
 
@@ -42,9 +40,7 @@ public class DetailPlaylistPageViewModel : INotifyPropertyChanged
         set { SetProperty(ref _playlistDescription, value); }
     }
     
-    public event PropertyChangedEventHandler PropertyChanged;
     private DetailPlaylistModel _detailPlaylistModel;
-    
     
     public DetailPlaylistPageViewModel()
     {
@@ -57,20 +53,5 @@ public class DetailPlaylistPageViewModel : INotifyPropertyChanged
         ImageURL = _detailPlaylistModel.GetPlaylistImageURL(PlaylistId);
         PlaylistName = _detailPlaylistModel.GetPlaylistName(PlaylistId);
         PlaylistDescription = _detailPlaylistModel.GetPlaylistDescription(PlaylistId);
-    }
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-    {
-        if (Object.Equals(storage, value))
-            return false;
-
-        storage = value;
-        OnPropertyChanged(propertyName);
-        return true;
     }
 }

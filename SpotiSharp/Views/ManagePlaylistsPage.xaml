@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:spotiSharp="clr-namespace:SpotiSharp"
+             xmlns:views="clr-namespace:SpotiSharp.Views"
              x:Class="SpotiSharp.ManagePlaylistsPage">
-    <ContentPage.Content>
+    <views:BasePage.Content>
         <FlexLayout>
             <Grid>
                 <Grid.RowDefinitions>
@@ -14,6 +15,7 @@
                 <Label Text="PlayLists" Grid.Column="0" Grid.Row="0"/>
                 <spotiSharp:PlaylistListView Grid.Column="0" Grid.Row="1"/>
             </Grid>
+            <views:PlayerBarView/>
         </FlexLayout>
-    </ContentPage.Content>
-</ContentPage>
+    </views:BasePage.Content>
+</views:BasePage>

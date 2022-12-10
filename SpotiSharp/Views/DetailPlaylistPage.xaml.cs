@@ -1,8 +1,9 @@
 ﻿using SpotiSharp.ViewModels;
+using SpotiSharp.Views;
 
 namespace SpotiSharp;
 
-public partial class DetailPlaylistPage : ContentPage, IQueryAttributable
+public partial class DetailPlaylistPage : BasePage, IQueryAttributable
 {
     public DetailPlaylistPage()
     {

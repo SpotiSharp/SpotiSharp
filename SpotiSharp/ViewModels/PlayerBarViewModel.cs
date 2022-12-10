@@ -1,18 +1,14 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using SpotifyAPI;
 using SpotifyAPI.Web;
 
 namespace SpotiSharp.ViewModels;
 
-public class PlayerBarViewModel : INotifyPropertyChanged
+public class PlayerBarViewModel : BaseViewModel
 {
     private static PlayerBarViewModel _playerBarViewModel;
     public static PlayerBarViewModel Instance => _playerBarViewModel ??= new PlayerBarViewModel();
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
+    
     private string _songName;
 
     public string SongName
@@ -40,21 +36,6 @@ public class PlayerBarViewModel : INotifyPropertyChanged
 
         var refreshThread = new Thread(RefreshPlayerValuesLoop);
         refreshThread.Start();
-    }
-    
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-    {
-        if (Object.Equals(storage, value))
-            return false;
-
-        storage = value;
-        OnPropertyChanged(propertyName);
-        return true;
     }
 
     private void RefreshPlayerValuesLoop()

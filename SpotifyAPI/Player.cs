@@ -6,6 +6,7 @@ public static class Player
 {
     public static CurrentlyPlaying GetCurrentSong()
     {
+        // probably fails if triggered shortly after song changes
         return Authentication.SpotifyClient.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest()).Result;
     }
     

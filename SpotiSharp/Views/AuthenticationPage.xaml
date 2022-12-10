@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:SpotiSharp.Views"
              x:Class="SpotiSharp.AuthenticationPage">
-    <ContentPage.Content>
+    <views:BasePage.Content>
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0">
@@ -32,5 +33,5 @@
                 Command="{Binding ConnectToSpotifyAPI}"
                 HorizontalOptions="Center" />
         </VerticalStackLayout>
-    </ContentPage.Content>
-</ContentPage>
+    </views:BasePage.Content>
+</views:BasePage>
