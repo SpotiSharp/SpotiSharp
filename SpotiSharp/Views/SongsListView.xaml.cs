@@ -21,5 +21,10 @@ public partial class SongsListView : ContentView
     {
         InitializeComponent();
         BindingContext = new SongsListViewModel();
+        
+        MainListView.ItemTapped += (sender, args) =>
+        {
+            if (BindingContext is SongsListViewModel songsListViewModel) songsListViewModel.ClickSong(args.Item);
+        };
     }
 }
