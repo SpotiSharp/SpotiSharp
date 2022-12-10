@@ -1,4 +1,6 @@
-﻿namespace SpotiSharp.Models;
+﻿using SpotifyAPI.Web;
+
+namespace SpotiSharp.Models;
 
 public class PlaylistListModel
 {
@@ -6,7 +8,13 @@ public class PlaylistListModel
     
     public PlaylistListModel()
     {
-        var userPlaylists = SpotifyAPI.PlayList.GetAllUserPlaylists();
+        Paging<SimplePlaylist> userPlaylists;
+        try
+        {
+            userPlaylists = SpotifyAPI.PlayList.GetAllUserPlaylists();
+        }
+        catch (UnauthorizedAccessException) { return; }
+        
         if (userPlaylists.Items == null) return;
         foreach (var playlist in userPlaylists.Items)
         {
