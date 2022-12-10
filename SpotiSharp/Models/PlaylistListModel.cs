@@ -10,7 +10,7 @@ public class PlaylistListModel
         if (userPlaylists.Items == null) return;
         foreach (var playlist in userPlaylists.Items)
         {
-            PlayLists.Add(new Playlist(playlist.Id, playlist.Images[0].Url, playlist.Name, playlist.Tracks.Total));
+            PlayLists.Add(new Playlist(playlist.Id, playlist.Images.ElementAtOrDefault(0)?.Url ?? string.Empty, playlist.Name, playlist.Tracks.Total));
         }
     }
 }

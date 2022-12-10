@@ -84,13 +84,13 @@ public class PlayerBarViewModel : INotifyPropertyChanged
             case FullTrack fullTrack:
             {
                 SongName = fullTrack.Name;
-                SongImageURL = fullTrack.Album.Images[0].Url;
+                SongImageURL = fullTrack.Album.Images.ElementAtOrDefault(0)?.Url ?? string.Empty;
                 break;
             }
             case FullEpisode fullEpisode:
             {
                 SongName = fullEpisode.Name;
-                SongImageURL = fullEpisode.Images[0].Url;
+                SongImageURL = fullEpisode.Images.ElementAtOrDefault(0)?.Url ?? string.Empty;
                 break;
             }
         }

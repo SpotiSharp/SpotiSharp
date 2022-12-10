@@ -5,7 +5,7 @@ public class DetailPlaylistModel
     public string GetPlaylistImageURL(string playlistId)
     {
         var images = SpotifyAPI.PlayList.GetPlaylistById(playlistId).Images;
-        if (images != null) return images[0].Url;
+        if (images != null) return images.ElementAtOrDefault(0)?.Url ?? string.Empty;
         return "couldn't get playlist image.";
     }
 

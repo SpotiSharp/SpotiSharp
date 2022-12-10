@@ -15,12 +15,12 @@ public class SongsListModel
             if (playableObject.Track.Type == ItemType.Track)
             {
                 if (playableObject.Track is not FullTrack song) continue;
-                Songs.Add(new Song(song.Id, song.Album.Images[0].Url, song.Name, string.Join(", ", song.Artists.Select(x => x.Name)), playlistId));
+                Songs.Add(new Song(song.Id, song.Album.Images.ElementAtOrDefault(0)?.Url ?? string.Empty, song.Name, string.Join(", ", song.Artists.Select(x => x.Name)), playlistId));
             }
             else if (playableObject.Track.Type == ItemType.Episode)
             {
                 if (playableObject.Track is not FullEpisode episode) continue;
-                Songs.Add(new Song(episode.Id, episode.Images[0].Url, episode.Name, "", playlistId));
+                Songs.Add(new Song(episode.Id, episode.Images.ElementAtOrDefault(0)?.Url ?? string.Empty, episode.Name, "", playlistId));
             }
         }
     }

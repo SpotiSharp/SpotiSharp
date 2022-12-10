@@ -27,7 +27,7 @@ public class Profile
     
     public string GetProfilePictureURL()
     {
-        return Authentication.SpotifyClient.UserProfile.Current().Result.Images[0].Url;
+        return Authentication.SpotifyClient.UserProfile.Current().Result.Images.ElementAtOrDefault(0)?.Url ?? string.Empty;
     }
 
     public Followers GetUserFollows()
