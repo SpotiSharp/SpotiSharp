@@ -14,9 +14,9 @@ public static class PlayList
         return Authentication.SpotifyClient.Playlists.CurrentUsers().Result;
     }
 
-    public static Paging<PlaylistTrack<IPlayableItem>>? GetTracksByPlaylistId(string playlistId)
+    public static Paging<PlaylistTrack<IPlayableItem>> GetTracksByPlaylistId(string playlistId)
     {
         FullPlaylist playlist = GetPlaylistById(playlistId);
-        return playlist.Tracks;
+        return playlist.Tracks ??= new Paging<PlaylistTrack<IPlayableItem>>();
     }
 }
