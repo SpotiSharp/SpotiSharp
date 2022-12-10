@@ -37,4 +37,9 @@ public class SongsListViewModel : INotifyPropertyChanged
         OnPropertyChanged(propertyName);
         return true;
     }
+
+    public void ClickSong(object sourceItem)
+    {
+        if (sourceItem is Song song) SpotifyAPI.Player.SetCurrentPlayingSong(song.SongId, song.PartOfPlayListWithId);
+    }
 }
