@@ -48,10 +48,10 @@ public static class Player
     public static bool ChangePlaybackRepeatType()
     {
         var currentlyPlayingContext = Authentication.SpotifyClient.Player.GetCurrentPlayback().Result;
-        if (!Enum.TryParse(currentlyPlayingContext.RepeatState, out PlayerSetRepeatRequest.State currentRepeatState)) return false;
-        var states = Enum.GetValues<PlayerSetRepeatRequest.State>();
+        if (!Enum.TryParse(currentlyPlayingContext.RepeatState, true, out PlayerSetRepeatRequest.State currentRepeatState)) return false;
+        var states = Enum.GetValues<PlayerSetRepeatRequest.State>().Reverse().ToArray();
         int indexOfNextItem = Array.IndexOf(states, currentRepeatState) + 1;
-        return Authentication.SpotifyClient.Player.SetRepeat(new PlayerSetRepeatRequest(states[indexOfNextItem])).Result;
+        return Authentication.SpotifyClient.Player.SetRepeat(new PlayerSetRepeatRequest(states[indexOfNextItem % states.Length])).Result;
     }
     
     public static bool TogglePLaybackShuffle()
