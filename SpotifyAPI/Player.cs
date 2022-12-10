@@ -54,7 +54,7 @@ public static class Player
         return Authentication.SpotifyClient.Player.SetRepeat(new PlayerSetRepeatRequest(states[indexOfNextItem % states.Length])).Result;
     }
     
-    public static bool TogglePLaybackShuffle()
+    public static bool TogglePlaybackShuffle()
     {
         var currentlyPlayingContext = Authentication.SpotifyClient.Player.GetCurrentPlayback().Result;
         return Authentication.SpotifyClient.Player.SetShuffle(currentlyPlayingContext.ShuffleState ? new PlayerShuffleRequest(false) : new PlayerShuffleRequest(true)).Result;
