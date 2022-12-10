@@ -3,10 +3,11 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SpotiSharp.SongsListView">
-    <ListView ItemsSource="{Binding Songs}">
+    <ListView x:Name="MainListView"
+        ItemsSource="{Binding Songs}">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <ViewCell>
+                <ViewCell AutomationId="{Binding SongId}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />

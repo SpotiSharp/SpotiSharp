@@ -8,7 +8,7 @@
               SelectedItem="{Binding SelectedPlaylist}">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <ViewCell>
+                <ViewCell AutomationId="{Binding PlayListId}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
