@@ -8,18 +8,29 @@ public static class Player
     {
         return Authentication.SpotifyClient.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest()).Result;
     }
-
-    public static bool SetCurrentPlayingSong(string playlistId)
+    
+    public static bool SetCurrentPlayingSong(string songId, string playlistId)
     {
-        Paging<PlaylistTrack<IPlayableItem>> songs = PlayList.GetTracksByPlaylistId(playlistId);
-        List<string> songUris = (from song in songs.Items 
-            let songAsTrack = song.Track as FullTrack 
-            select songAsTrack.Uri).ToList();
-        
-        if (songUris.Count == 0) return false;
+        var playlist = PlayList.GetPlaylistById(playlistId);
+        var songToPlay = Track.GetTrackById(songId);
+
         return Authentication.SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest
         {
-            Uris = songUris
+            ContextUri = playlist.Uri,
+            OffsetParam = new PlayerResumePlaybackRequest.Offset
+            {
+                Uri = songToPlay.Uri
+            }
+        }).Result;
+    }
+    
+    public static bool SetCurrentPlayingToPlaylist(string playlistId)
+    {
+        var playlist = PlayList.GetPlaylistById(playlistId);
+
+        return Authentication.SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest
+        {
+            ContextUri = playlist.Uri 
         }).Result;
     }
     
