@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpotiSharp.Views.PlayerBarView">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> 
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/> 
+                    <RowDefinition Height="Auto"/> 
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" 
+                       Source="{Binding SongImageURL}"
+                       HeightRequest="60"/>
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding SongName}"/>
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> 
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Text="Shuffle" Command="{Binding ChangeShuffle}"/>
+                <Button Grid.Row="0" Grid.Column="1" Text="Back" Command="{Binding SongBack}"/>
+                <Button Grid.Row="0" Grid.Column="2" Text="Play/Pause" Command="{Binding TogglePlaying}"/>
+                <Button Grid.Row="0" Grid.Column="3" Text="Skip" Command="{Binding SongSkip}"/>
+                <Button Grid.Row="0" Grid.Column="4" Text="Repeat" Command="{Binding ChangeRepeat}"/>
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> 
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ListView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding ActiveDevices}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Button Text="{Binding DeviceName}" Command="{Binding ChangeToDevice}"/>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Slider Grid.Row="0" Grid.Column="1"/>
+            </Grid>
+        </Grid>
+</ContentView>
