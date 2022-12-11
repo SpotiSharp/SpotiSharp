@@ -3,25 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="using:SpotiSharp.Views"
              x:Class="SpotiSharp.MainPage">
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
-            <Button
-                x:Name="SongBack"
-                Text="back"
-                Command="{Binding SongBack}"
-                HorizontalOptions="Center" />
-            <Button
-                x:Name="SongPausePlay"
-                Text="Play/Pause"
-                Command="{Binding SongPausePlay}"
-                HorizontalOptions="Center" />
-            <Button
-                x:Name="SongNext"
-                Text="Next"
-                Command="{Binding SongNext}"
-                HorizontalOptions="Center" />
+        <VerticalStackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0"
+                           Text="SpotiSharp" 
+                           FontSize="50"/>
+                </Grid>
+                <views:PlayerBarView Grid.Row="1" Grid.Column="0" VerticalOptions="End" HorizontalOptions="Center"/>
+            </Grid>
+            
         </VerticalStackLayout>
 </views:BasePage>
