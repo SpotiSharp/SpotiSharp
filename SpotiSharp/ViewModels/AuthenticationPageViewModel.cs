@@ -1,13 +1,14 @@
 ﻿using System.Windows.Input;
 using SpotifyAPI;
+using SpotiSharp.Models;
 
 namespace SpotiSharp.ViewModels;
 
 public class AuthenticationPageViewModel : BaseViewModel
 {
-    private string _profilePictureURL;
+    private string? _profilePictureURL;
     
-    public string ProfilePictureURL
+    public string? ProfilePictureURL
     {
         get { return _profilePictureURL; }
         set { SetProperty(ref _profilePictureURL, value); }
@@ -42,8 +43,8 @@ public class AuthenticationPageViewModel : BaseViewModel
     private void RefreshProfile()
     {
         var profile = new Profile();
-        UserName = profile.UserName != null ? profile.UserName : "Not Authenticated";
-        ProfilePictureURL = profile.ProfilePictureURL != null ? profile.UserName : string.Empty;
+        UserName = profile.UserName ?? "Not Authenticated";
+        ProfilePictureURL = profile.ProfilePictureURL;
         AuthenticationStatusColor = profile.IsAuthenticated ? Brush.Green : Brush.Red;
 
     }
