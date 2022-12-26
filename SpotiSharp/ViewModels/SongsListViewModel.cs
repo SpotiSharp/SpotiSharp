@@ -20,6 +20,6 @@ public class SongsListViewModel : BaseViewModel
 
     public void ClickSong(object sourceItem)
     {
-        if (sourceItem is Song song) SpotifyAPI.Player.SetCurrentPlayingSong(song.SongId, song.PartOfPlayListWithId);
+        if (sourceItem is Song song) SpotifyAPI.APICaller.Instance?.SetCurrentPlayingSong(song.SongId, song.PartOfPlayListWithId);
     }
 }

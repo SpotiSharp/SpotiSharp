@@ -11,7 +11,7 @@ public class PlaylistListModel
         Paging<SimplePlaylist> userPlaylists;
         try
         {
-            userPlaylists = SpotifyAPI.PlayList.GetAllUserPlaylists();
+            userPlaylists = SpotifyAPI.APICaller.Instance?.GetAllUserPlaylists();
         }
         catch (UnauthorizedAccessException) { return; }
         

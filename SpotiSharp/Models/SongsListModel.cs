@@ -8,7 +8,7 @@ public class SongsListModel
     
     public SongsListModel(string playlistId)
     {
-        var songs = SpotifyAPI.PlayList.GetTracksByPlaylistId(playlistId);
+        var songs = SpotifyAPI.APICaller.Instance?.GetTracksByPlaylistId(playlistId);
         if (songs?.Items == null) return;
         foreach (var playableObject in songs.Items.ToArray())
         {

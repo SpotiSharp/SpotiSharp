@@ -49,10 +49,11 @@ public class PlayerBarViewModel : BaseViewModel
 
     private void RefreshPlayerValues()
     {
-        CurrentlyPlaying currentPlayingSong;
+        CurrentlyPlaying? currentPlayingSong;
         try
         {
-            currentPlayingSong = Player.GetCurrentSong();
+            currentPlayingSong = APICaller.Instance?.GetCurrentSong();
+            if (currentPlayingSong == null) return;
         }
         catch (UnauthorizedAccessException)
         {
@@ -79,27 +80,27 @@ public class PlayerBarViewModel : BaseViewModel
     
     private void TogglePlayingFunc()
     {
-        Player.TogglePlaybackStatus();
+        APICaller.Instance?.TogglePlaybackStatus();
     }
     
     private void SongBackFunc()
     {
-        if (Player.SkipToPreviousSong()) RefreshPlayerValues();
+        if (APICaller.Instance?.SkipToPreviousSong() ?? false) RefreshPlayerValues();
     }
     
     private void SongSkipFunc()
     {
-        if (Player.SkipToNextSong()) RefreshPlayerValues();
+        if (APICaller.Instance?.SkipToNextSong() ?? false) RefreshPlayerValues();
     }
     
     private void ChangeRepeatFunc()
     {
-        Player.ChangePlaybackRepeatType();
+        APICaller.Instance?.ChangePlaybackRepeatType();
     }
     
     private void ChangeShuffleFunc()
     {
-        Player.TogglePlaybackShuffle();
+        APICaller.Instance?.TogglePlaybackShuffle();
     }
     
     public ICommand TogglePlaying { private set; get; }
