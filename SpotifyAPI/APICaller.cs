@@ -11,7 +11,7 @@ public class APICaller
     {
         get
         {
-            if (Authentication.SpotifyClient != null)
+            if (Authentication.SpotifyClient != null && Ratelimiter.CanRequestCall())
             {
                 return ApiCaller;
             }
@@ -28,7 +28,7 @@ public class APICaller
         var result = HandleExceptions(call);
         return result == null ? new T() : result;
     }
-    
+
     private T? HandleExceptions<T>(Func<T> call)
     {
         int currentRetries = 0;
@@ -36,7 +36,7 @@ public class APICaller
         {
             try
             {
-                return call();
+                if (Ratelimiter.RequestCall()) return call();
             }
             catch (AggregateException)
             {
@@ -110,67 +110,52 @@ public class APICaller
 
     public bool SetCurrentPlayingSong(string songId, string playlistId)
     {
-        return HandleExceptionsNonAbstract(() =>
-        {
-            var playlist = GetPlaylistById(playlistId);
-            var songToPlay = GetTrackById(songId);
+        var playlist = GetPlaylistById(playlistId);
+        var songToPlay = GetTrackById(songId);
 
-            return Authentication.SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest
+        {
+            ContextUri = playlist.Uri,
+            OffsetParam = new PlayerResumePlaybackRequest.Offset
             {
-                ContextUri = playlist.Uri,
-                OffsetParam = new PlayerResumePlaybackRequest.Offset
-                {
-                    Uri = songToPlay.Uri
-                }
-            }).Result;
-        });
+                Uri = songToPlay.Uri
+            }
+        }).Result);
     }
 
     public bool SetCurrentPlayingToPlaylist(string playlistId)
     {
-        return HandleExceptionsNonAbstract(() =>
-        {
-            var playlist = GetPlaylistById(playlistId);
+        var playlist = GetPlaylistById(playlistId);
 
-            return Authentication.SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest
-            {
-                ContextUri = playlist.Uri
-            }).Result;
-        });
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest
+        {
+            ContextUri = playlist.Uri
+        }).Result);
     }
 
     public bool TogglePlaybackStatus()
     {
-        return HandleExceptionsNonAbstract(() =>
-        {
-            var playContext = Authentication.SpotifyClient.Player.GetCurrentPlayback().Result;
-            playContext = null;
-            return playContext is { IsPlaying: true }
-                ? Authentication.SpotifyClient.Player.PausePlayback().Result
-                : Authentication.SpotifyClient.Player.ResumePlayback().Result;
-        });
+        var playContext = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback().Result);
+        playContext = null;
+        return playContext is { IsPlaying: true }
+            ? HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.PausePlayback().Result)
+            : HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.ResumePlayback().Result);
     }
 
     public bool ChangePlaybackRepeatType()
     {
-        return HandleExceptionsNonAbstract(() =>
-        {
-            var currentlyPlayingContext = Authentication.SpotifyClient.Player.GetCurrentPlayback().Result;
-            if (!Enum.TryParse(currentlyPlayingContext.RepeatState, true, out PlayerSetRepeatRequest.State currentRepeatState)) return false;
+        var currentlyPlayingContext = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback().Result);
+        if (!Enum.TryParse(currentlyPlayingContext.RepeatState, true, out PlayerSetRepeatRequest.State currentRepeatState)) return false;
 
-            var states = Enum.GetValues<PlayerSetRepeatRequest.State>().Reverse().ToArray();
-            int indexOfNextItem = Array.IndexOf(states, currentRepeatState) + 1;
-            return Authentication.SpotifyClient.Player.SetRepeat(new PlayerSetRepeatRequest(states[indexOfNextItem % states.Length])).Result;
-        });
+        var states = Enum.GetValues<PlayerSetRepeatRequest.State>().Reverse().ToArray();
+        int indexOfNextItem = Array.IndexOf(states, currentRepeatState) + 1;
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.SetRepeat(new PlayerSetRepeatRequest(states[indexOfNextItem % states.Length])).Result);
     }
 
     public bool TogglePlaybackShuffle()
     {
-        return HandleExceptionsNonAbstract(() =>
-        {
-            var currentlyPlayingContext = Authentication.SpotifyClient.Player.GetCurrentPlayback().Result;
-            return Authentication.SpotifyClient.Player.SetShuffle(currentlyPlayingContext.ShuffleState ? new PlayerShuffleRequest(false) : new PlayerShuffleRequest(true)).Result;
-        });
+        var currentlyPlayingContext = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback().Result);
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.SetShuffle(currentlyPlayingContext.ShuffleState ? new PlayerShuffleRequest(false) : new PlayerShuffleRequest(true)).Result);
     }
 
     public bool SkipToNextSong()
