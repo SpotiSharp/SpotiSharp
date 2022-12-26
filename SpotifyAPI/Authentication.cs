@@ -11,15 +11,7 @@ public static class Authentication
     private static readonly string _clientId = File.ReadAllLines("./SpotifyKeys/clientId.txt")[0];
 
     private static SpotifyClient _spotifyClient;
-    public static SpotifyClient SpotifyClient 
-    {
-        get
-        {
-            if (_spotifyClient == null) throw new UnauthorizedAccessException();
-            return _spotifyClient;
-        }
-        private set { _spotifyClient = value; }
-    }
+    public static SpotifyClient? SpotifyClient { get; private set; }
 
     public static void Authenticate()
     {
