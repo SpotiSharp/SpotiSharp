@@ -33,18 +33,7 @@ public class PlayerBarViewModel : BaseViewModel
         SongSkip = new Command(SongSkipFunc);
         ChangeRepeat = new Command(ChangeRepeatFunc);
         ChangeShuffle = new Command(ChangeShuffleFunc);
-
-        var refreshThread = new Thread(RefreshPlayerValuesLoop);
-        refreshThread.Start();
-    }
-
-    private void RefreshPlayerValuesLoop()
-    {
-        while (true)
-        {
-            RefreshPlayerValues();
-            Thread.Sleep(500);
-        }
+        UiLoop.Instance.OnRefreshUi += RefreshPlayerValues;
     }
 
     private void RefreshPlayerValues()
