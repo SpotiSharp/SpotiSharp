@@ -30,7 +30,7 @@ public class AuthenticationPageViewModel : BaseViewModel
         set { SetProperty(ref _userName, value); }
     }
     
-    private string _clientId = SecureStorage.Default.GetAsync("clientId").Result;
+    private string _clientId;
     
     public string ClientId
     {
@@ -42,6 +42,7 @@ public class AuthenticationPageViewModel : BaseViewModel
     {
         ConnectToSpotifyAPI = new Command(ConnectToSpotifyAPIFunc);
         Authentication.OnAuthenticate += RefreshProfile;
+        ClientId = Task.Run(async () => await SecureStorage.Default.GetAsync("clientId")).Result;
     }
 
     private void ConnectToSpotifyAPIFunc()

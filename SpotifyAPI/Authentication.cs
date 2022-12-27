@@ -9,7 +9,9 @@ public delegate void AuthenticationComplete();
 public static class Authentication
 {
     private static string _verifier;
+
     private static PKCETokenResponse _initialResponse;
+
     // loaded from local file for development
     private static string _clientId;
 
@@ -17,7 +19,14 @@ public static class Authentication
     public static SpotifyClient? SpotifyClient { get; private set; }
 
     public static event AuthenticationComplete OnAuthenticate;
-    
+
+    static Authentication()
+    {
+        _clientId = SecureStorage.Default.GetAsync("clientId").Result;
+        string refreshToken = SecureStorage.Default.GetAsync("refreshToken").Result;
+        if (_clientId != null && refreshToken != null) RefreshAuthentication(refreshToken);
+    }
+
     public static void Authenticate(string clientId = "")
     {
         if (clientId != string.Empty) _clientId = clientId;
@@ -30,12 +39,12 @@ public static class Authentication
             RefreshAuthentication();
         }
     }
-    
+
     private static async void NewAuthentication()
     {
         // Generates a secure random verifier of length 100 and its challenge
-        (_verifier,string challenge) = PKCEUtil.GenerateCodes();
-        
+        (_verifier, string challenge) = PKCEUtil.GenerateCodes();
+
         var loginRequest = new LoginRequest(
             new Uri("http://127.0.0.1:5000/callback"),
             _clientId,
@@ -69,18 +78,27 @@ public static class Authentication
         // start webserver for callback
         var callBackListener = new CallBackListener();
         callBackListener.StartListener();
-        
+
         var uri = loginRequest.ToUri();
         await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
     }
 
-    private static async void RefreshAuthentication()
+    private static async void RefreshAuthentication(string refreshToken = null)
     {
-        var newResponse = await new OAuthClient().RequestToken(
-            new PKCETokenRefreshRequest(_clientId, _initialResponse.RefreshToken)
-        );
-
-        SpotifyClient = new SpotifyClient(newResponse.AccessToken);
+        try
+        {
+            if (refreshToken == null) refreshToken = _initialResponse.RefreshToken;
+            var newResponse = await new OAuthClient().RequestToken(
+                new PKCETokenRefreshRequest(_clientId, refreshToken)
+            );
+            
+            SpotifyClient = new SpotifyClient(newResponse.AccessToken);
+            SecureStorage.Default.SetAsync("refreshToken", newResponse.RefreshToken);
+        }
+        catch (APIException)
+        {
+            SecureStorage.Default.Remove("refreshToken");
+        }
     }
 
     internal static async Task GetCallback(string code)
@@ -91,6 +109,7 @@ public static class Authentication
 
         SpotifyClient = new SpotifyClient(_initialResponse.AccessToken);
         SecureStorage.Default.SetAsync("clientId", _clientId);
+        SecureStorage.Default.SetAsync("refreshToken", _initialResponse.RefreshToken);
         OnAuthenticationComplete();
     }
 

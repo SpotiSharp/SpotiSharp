@@ -105,7 +105,7 @@ public class APICaller
 
     #region Player
 
-    public CurrentlyPlaying? GetCurrentSong()
+    public CurrentlyPlaying GetCurrentSong()
     {
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest()).Result);
     }
@@ -139,9 +139,9 @@ public class APICaller
     {
         var playContext = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback().Result);
         playContext = null;
-        return playContext is { IsPlaying: true }
+        return playContext != null && (playContext.IsPlaying
             ? HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.PausePlayback().Result)
-            : HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.ResumePlayback().Result);
+            : HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.ResumePlayback().Result));
     }
 
     public bool ChangePlaybackRepeatType()
