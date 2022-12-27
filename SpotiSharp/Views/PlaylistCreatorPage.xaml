@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:SpotiSharp.Views"
+             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             x:Class="SpotiSharp.Views.PlaylistCreatorPage">
+    <views:BasePage.Content>
+        <VerticalStackLayout>
+        <Label Text="Create a new playlist" FontSize="30"/>
+        <inputs:SfComboBox x:Name="combobox" WidthRequest="200"/>
+        </VerticalStackLayout>
+    </views:BasePage.Content>
+</views:BasePage>
