@@ -8,7 +8,7 @@
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0">
-            <Grid>
+            <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -42,17 +42,25 @@
                                Source="{Binding ProfilePictureURL}" />
                     </Frame>
                 </Border>
-                <Label Grid.Row="0" Grid.Column="2"
+                <Label Grid.Row="0" Grid.Column="1"
                        Text="{Binding UserName}"
                        FontSize="20"
                        VerticalOptions="Center"
                        Margin="20,0,0,0"/>
             </Grid>
+            <Entry
+                Placeholder="Client ID"
+                Margin="10,0,0,0"
+                WidthRequest="500"
+                Text="{Binding ClientId}"
+                HorizontalOptions="Start"/>
             <Button
                 x:Name="Connect"
                 Text="Connect"
                 Command="{Binding ConnectToSpotifyAPI}"
-                HorizontalOptions="Center" />
+                Margin="10,0,0,0"
+                WidthRequest="150"
+                HorizontalOptions="Start"/>
         </VerticalStackLayout>
     </views:BasePage.Content>
 </views:BasePage>

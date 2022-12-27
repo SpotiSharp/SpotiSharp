@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Storage;
 using SpotifyAPI.Web;
 
 namespace SpotifyAPI;
@@ -10,15 +11,16 @@ public static class Authentication
     private static string _verifier;
     private static PKCETokenResponse _initialResponse;
     // loaded from local file for development
-    private static readonly string _clientId = File.ReadAllLines("./SpotifyKeys/clientId.txt")[0];
+    private static string _clientId;
 
     private static SpotifyClient _spotifyClient;
     public static SpotifyClient? SpotifyClient { get; private set; }
 
     public static event AuthenticationComplete OnAuthenticate;
     
-    public static void Authenticate()
+    public static void Authenticate(string clientId = "")
     {
+        if (clientId != string.Empty) _clientId = clientId;
         if (_spotifyClient == null)
         {
             NewAuthentication();
@@ -88,6 +90,7 @@ public static class Authentication
         );
 
         SpotifyClient = new SpotifyClient(_initialResponse.AccessToken);
+        SecureStorage.Default.SetAsync("clientId", _clientId);
         OnAuthenticationComplete();
     }
 

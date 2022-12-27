@@ -30,6 +30,14 @@ public class AuthenticationPageViewModel : BaseViewModel
         set { SetProperty(ref _userName, value); }
     }
     
+    private string _clientId = SecureStorage.Default.GetAsync("clientId").Result;
+    
+    public string ClientId
+    {
+        get { return _clientId; }
+        set { SetProperty(ref _clientId, value); }
+    }
+    
     public AuthenticationPageViewModel()
     {
         ConnectToSpotifyAPI = new Command(ConnectToSpotifyAPIFunc);
@@ -38,7 +46,7 @@ public class AuthenticationPageViewModel : BaseViewModel
 
     private void ConnectToSpotifyAPIFunc()
     {
-        Authentication.Authenticate();
+        Authentication.Authenticate(ClientId);
     }
 
     internal override void OnAppearing()
