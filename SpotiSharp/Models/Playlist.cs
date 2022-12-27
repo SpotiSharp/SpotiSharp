@@ -16,4 +16,14 @@ public class Playlist
         PlayListTitle = playListTitle;
         SongAmount = $"{songAmount} Songs";
     }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not Playlist playlistComp) return false;
+        if (playlistComp.PlayListId.Equals(PlayListId) &&
+            playlistComp.PlayListImageURL.Equals(PlayListImageURL) &&
+            playlistComp.PlayListTitle.Equals(PlayListTitle) &&
+            playlistComp.SongAmount.Equals(SongAmount)) return true;
+        return false;
+    }
 }
