@@ -22,7 +22,9 @@ public class APICaller
 
     private const int MAX_RETRIES = 5;
     private const int TIME_OUT_IN_MILLI = 100;
-
+    
+    private APICaller() {}
+    
     private T HandleExceptionsNonAbstract<T>(Func<T> call) where T : new()
     {
         var result = HandleExceptions(call);
