@@ -14,9 +14,9 @@ public class AuthenticationPageViewModel : BaseViewModel
         set { SetProperty(ref _profilePictureURL, value); }
     }
     
-    private Brush _authenticationStatusColor;
+    private Color _authenticationStatusColor;
     
-    public Brush AuthenticationStatusColor
+    public Color AuthenticationStatusColor
     {
         get { return _authenticationStatusColor; }
         set { SetProperty(ref _authenticationStatusColor, value); }
@@ -51,7 +51,7 @@ public class AuthenticationPageViewModel : BaseViewModel
         var profile = new Profile();
         UserName = profile.UserName ?? "Not Authenticated";
         ProfilePictureURL = profile.ProfilePictureURL;
-        AuthenticationStatusColor = profile.IsAuthenticated ? Brush.Green : Brush.Red;
+        AuthenticationStatusColor = profile.IsAuthenticated ? Brush.Green.Color : Brush.Red.Color;
 
     }
     

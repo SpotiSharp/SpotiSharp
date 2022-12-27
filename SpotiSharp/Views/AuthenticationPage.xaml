@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:SpotiSharp.Views"
-             x:Class="SpotiSharp.AuthenticationPage">
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:SpotiSharp.Views"
+                x:Class="SpotiSharp.AuthenticationPage">
     <views:BasePage.Content>
         <VerticalStackLayout
             Spacing="25"
@@ -15,17 +15,38 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Row="0" Grid.Column="0"
-                       Source="{Binding ProfilePictureURL}" />
-                <RoundRectangle Grid.Row="0" Grid.Column="1"
-                                CornerRadius="1"
-                                HeightRequest="10"
-                                WidthRequest="10"
-                                Background="{Binding AuthenticationStatusColor}" />
+                <Border Grid.Row="0" Grid.Column="0"
+                        HeightRequest="120"
+                        WidthRequest="120"
+                        StrokeThickness="5"
+                        HorizontalOptions="Center"
+                        Stroke="{Binding AuthenticationStatusColor}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="60"/>
+                    </Border.StrokeShape>
+                    <Frame
+                        HeightRequest="100"
+                        WidthRequest="100"
+                        CornerRadius="50"
+                        Padding="0"
+                        Margin="0"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Image Aspect="AspectFit"
+                               HeightRequest="100"
+                               WidthRequest="100"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               SemanticProperties.Description="Spotify Profile Picture"
+                               Source="{Binding ProfilePictureURL}" />
+                    </Frame>
+                </Border>
                 <Label Grid.Row="0" Grid.Column="2"
-                       Text="{Binding UserName}" />
+                       Text="{Binding UserName}"
+                       FontSize="20"
+                       VerticalOptions="Center"
+                       Margin="20,0,0,0"/>
             </Grid>
             <Button
                 x:Name="Connect"
