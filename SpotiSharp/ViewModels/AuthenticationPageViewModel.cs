@@ -33,11 +33,17 @@ public class AuthenticationPageViewModel : BaseViewModel
     public AuthenticationPageViewModel()
     {
         ConnectToSpotifyAPI = new Command(ConnectToSpotifyAPIFunc);
+        Authentication.OnAuthenticate += RefreshProfile;
     }
 
     private void ConnectToSpotifyAPIFunc()
     {
         Authentication.Authenticate();
+    }
+
+    internal override void OnAppearing()
+    {
+        RefreshProfile();
     }
 
     private void RefreshProfile()
