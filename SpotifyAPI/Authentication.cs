@@ -3,6 +3,8 @@ using SpotifyAPI.Web;
 
 namespace SpotifyAPI;
 
+public delegate void AuthenticationComplete();
+
 public static class Authentication
 {
     private static string _verifier;
@@ -13,6 +15,8 @@ public static class Authentication
     private static SpotifyClient _spotifyClient;
     public static SpotifyClient? SpotifyClient { get; private set; }
 
+    public static event AuthenticationComplete OnAuthenticate;
+    
     public static void Authenticate()
     {
         if (_spotifyClient == null)
@@ -84,5 +88,11 @@ public static class Authentication
         );
 
         SpotifyClient = new SpotifyClient(_initialResponse.AccessToken);
+        OnAuthenticationComplete();
+    }
+
+    private static void OnAuthenticationComplete()
+    {
+        OnAuthenticate.Invoke();
     }
 }
