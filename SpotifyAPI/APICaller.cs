@@ -63,9 +63,9 @@ public class APICaller
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.CurrentUsers().Result);
     }
 
-    public Paging<PlaylistTrack<IPlayableItem>>? GetTracksByPlaylistId(string playlistId)
+    public Paging<PlaylistTrack<IPlayableItem>> GetTracksByPlaylistId(string playlistId)
     {
-        FullPlaylist? playlist = GetPlaylistById(playlistId);
+        FullPlaylist playlist = GetPlaylistById(playlistId);
         return playlist.Tracks ??= new Paging<PlaylistTrack<IPlayableItem>>();
     }
 
@@ -99,6 +99,20 @@ public class APICaller
     public TracksAudioFeaturesResponse GetMultipleAudioFeaturesByTrackIds(List<string> trackIds)
     {
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds)).Result);
+    }
+
+    #endregion
+
+    #region Artist
+
+    public FullArtist GetArtistById(string id)
+    {
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Artists.Get(id).Result);
+    }
+
+    public List<string> GetGenresByArtistId(string id)
+    {
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Artists.Get(id).Result.Genres);
     }
 
     #endregion
