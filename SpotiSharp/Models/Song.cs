@@ -1,4 +1,6 @@
-﻿namespace SpotiSharp.Models;
+﻿using SpotifyAPI.Web;
+
+namespace SpotiSharp.Models;
 
 public class Song
 {
@@ -16,5 +18,13 @@ public class Song
         SongTitle = songTitle;
         SongArtists = songArtists;
         PartOfPlayListWithId = partOfPlayListWithId;
+    }
+
+    public Song(FullTrack fullTrack)
+    {
+        SongId = fullTrack.Id;
+        SongImageURL = fullTrack.Album.Images[0].Url;
+        SongTitle = fullTrack.Name;
+        SongArtists = string.Join(", ", fullTrack.Artists);
     }
 }
