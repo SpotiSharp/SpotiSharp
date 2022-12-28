@@ -105,6 +105,11 @@ public class APICaller
 
     #region Player
 
+    public CurrentlyPlayingContext GetCurrentPlaybackContext()
+    {
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback(new PlayerCurrentPlaybackRequest()).Result);
+    }
+    
     public CurrentlyPlaying GetCurrentSong()
     {
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest()).Result);
@@ -168,6 +173,11 @@ public class APICaller
     public bool SkipToPreviousSong()
     {
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.SkipPrevious().Result);
+    }
+
+    public bool SetVolume(int volume)
+    {
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.SetVolume(new PlayerVolumeRequest(volume)).Result);
     }
 
     #endregion

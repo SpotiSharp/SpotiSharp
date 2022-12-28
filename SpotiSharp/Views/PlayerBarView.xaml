@@ -61,7 +61,11 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Slider Grid.Row="0" Grid.Column="1"/>
+                <Slider Grid.Row="0" Grid.Column="1"
+                        WidthRequest="100"
+                        Minimum="0"
+                        Maximum="100"
+                        Value="{Binding SelectedVolume}"/>
             </Grid>
         </Grid>
 </ContentView>

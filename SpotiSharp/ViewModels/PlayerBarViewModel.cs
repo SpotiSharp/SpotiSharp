@@ -8,7 +8,7 @@ public class PlayerBarViewModel : BaseViewModel
 {
     private static PlayerBarViewModel _playerBarViewModel;
     public static PlayerBarViewModel Instance => _playerBarViewModel ??= new PlayerBarViewModel();
-    
+
     private string _songName;
 
     public string SongName
@@ -16,7 +16,7 @@ public class PlayerBarViewModel : BaseViewModel
         get { return _songName; }
         set { SetProperty(ref _songName, value); }
     }
-    
+
     private string _songImageURL;
 
     public string SongImageURL
@@ -24,9 +24,19 @@ public class PlayerBarViewModel : BaseViewModel
         get { return _songImageURL; }
         set { SetProperty(ref _songImageURL, value); }
     }
+    
+    private int _lastVolume;
+    
+    private int _selectedVolume;
+
+    public int SelectedVolume
+    {
+        get { return _selectedVolume; }
+        set { SetProperty(ref _selectedVolume, value); }
+    }
 
     private PlayerBarViewModel()
-    { 
+    {
         _playerBarViewModel = this;
         TogglePlaying = new Command(TogglePlayingFunc);
         SongBack = new Command(SongBackFunc);
@@ -38,19 +48,14 @@ public class PlayerBarViewModel : BaseViewModel
 
     private void RefreshPlayerValues()
     {
-        CurrentlyPlaying? currentPlayingSong;
-        try
-        {
-            currentPlayingSong = APICaller.Instance?.GetCurrentSong();
-            if (currentPlayingSong == null) return;
-        }
-        catch (UnauthorizedAccessException)
+        var currentlyPlayingContext = APICaller.Instance?.GetCurrentPlaybackContext();
+        if (currentlyPlayingContext == null)
         {
             SongName = "Unauthorized";
             return;
         }
 
-        switch (currentPlayingSong.Item)
+        switch (currentlyPlayingContext.Item)
         {
             case FullTrack fullTrack:
             {
@@ -65,33 +70,44 @@ public class PlayerBarViewModel : BaseViewModel
                 break;
             }
         }
+        
+        // load volume if it hasn't been edited
+        if (_lastVolume != SelectedVolume)
+        {
+            APICaller.Instance?.SetVolume(SelectedVolume);
+            _lastVolume = SelectedVolume;
+        }
+        else
+        {
+            _lastVolume = SelectedVolume = currentlyPlayingContext.Device.VolumePercent ?? _lastVolume;
+        }
     }
-    
+
     private void TogglePlayingFunc()
     {
         APICaller.Instance?.TogglePlaybackStatus();
     }
-    
+
     private void SongBackFunc()
     {
         if (APICaller.Instance?.SkipToPreviousSong() ?? false) RefreshPlayerValues();
     }
-    
+
     private void SongSkipFunc()
     {
         if (APICaller.Instance?.SkipToNextSong() ?? false) RefreshPlayerValues();
     }
-    
+
     private void ChangeRepeatFunc()
     {
         APICaller.Instance?.ChangePlaybackRepeatType();
     }
-    
+
     private void ChangeShuffleFunc()
     {
         APICaller.Instance?.TogglePlaybackShuffle();
     }
-    
+
     public ICommand TogglePlaying { private set; get; }
     public ICommand SongBack { private set; get; }
     public ICommand SongSkip { private set; get; }
