@@ -77,6 +77,15 @@
 	  <MauiXaml Update="Views\SongsListView.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Filters\PlaylistNumberFilterView.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Filters\PlaylistRangeFilterView.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Filters\PlaylistTextFilterView.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -102,6 +111,18 @@
 	  </Compile>
 	  <Compile Update="Views\SongsListView.xaml.cs">
 	    <DependentUpon>SongsListView.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\Filters\PlaylistNumberFilterView.xaml.cs">
+	    <DependentUpon>PlaylistNumberFilterView.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\Filters\PlaylistRangeFilterView.xaml.cs">
+	    <DependentUpon>PlaylistRangeFilterView.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\Filters\PlaylistTextFilterView.xaml.cs">
+	    <DependentUpon>PlaylistTextFilterView.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
