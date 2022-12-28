@@ -110,11 +110,6 @@ public static class Authentication
         SpotifyClient = new SpotifyClient(_initialResponse.AccessToken);
         SecureStorage.Default.SetAsync("clientId", _clientId);
         SecureStorage.Default.SetAsync("refreshToken", _initialResponse.RefreshToken);
-        OnAuthenticationComplete();
-    }
-
-    private static void OnAuthenticationComplete()
-    {
-        OnAuthenticate.Invoke();
+        OnAuthenticate?.Invoke();
     }
 }

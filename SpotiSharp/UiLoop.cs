@@ -17,13 +17,8 @@ public class UiLoop
     {
         while (true)
         {
-            OnLoopInterval();
+            OnRefreshUi?.Invoke(); 
             Thread.Sleep(UI_REFRESH_INTERVAL_IN_MILLI);
         }
-    }
-    
-    protected virtual void OnLoopInterval()
-    {
-        OnRefreshUi?.Invoke(); 
     }
 }
