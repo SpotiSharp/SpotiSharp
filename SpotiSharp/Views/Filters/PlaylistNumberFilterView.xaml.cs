@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SpotiSharp.Enums;
+using SpotiSharp.ViewModels.Filters;
 
 namespace SpotiSharp.Views.Filters;
 
 public partial class PlaylistNumberFilterView : ContentView
 {
-    public PlaylistNumberFilterView()
+    public PlaylistNumberFilterView(TrackFilter trackFilter)
     {
         InitializeComponent();
+        BindingContext = new PlaylistNumberFilterViewModel(trackFilter);
     }
 }
