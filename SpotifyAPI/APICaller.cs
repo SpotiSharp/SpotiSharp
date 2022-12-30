@@ -36,7 +36,7 @@ public class APICaller
         return instance;
     }
 
-    private const int MAX_RETRIES = 5;
+    private const int MAX_RETRIES = 10;
     private const int TIME_OUT_IN_MILLI = 100;
     
     private APICaller() {}
@@ -66,6 +66,23 @@ public class APICaller
         return default;
     }
 
+    private List<T> ChunkRequest<T>(List<object> inputElements, int chunckSize, Func<List<object>, List<T>> func)
+    {
+        int chuncks = (int)Math.Ceiling(inputElements.Count / (double)chunckSize);
+        var result = new List<T>();
+        for (int i = 0; i < chuncks; i++)
+        {
+            int rangeStart = 0 + i * chunckSize;
+            int rangeCount = chunckSize;
+            if (i == chuncks - 1) rangeCount = inputElements.Count - (chunckSize * (chuncks - 1));
+            
+            List<object> subsetOfInputElements = inputElements.GetRange(rangeStart, rangeCount);
+            result.AddRange(func(subsetOfInputElements));
+
+        }
+        return result;
+    }
+
 
     #region PlayList
 
@@ -93,12 +110,21 @@ public class APICaller
             select songAsTrack.Uri).ToList();
     }
 
-    public SnapshotResponse CreatePlaylistWithTrackUris(string playlistName, List<string> trackUris)
+    public List<string> CreatePlaylistWithTrackUris(string playlistName, List<string> trackUris)
     {
-        if (!trackUris.Any()) return new SnapshotResponse();
+        if (!trackUris.Any()) return new List<string>();
         string userId = HandleExceptions(() => Authentication.SpotifyClient.UserProfile.Current().Result.Id);
         FullPlaylist playlist = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.Create(userId, new PlaylistCreateRequest(playlistName)).Result);
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.AddItems(playlist.Id, new PlaylistAddItemsRequest(trackUris)).Result);
+
+        var apiCallFunc = List<string>(List<object> trackUris) => HandleExceptionsNonAbstract(() =>
+        {
+            Authentication.SpotifyClient.Playlists.AddItems(playlist.Id, new PlaylistAddItemsRequest(trackUris.ConvertAll(tu => (string)tu)));
+            return trackUris.ConvertAll(tu => (string)tu);
+        });
+
+        return playlist.Tracks.Items.Count < 100 ? 
+            apiCallFunc(trackUris.ConvertAll(tu => (object)tu)) : 
+            ChunkRequest(trackUris.ConvertAll(tu => (object)tu), 100, apiCallFunc);
     }
 
     #endregion
@@ -110,11 +136,15 @@ public class APICaller
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.Get(trackId).Result);
     }
 
-    public TracksResponse GetMultipleTracksByTrackId(List<string> trackIds)
+    public List<FullTrack> GetMultipleTracksByTrackId(List<string> trackIds)
     {
-        return trackIds.Any() ? 
-            HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveral(new TracksRequest(trackIds)).Result) : 
-            new TracksResponse();
+        var apiCallFunc = List<FullTrack>(List<object> trackIds) => HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveral(new TracksRequest(trackIds.ConvertAll(ti => (string)ti))).Result.Tracks);
+        
+        if (trackIds.Count <= 50) return trackIds.Any() ? 
+            apiCallFunc(trackIds.ConvertAll(ti => (object)ti)) : 
+            new List<FullTrack>();
+        
+        return ChunkRequest(trackIds.ConvertAll(ti => (object)ti), 50, apiCallFunc);
     }
 
     public TrackAudioFeatures GetAudioFeaturesByTrackId(string trackId)
@@ -122,23 +152,13 @@ public class APICaller
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetAudioFeatures(trackId).Result);
     }
 
-    public TracksAudioFeaturesResponse GetMultipleAudioFeaturesByTrackIds(List<string> trackIds)
-    {
-        return trackIds.Any() ? 
-            HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds)).Result) : 
-            new TracksAudioFeaturesResponse();
-    }
-
-    public TrackAudioFeatures GetTrackAudioFeaturesById(string trackId)
-    {
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetAudioFeatures(trackId).Result);
-    }
-    
     public List<TrackAudioFeatures> GetMultipleTrackAudioFeaturesByTrackIds(List<string> trackIds)
     {
-        return trackIds.Any() ? 
-            HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds)).Result.AudioFeatures) : 
+        var apiCallFunc = List<TrackAudioFeatures>(List<object> trackIds) => HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds.ConvertAll(ti => (string)ti))).Result.AudioFeatures);
+        if (trackIds.Count <= 100) return trackIds.Any() ? 
+            apiCallFunc(trackIds.ConvertAll(ti => (object)ti)) : 
             new List<TrackAudioFeatures>();
+        return ChunkRequest(trackIds.ConvertAll(ti => (object)ti), 100, apiCallFunc);
     }
 
     #endregion
