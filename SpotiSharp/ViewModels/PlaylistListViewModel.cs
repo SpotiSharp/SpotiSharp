@@ -4,12 +4,14 @@ namespace SpotiSharp.ViewModels;
 
 public class PlaylistListViewModel : BaseViewModel
 {
+    private ManagePlaylistsPageViewModel _managePlaylistsPageViewModel;
+
+    private bool isParentVisible = false;
+    
     private const int REFRESH_DELAY_IN_UILOOP_INTERVALS = 10;
     
     private int _updateDelayCounter = 0;
-
-    private PlaylistListModel _playlistListModel;
-
+    
     private Playlist _selectedPlaylist;
 
     public Playlist SelectedPlaylist
@@ -28,17 +30,18 @@ public class PlaylistListViewModel : BaseViewModel
 
     public PlaylistListViewModel()
     {
-        _playlistListModel = new PlaylistListModel();
-        PlayLists = _playlistListModel.PlayLists;
+        _managePlaylistsPageViewModel = ManagePlaylistsPageViewModel.Instance;
+        PlayLists = PlaylistListModel.PlayLists;
         UiLoop.Instance.OnRefreshUi += RefreshPlaylist;
+        // isVisible is get from the parent because ContentViews don't have OnAppearing or OnDisappearing 
+        _managePlaylistsPageViewModel.OnVisibilityChange += () => isParentVisible = _managePlaylistsPageViewModel.isVisible;
     }
 
     private void RefreshPlaylist()
     {
-        if (REFRESH_DELAY_IN_UILOOP_INTERVALS == _updateDelayCounter)
+        if (REFRESH_DELAY_IN_UILOOP_INTERVALS == _updateDelayCounter && isParentVisible)
         {
-            _playlistListModel.LoadPlaylist();
-            if (!comparePlaylists(PlayLists, _playlistListModel.PlayLists)) PlayLists = _playlistListModel.PlayLists;
+            if (!comparePlaylists(PlayLists, PlaylistListModel.PlayLists)) PlayLists = PlaylistListModel.PlayLists;
             _updateDelayCounter = 0;
         }
         else
