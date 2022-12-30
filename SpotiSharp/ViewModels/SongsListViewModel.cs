@@ -1,4 +1,6 @@
-﻿using SpotiSharp.Models;
+﻿using SpotifyAPI;
+using SpotiSharp.Consts;
+using SpotiSharp.Models;
 
 namespace SpotiSharp.ViewModels;
 
@@ -20,6 +22,14 @@ public class SongsListViewModel : BaseViewModel
 
     public void ClickSong(object sourceItem)
     {
-        if (sourceItem is Song song) SpotifyAPI.APICaller.Instance?.SetCurrentPlayingSong(song.SongId, song.PartOfPlayListWithId);
+        if (sourceItem is not Song song) return;
+        if (song.PartOfPlayListWithId == Constants.LIKED_PLALIST_ID)
+        {
+            APICaller.Instance?.SetCurrentPlayingToSongInLikedPlaylist(song.SongId);
+        }
+        else
+        {
+            APICaller.Instance?.SetCurrentPlayingSong(song.SongId, song.PartOfPlayListWithId);
+        }
     }
 }

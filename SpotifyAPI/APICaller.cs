@@ -214,6 +214,18 @@ public class APICaller
         }).Result);
     }
 
+    public bool SetCurrentPlayingToSongInLikedPlaylist(string songId)
+    {
+        var likedSongs = GetUserLikedSongs().Select(ls => ls.Track).ToList();
+        var likedSongIds = likedSongs.Select(ls => ls.Id).ToList();
+        var indexOfSelectedSong = likedSongIds.IndexOf(songId);
+        var songCount = likedSongIds.Count - indexOfSelectedSong;
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest
+        {
+            Uris = likedSongs.Select(ls => ls.Uri).ToList().GetRange(indexOfSelectedSong, songCount)
+        }).Result);
+    }
+
     public bool TogglePlaybackStatus()
     {
         var playContext = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback().Result);
@@ -271,6 +283,29 @@ public class APICaller
     public Followers GetUserFollows()
     {
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.UserProfile.Current().Result.Followers);
+    }
+    
+    public List<SavedTrack> GetUserLikedSongs()
+    {
+        var result = new List<SavedTrack>();
+        int? totalLiked = null;
+        int totalRecived = 0;
+        while (totalLiked == null || totalRecived < totalLiked)
+        {
+            var req = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Library.GetTracks(new LibraryTracksRequest { Limit = 50, Offset = totalRecived }).Result);
+            totalLiked ??= req.Total;
+            if (req.Items != null)
+            {
+                result.AddRange(req.Items);
+                totalRecived += 50;
+            }
+        }
+        return result;
+    }
+    
+    public int GetUserLikedSongsAmount()
+    {
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Library.GetTracks().Result.Total ?? 0);
     }
 
     #endregion

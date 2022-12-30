@@ -1,4 +1,6 @@
-﻿using SpotifyAPI.Web;
+﻿using SpotifyAPI;
+using SpotifyAPI.Web;
+using SpotiSharp.Consts;
 
 namespace SpotiSharp.Models;
 
@@ -8,7 +10,16 @@ public class SongsListModel
     
     public SongsListModel(string playlistId)
     {
-        var songs = SpotifyAPI.APICaller.Instance?.GetTracksByPlaylistId(playlistId);
+        if (playlistId == Constants.LIKED_PLALIST_ID)
+        {
+            List<FullTrack> likedTracks = APICaller.Instance?.GetUserLikedSongs().Select(st => st.Track).ToList() ?? new List<FullTrack>();
+            foreach (var likedTrack in likedTracks)
+            {
+                Songs.Add(new Song(likedTrack.Id, likedTrack.Album.Images.ElementAtOrDefault(0)?.Url ?? string.Empty, likedTrack.Name, string.Join(", ", likedTrack.Artists.Select(x => x.Name)), playlistId));
+            }
+            return;
+        }
+        var songs = APICaller.Instance?.GetTracksByPlaylistId(playlistId);
         if (songs?.Items == null) return;
         foreach (var playableObject in songs.Items.ToArray())
         {

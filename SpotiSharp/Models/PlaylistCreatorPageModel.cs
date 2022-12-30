@@ -1,5 +1,6 @@
 ﻿using SpotifyAPI;
 using SpotifyAPI.Web;
+using SpotiSharp.Consts;
 using SpotiSharp.Interfaces;
 
 namespace SpotiSharp.Models;
@@ -40,8 +41,16 @@ public static class PlaylistCreatorPageModel
     
     public static void AddSongsFromPlaylist(string playlistId)
     {
-        Paging<PlaylistTrack<IPlayableItem>>? songs = APICaller.Instance?.GetTracksByPlaylistId(playlistId);
         var tmpSongs = UnfilteredSongs;
+
+        if (playlistId == Constants.LIKED_PLALIST_ID)
+        {
+            tmpSongs.AddRange(APICaller.Instance?.GetUserLikedSongs().Select(ls => ls.Track).ToList() ?? new List<FullTrack>());
+            UnfilteredSongs = tmpSongs;
+            return;
+        }
+        
+        Paging<PlaylistTrack<IPlayableItem>>? songs = APICaller.Instance?.GetTracksByPlaylistId(playlistId);
         if (songs?.Items == null) return;
         foreach (var playable in songs.Items)
         {
