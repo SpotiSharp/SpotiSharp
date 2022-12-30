@@ -8,6 +8,7 @@
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0">
+            <views:HeaderView/>
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -23,7 +24,7 @@
                         HorizontalOptions="Center"
                         Stroke="{Binding AuthenticationStatusColor}">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="60"/>
+                        <RoundRectangle CornerRadius="60" />
                     </Border.StrokeShape>
                     <Frame
                         HeightRequest="100"
@@ -46,21 +47,21 @@
                        Text="{Binding UserName}"
                        FontSize="20"
                        VerticalOptions="Center"
-                       Margin="20,0,0,0"/>
+                       Margin="20,0,0,0" />
             </Grid>
             <Entry
                 Placeholder="Client ID"
                 Margin="10,0,0,0"
                 WidthRequest="500"
                 Text="{Binding ClientId}"
-                HorizontalOptions="Start"/>
+                HorizontalOptions="Start" />
             <Button
                 x:Name="Connect"
                 Text="Connect"
                 Command="{Binding ConnectToSpotifyAPI}"
                 Margin="10,0,0,0"
                 WidthRequest="150"
-                HorizontalOptions="Start"/>
+                HorizontalOptions="Start" />
         </VerticalStackLayout>
     </views:BasePage.Content>
 </views:BasePage>

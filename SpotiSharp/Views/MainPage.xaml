@@ -7,12 +7,14 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Row="0" Grid.Column="0">
+                <views:HeaderView Grid.Row="0" Grid.Column="0"/>
+                <Grid Grid.Row="1" Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
@@ -23,7 +25,7 @@
                            Text="SpotiSharp" 
                            FontSize="50"/>
                 </Grid>
-                <views:PlayerBarView Grid.Row="1" Grid.Column="0" VerticalOptions="End" HorizontalOptions="Center"/>
+                <views:PlayerBarView Grid.Row="2" Grid.Column="0"/>
             </Grid>
             
         </VerticalStackLayout>

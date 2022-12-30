@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpotiSharp.Views.HeaderView">
+    <Grid
+        Margin="0"
+        Padding="10"
+        HeightRequest="60">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Image
+            Grid.Column="0"
+            Source="spotisharp_logo.png"
+            HeightRequest="45"
+            Margin="0"
+            HorizontalOptions="Start">
+        </Image>
+        <HorizontalStackLayout
+            Grid.Column="1"
+            HorizontalOptions="End">
+            <Button
+                Padding="0, 0, 20, 0"
+                Text="Home"
+                FontSize="18"
+                BackgroundColor="Transparent"
+                BorderColor="Transparent"
+                Command="{Binding HomeClicked}" />
+
+            <Button
+                Padding="0, 0, 20, 0"
+                Text="Create Playlist"
+                FontSize="18"
+                BackgroundColor="Transparent"
+                Command="{Binding PlaylistCreationClicked}"
+                BorderColor="Transparent" />
+
+            <Button
+                Padding="0, 0, 20, 0"
+                Text="View Liked Playlists"
+                FontSize="18"
+                BackgroundColor="Transparent"
+                Command="{Binding ViewPlaylistsClicked}" 
+                BorderColor="Transparent"/>
+            
+            <Button
+                Padding="0, 0, 20, 0"
+                Text="Authentication"
+                FontSize="18"
+                BackgroundColor="Transparent"
+                Command="{Binding AuthenticationClicked}"
+                BorderColor="Transparent"/>
+        </HorizontalStackLayout>
+    </Grid>
+</ContentView>

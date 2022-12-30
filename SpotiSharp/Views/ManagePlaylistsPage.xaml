@@ -1,21 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:spotiSharp="clr-namespace:SpotiSharp"
-             xmlns:views="clr-namespace:SpotiSharp.Views"
-             x:Class="SpotiSharp.ManagePlaylistsPage">
-    <views:BasePage.Content>
-        <FlexLayout>
-            <Grid>
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:spotiSharp="clr-namespace:SpotiSharp"
+                xmlns:views="clr-namespace:SpotiSharp.Views"
+                x:Class="SpotiSharp.ManagePlaylistsPage">
+    <FlexLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <views:HeaderView Grid.Row="0" />
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Text="PlayLists" Grid.Column="0" Grid.Row="0"/>
-                <spotiSharp:PlaylistListView Grid.Column="0" Grid.Row="1"/>
+                <Label Text="PlayLists" Grid.Column="0" Grid.Row="0" />
+                <spotiSharp:PlaylistListView Grid.Column="0" Grid.Row="1" />
             </Grid>
-            <views:PlayerBarView/>
-        </FlexLayout>
-    </views:BasePage.Content>
+            <views:PlayerBarView  Grid.Row="2"/>
+        </Grid>
+    </FlexLayout>
+
 </views:BasePage>

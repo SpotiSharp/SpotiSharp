@@ -7,11 +7,19 @@
                 xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
                 xmlns:converters="clr-namespace:SpotiSharp.Converters"
                 x:Class="SpotiSharp.Views.PlaylistCreatorPage">
-    <views:BasePage.Content>
-        <FlexLayout>
-            <Label Text="You need to Authenticated to create playlists" IsVisible="{Binding IsAuthenticated, Converter={converters:BooleanConverter}}"/>
-            <Frame IsVisible="{Binding IsAuthenticated}">
-                <FlexLayout>
+    <VerticalStackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <views:HeaderView Grid.Row="0"/>
+            <Label Grid.Row="1" Text="You need to Authenticated to create playlists"
+                   IsVisible="{Binding IsAuthenticated, Converter={converters:BooleanConverter}}" />
+            <Frame Grid.Row="2" IsVisible="{Binding IsAuthenticated}">
+                <VerticalStackLayout>
                     <Label Text="Create a new playlist" FontSize="30" />
                     <Entry Placeholder="Playlist Name" Text="{Binding PlaylistName}" />
                     <Button Text="Create Playlist" Command="{Binding CreatePlaylist}" />
@@ -49,8 +57,9 @@
                             </VerticalStackLayout>
                         </Frame>
                     </Grid>
-                </FlexLayout>
+                </VerticalStackLayout>
             </Frame>
-        </FlexLayout>
-    </views:BasePage.Content>
+            <views:PlayerBarView Grid.Row="3"/>
+        </Grid>
+    </VerticalStackLayout>
 </views:BasePage>

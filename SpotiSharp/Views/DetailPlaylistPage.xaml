@@ -5,10 +5,10 @@
              xmlns:spotiSharp="clr-namespace:SpotiSharp"
              xmlns:views="clr-namespace:SpotiSharp.Views"
              x:Class="SpotiSharp.DetailPlaylistPage">
-    <views:BasePage.Content>
         <FlexLayout>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
@@ -16,7 +16,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Row="0" Grid.Column="0">
+                <views:HeaderView Grid.Row="0" Grid.Column="0"/>
+                <Grid Grid.Row="1" Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -53,11 +54,10 @@
                                 BackgroundColor="Red" />
                     </Grid>
                 </Grid>
-                <spotiSharp:SongsListView Grid.Row="1" Grid.Column="0"
+                <spotiSharp:SongsListView Grid.Row="2" Grid.Column="0"
                                           x:Name="SongsListView"
                                           PlayListId="{Binding PlaylistId}" />
-                <views:PlayerBarView Grid.Row="2" Grid.Column="0"/>
+                <views:PlayerBarView Grid.Row="3" Grid.Column="0"/>
             </Grid>
         </FlexLayout>
-    </views:BasePage.Content>
 </views:BasePage>
