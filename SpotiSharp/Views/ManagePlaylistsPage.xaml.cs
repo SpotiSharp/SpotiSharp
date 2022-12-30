@@ -8,6 +8,6 @@ public partial class ManagePlaylistsPage : BasePage
     public ManagePlaylistsPage()
     {
         InitializeComponent();
-        BindingContext = new ManagePlaylistsPageViewModel();
+        BindingContext = ManagePlaylistsPageViewModel.Instance;
     }
 }

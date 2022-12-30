@@ -1,17 +1,25 @@
-﻿using SpotifyAPI.Web;
-
-namespace SpotiSharp.Models;
+﻿namespace SpotiSharp.Models;
 
 public class PlaylistListModel
 {
-    public List<Playlist> PlayLists { get; private set; } = new List<Playlist>();
+    private static List<Playlist> _playLists = new List<Playlist>();
+    
+    public static List<Playlist> PlayLists
+    {
+        get
+        {
+            LoadPlaylist();
+            return _playLists;
+        }
+        private set => _playLists = value;
+    }
 
     public PlaylistListModel()
     {
         LoadPlaylist();
     }
     
-    internal void LoadPlaylist()
+    internal static void LoadPlaylist()
     {
         var userPlaylists = SpotifyAPI.APICaller.Instance?.GetAllUserPlaylists();
         var tmpPlaylist = new List<Playlist>();
@@ -21,6 +29,6 @@ public class PlaylistListModel
             tmpPlaylist.Add(new Playlist(playlist.Id, playlist.Images.ElementAtOrDefault(0)?.Url ?? string.Empty, playlist.Name, playlist.Tracks.Total));
         }
 
-        PlayLists = tmpPlaylist;
+        _playLists = tmpPlaylist;
     }
 }

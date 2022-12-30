@@ -1,13 +1,27 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using SpotiSharp.Models;
 
 namespace SpotiSharp.ViewModels;
 
+public delegate void PlaylistIsFiltered();
+
 public class PlaylistCreationSonglistViewModel : BaseViewModel
 {
-    private List<Song> _songs = new List<Song>();
+    public static event PlaylistIsFiltered OnPlalistIsFiltered;
 
-    public List<Song> Songs
+    private ObservableCollection<object> _selectedItems = new ObservableCollection<object>();
+    
+    public ObservableCollection<object> SelectedItems
+    {
+        get { return _selectedItems; }
+        set { SetProperty(ref _selectedItems, value); }
+    } 
+    
+    
+    private List<SongEditable> _songs = new List<SongEditable>();
+
+    public List<SongEditable> Songs
     {
         get { return _songs; }
         set { SetProperty(ref _songs, value); }
@@ -15,7 +29,7 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
 
     public PlaylistCreationSonglistViewModel()
     {
-        RemoveSong = new Command(RemoveSongHandler);
+        RemoveSongs = new Command(RemoveSongsHandler);
         
         PlaylistCreatorPageModel.OnSongListChange += RefreshSongs;
     }
@@ -29,11 +43,15 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
         OnPlalistIsFiltered?.Invoke();
     }
     
-    private void RemoveSongHandler(object obj)
+    private void RemoveSongsHandler()
     {
-        var index = 0;
-        PlaylistCreatorPageModel.RemoveSongByIndex(index);
+        
+        PlaylistCreatorPageModel.RemoveSongsByIndex(SelectedItems.Select(si =>
+        {
+            if (si is SongEditable songEditable) return songEditable.Index;
+            return 0;
+        }).ToList());
     }
 
-    public ICommand RemoveSong { private set; get; }
+    public ICommand RemoveSongs { private set; get; }
 }

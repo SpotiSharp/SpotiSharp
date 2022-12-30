@@ -2,29 +2,46 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SpotiSharp.Views.PlaylistCreationSonglistView">
-    <ListView ItemsSource="{Binding Songs}">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0"
-                               HeightRequest="50"
-                               Source="{Binding SongImageURL}"/>
-                        <Label Grid.Column="1"
-                               Text="{Binding SongTitle}"/>
-                        <Button Grid.Column="2"
-                                Text="X"
-                                Command="{Binding RemoveSong}"
-                                CommandParameter="{Binding SongId}"/>
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+             x:Class="SpotiSharp.Views.PlaylistCreationSonglistView"
+             xmlns:syncfusionlistview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView">
+    <VerticalStackLayout>
+        <Button Text="Remove Selected" Command="{Binding RemoveSongs}"/>
+        <syncfusionlistview:SfListView x:Name="SongListView" ItemsSource="{Binding Songs}" SelectionMode="Multiple"
+                                       SelectedItems="{Binding SelectedItems}" SelectionGesture="Tap">
+            <syncfusionlistview:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0"
+                                   HeightRequest="50"
+                                   Source="{Binding SongImageURL}" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding SongTitle}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </syncfusionlistview:SfListView.ItemTemplate>
+            <syncfusionlistview:SfListView.SelectedItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid BackgroundColor="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0"
+                                   HeightRequest="50"
+                                   Source="{Binding SongImageURL}" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding SongTitle}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </syncfusionlistview:SfListView.SelectedItemTemplate>
+        </syncfusionlistview:SfListView>
+    </VerticalStackLayout>
 </ContentView>

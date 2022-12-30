@@ -49,7 +49,7 @@ public class PlayerBarViewModel : BaseViewModel
     private void RefreshPlayerValues()
     {
         var currentlyPlayingContext = APICaller.Instance?.GetCurrentPlaybackContext();
-        if (currentlyPlayingContext == null)
+        if (currentlyPlayingContext?.Item == null)
         {
             SongName = "Unauthorized";
             return;
@@ -71,6 +71,7 @@ public class PlayerBarViewModel : BaseViewModel
             }
         }
         
+        // TODO: fails if there is no active session
         // load volume if it hasn't been edited
         if (_lastVolume != SelectedVolume)
         {
@@ -79,7 +80,7 @@ public class PlayerBarViewModel : BaseViewModel
         }
         else
         {
-            _lastVolume = SelectedVolume = currentlyPlayingContext.Device.VolumePercent ?? _lastVolume;
+            _lastVolume = SelectedVolume = currentlyPlayingContext.Device?.VolumePercent ?? _lastVolume;
         }
     }
 

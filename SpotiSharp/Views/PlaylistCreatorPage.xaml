@@ -1,35 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:SpotiSharp.Views"
-             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
-             x:Class="SpotiSharp.Views.PlaylistCreatorPage">
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:SpotiSharp.Views"
+                xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+                xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+                x:Class="SpotiSharp.Views.PlaylistCreatorPage">
     <views:BasePage.Content>
         <FlexLayout>
-        <Label Text="Create a new playlist" FontSize="30"/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Frame Grid.Column="0">
-                <VerticalStackLayout>
-                    <inputs:SfComboBox WidthRequest="200" IsEditable="False" ItemsSource="{Binding PlaylistNamesIds}" SelectedItem="{Binding SelectedPlaylistNameId}"/>
-                    <Button Text="+" Command="{Binding AddSongsFromPlaylist}"/>
-                </VerticalStackLayout>
-            </Frame>
-            <Frame Grid.Column="1">
-                <views:PlaylistCreationSonglistView/>
-            </Frame>
-            <Frame Grid.Column="2">
-                <VerticalStackLayout>
-                <inputs:SfComboBox WidthRequest="200" IsEditable="False" ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}"/>
-                <Button Text="+" Command="{Binding AddFilter}"/>
-                </VerticalStackLayout>
-            </Frame>
-        </Grid>
+            <Label Text="Create a new playlist" FontSize="30" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Frame Grid.Column="0">
+                    <VerticalStackLayout>
+                        <inputs:SfComboBox WidthRequest="200" IsEditable="False"
+                                           ItemsSource="{Binding PlaylistNamesIds}"
+                                           SelectedItem="{Binding SelectedPlaylistNameId}" />
+                        <Button Text="+" Command="{Binding AddSongsFromPlaylist}" />
+                    </VerticalStackLayout>
+                </Frame>
+                <Frame Grid.Column="1">
+                    <ScrollView>
+                        <VerticalStackLayout>
+                            <core:SfBusyIndicator HeightRequest="10" HorizontalOptions="Fill" AnimationType="LinearMaterial"
+                                                  IsRunning="{Binding IsFilteringPlaylist}" />
+                            <views:PlaylistCreationSonglistView />
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </Frame>
+                <Frame Grid.Column="2">
+                    <VerticalStackLayout x:Name="FilterLayout">
+                        <inputs:SfComboBox WidthRequest="200" IsEditable="False" ItemsSource="{Binding Filters}"
+                                           SelectedItem="{Binding SelectedFilter}" />
+                        <Button Text="+" Command="{Binding AddFilter}" />
+                        <Button Command="{Binding ApplyFilters}" Text="ApplyFilters" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
         </FlexLayout>
     </views:BasePage.Content>
 </views:BasePage>
