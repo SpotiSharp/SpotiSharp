@@ -8,6 +8,20 @@ namespace SpotiSharp.ViewModels.Filters;
 
 public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
 {
+    private List<char> _allowedChars = new List<char>
+    {
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9'
+    };
+    
     private TrackFilter _trackFilterName;
 
     public string FilterName
@@ -21,9 +35,21 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
     public string EnteredNumber
     {
         get { return _enteredNumber; }
-        set { SetProperty(ref _enteredNumber, value); }
+        set
+        {
+            OnlyNumerics(value);
+            SetProperty(ref _enteredNumber, value);
+        }
     }
+
+    private string _validationMessage = string.Empty;
     
+    public string ValidationMessage
+    {
+        get { return _validationMessage; }
+        set { SetProperty(ref _validationMessage, value); }
+    }
+
     private NumericFilterOption _selectedfilterOption = NumericFilterOption.Equal;
 
     public NumericFilterOption SelectedFilterOption
@@ -46,10 +72,30 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
     }
-    
+
+    private void OnlyNumerics(string input)
+    {
+        string result = string.Empty;
+        List<char> characters = input.ToList();
+        foreach (var character in characters)
+        {
+            if (_allowedChars.Contains(character)) result += character;
+        }
+
+        if (!input.Equals(result))
+        {
+            ValidationMessage = "Value entered in number field must be a number.\nFilter will be ignored.";
+        }
+        else
+        {
+            ValidationMessage = string.Empty;
+        }
+    }
+     
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)
     {
-        return await _trackFilterName.GetFilterFunction()(fullTracks, audioFeatures, EnteredNumber, SelectedFilterOption);
+        if (ValidationMessage == string.Empty && EnteredNumber != string.Empty) return await _trackFilterName.GetFilterFunction()(fullTracks, audioFeatures, int.Parse(EnteredNumber), SelectedFilterOption);
+        return fullTracks;
     }
 
     public void RemoveFilter()
