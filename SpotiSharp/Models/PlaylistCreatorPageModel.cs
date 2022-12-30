@@ -50,10 +50,16 @@ public static class PlaylistCreatorPageModel
         UnfilteredSongs = tmpSongs;
     }
 
-    public static void RemoveSongByIndex(int index)
+    public static void RemoveSongsByIndex(List<int> indexes)
     {
+        indexes.Sort();
+        indexes.Reverse();
         var tmpSongs = UnfilteredSongs;
-        tmpSongs.RemoveAt(index);
+        foreach (var index in indexes)
+        {
+            tmpSongs.RemoveAt(index);
+        }
+        
         UnfilteredSongs = tmpSongs;
     }
     
