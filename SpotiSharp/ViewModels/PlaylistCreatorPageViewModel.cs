@@ -11,6 +11,18 @@ public class PlaylistCreatorPageViewModel : BaseViewModel
 {
     public static event AddingFilter OnAddingFilter;
     
+    private string _playlistName;
+
+    public string PlaylistName
+    {
+        get { return _playlistName; }
+        set
+        {
+            PlaylistCreatorPageModel.PlaylistName = value;
+            SetProperty(ref _playlistName, value);
+        }
+    }
+    
     private string _selectedPlaylistNameId;
 
     public string SelectedPlaylistNameId
@@ -56,6 +68,8 @@ public class PlaylistCreatorPageViewModel : BaseViewModel
         AddSongsFromPlaylist = new Command(AddSongsFromPlaylistHandler);
         AddFilter = new Command(AddFilterHandler);
         ApplyFilters = new Command(ApplyFiltersHandler);
+        CreatePlaylist = new Command(PlaylistCreatorPageModel.CreatePlaylist);
+        
         PlaylistCreationSonglistViewModel.OnPlalistIsFiltered += () => IsFilteringPlaylist = false;
     }
 
@@ -83,5 +97,5 @@ public class PlaylistCreatorPageViewModel : BaseViewModel
     public ICommand AddSongsFromPlaylist { private set; get; }
     public ICommand AddFilter { private set; get; }
     public ICommand ApplyFilters { private set; get; }
-
+    public ICommand CreatePlaylist { private set; get; }
 }

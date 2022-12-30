@@ -93,6 +93,13 @@ public class APICaller
             select songAsTrack.Uri).ToList();
     }
 
+    public SnapshotResponse CreatePlaylistWithTrackUris(string playlistName, List<string> trackUris)
+    {
+        string userId = HandleExceptions(() => Authentication.SpotifyClient.UserProfile.Current().Result.Id);
+        FullPlaylist playlist = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.Create(userId, new PlaylistCreateRequest(playlistName)).Result);
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.AddItems(playlist.Id, new PlaylistAddItemsRequest(trackUris)).Result);
+    }
+
     #endregion
 
     #region Track

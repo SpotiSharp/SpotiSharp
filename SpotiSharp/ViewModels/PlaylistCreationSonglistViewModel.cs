@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using SpotifyAPI.Web;
 using SpotiSharp.Models;
 
 namespace SpotiSharp.ViewModels;
@@ -36,7 +37,10 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
 
     private async void RefreshSongs()
     {
-        Songs = (await PlaylistCreatorPageModel.GetFilteredSongs()).Select((fullTrack, index) =>
+        List<FullTrack> fullTracksFiltered = await PlaylistCreatorPageModel.GetFilteredSongs();
+        PlaylistCreatorPageModel.CurrentFilteredSongs = fullTracksFiltered;
+        
+        Songs = fullTracksFiltered.Select((fullTrack, index) =>
         {
             return new SongEditable(index, fullTrack);
         }).ToList();

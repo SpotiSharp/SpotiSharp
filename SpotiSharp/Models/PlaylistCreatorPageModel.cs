@@ -7,6 +7,8 @@ namespace SpotiSharp.Models;
 public delegate void SongsChange();
 public static class PlaylistCreatorPageModel
 {
+    public static string PlaylistName = string.Empty;
+    
     private static List<FullTrack> _unfilteredSongs = new List<FullTrack>();
 
     private static List<FullTrack> UnfilteredSongs
@@ -21,6 +23,8 @@ public static class PlaylistCreatorPageModel
             _unfilteredSongs = value;
         }
     }
+
+    public static List<FullTrack> CurrentFilteredSongs = new List<FullTrack>();
 
     public static List<IFilterViewModel> Filters { get; set; } = new List<IFilterViewModel>();
 
@@ -80,5 +84,10 @@ public static class PlaylistCreatorPageModel
     public static void ApplyFilters()
     {
         OnSongListChange?.Invoke();
+    }
+
+    public static void CreatePlaylist()
+    {
+        APICaller.Instance?.CreatePlaylistWithTrackUris(PlaylistName, CurrentFilteredSongs.Select(cfs => cfs.Uri).ToList());
     }
 }

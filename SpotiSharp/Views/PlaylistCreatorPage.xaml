@@ -9,6 +9,8 @@
     <views:BasePage.Content>
         <FlexLayout>
             <Label Text="Create a new playlist" FontSize="30" />
+            <Entry Placeholder="Playlist Name" Text="{Binding PlaylistName}"/>
+            <Button Text="Create Playlist" Command="{Binding CreatePlaylist}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
