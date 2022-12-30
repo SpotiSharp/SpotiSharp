@@ -29,7 +29,7 @@
                                Text="{Binding PlayListTitle}" />
                         <Label Grid.Column="1" Grid.Row="1"
                                x:Name="SongCount"
-                               Text="{Binding SongAmount}" />
+                               Text="{Binding SongAmount, StringFormat='{0} Songs'}" />
                     </Grid>
                 </ViewCell>
             </DataTemplate>
