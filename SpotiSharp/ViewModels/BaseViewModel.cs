@@ -5,7 +5,12 @@ namespace SpotiSharp.ViewModels;
 
 public class BaseViewModel : INotifyPropertyChanged
 {
+    internal delegate void VisibilityChange();
     public event PropertyChangedEventHandler PropertyChanged;
+
+    internal event VisibilityChange OnVisibilityChange;
+    
+    internal bool isVisible = false;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
@@ -21,6 +26,16 @@ public class BaseViewModel : INotifyPropertyChanged
         OnPropertyChanged(propertyName);
         return true;
     }
-    
-    internal virtual void OnAppearing() { }
+
+    internal virtual void OnAppearing()
+    {
+        isVisible = true;
+        OnVisibilityChange?.Invoke();
+    }
+
+    internal virtual void OnDisappearing()
+    {
+        isVisible = false;
+        OnVisibilityChange?.Invoke();
+    }
 }
