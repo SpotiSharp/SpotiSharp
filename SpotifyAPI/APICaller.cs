@@ -102,7 +102,7 @@ public class APICaller
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.Get(trackId).Result);
     }
 
-    public TracksResponse GetMultipleTrackByTrackId(List<string> trackIds)
+    public TracksResponse GetMultipleTracksByTrackId(List<string> trackIds)
     {
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveral(new TracksRequest(trackIds)).Result);
     }
@@ -115,6 +115,16 @@ public class APICaller
     public TracksAudioFeaturesResponse GetMultipleAudioFeaturesByTrackIds(List<string> trackIds)
     {
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds)).Result);
+    }
+
+    public TrackAudioFeatures GetTrackAudioFeaturesById(string trackId)
+    {
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetAudioFeatures(trackId).Result);
+    }
+    
+    public List<TrackAudioFeatures> GetMultipleTrackAudioFeaturesByTrackIds(List<string> trackIds)
+    {
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds)).Result.AudioFeatures);
     }
 
     #endregion
