@@ -228,11 +228,10 @@ public class APICaller
 
     public bool TogglePlaybackStatus()
     {
-        var playContext = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback().Result);
-        playContext = null;
-        return playContext != null && (playContext.IsPlaying
+        CurrentlyPlayingContext playContext = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback().Result);
+        return playContext.IsPlaying
             ? HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.PausePlayback().Result)
-            : HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.ResumePlayback().Result));
+            : HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.ResumePlayback().Result);
     }
 
     public bool ChangePlaybackRepeatType()
