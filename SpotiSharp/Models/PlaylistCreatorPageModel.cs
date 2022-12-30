@@ -63,14 +63,22 @@ public static class PlaylistCreatorPageModel
         UnfilteredSongs = tmpSongs;
     }
     
-    public static List<FullTrack> GetFilteredSongs()
+    public async static Task<List<FullTrack>> GetFilteredSongs()
     {
         var resultSongs = UnfilteredSongs;
+        
         foreach (var filter in Filters)
         {
-            resultSongs = filter.FilterSongs(resultSongs);
+            var apiCallerInstance = await APICaller.WaitForRateLimitWindowInstance;
+            List<TrackAudioFeatures>? currentAudioFeatures = apiCallerInstance?.GetMultipleTrackAudioFeaturesByTrackIds(resultSongs.Select(rs => rs.Id).ToList());
+            if (currentAudioFeatures != null) resultSongs = await filter.FilterSongs(resultSongs, currentAudioFeatures);
         }
 
         return resultSongs;
+    }
+
+    public static void ApplyFilters()
+    {
+        OnSongListChange?.Invoke();
     }
 }

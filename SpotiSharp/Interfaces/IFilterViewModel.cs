@@ -4,5 +4,5 @@ namespace SpotiSharp.Interfaces;
 
 public interface IFilterViewModel
 {
-    public List<FullTrack> FilterSongs(List<FullTrack> songs);
+    public Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures);
 }

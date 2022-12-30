@@ -20,9 +20,13 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
         PlaylistCreatorPageModel.OnSongListChange += RefreshSongs;
     }
 
-    private void RefreshSongs()
+    private async void RefreshSongs()
     {
-        Songs = (from fullTrack in PlaylistCreatorPageModel.GetFilteredSongs() select new Song(fullTrack)).ToList();
+        Songs = (await PlaylistCreatorPageModel.GetFilteredSongs()).Select((fullTrack, index) =>
+        {
+            return new SongEditable(index, fullTrack);
+        }).ToList();
+        OnPlalistIsFiltered?.Invoke();
     }
     
     private void RemoveSongHandler(object obj)
