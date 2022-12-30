@@ -20,6 +20,22 @@ public class APICaller
         }
     }
 
+    public static Task<APICaller?> WaitForRateLimitWindowInstance => GetInstanceAsync();
+
+    public static async Task<APICaller?> GetInstanceAsync()
+    {
+        APICaller? instance = null;
+        var retries = 0;
+        while (instance == null && retries < 100)
+        {
+            instance = Instance;
+            retries++;
+            await Task.Delay(100);
+        }
+
+        return instance;
+    }
+
     private const int MAX_RETRIES = 5;
     private const int TIME_OUT_IN_MILLI = 100;
     
