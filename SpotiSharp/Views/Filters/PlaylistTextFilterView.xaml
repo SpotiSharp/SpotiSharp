@@ -6,5 +6,7 @@
     <VerticalStackLayout>
         <Label Text="{Binding FilterName}"/>
         <Entry WidthRequest="200" Text="{Binding GenreName}"/>
+        <Button Text="Remove" Command="{Binding RemoveFilterCommand}"
+                BackgroundColor="Red" TextColor="Black"/>
     </VerticalStackLayout>
 </ContentView>

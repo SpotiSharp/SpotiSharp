@@ -30,7 +30,7 @@ public static class PlaylistCreatorPageModel
 
     public static event SongsChange OnSongListChange;
 
-    public static void AddSong(string songId)
+    public static void AddSong(string songId)   
     {
         FullTrack? song = APICaller.Instance?.GetTrackById(songId);
         var tmpSongs = UnfilteredSongs;
@@ -89,5 +89,10 @@ public static class PlaylistCreatorPageModel
     public static void CreatePlaylist()
     {
         APICaller.Instance?.CreatePlaylistWithTrackUris(PlaylistName, CurrentFilteredSongs.Select(cfs => cfs.Uri).ToList());
+    }
+
+    private static void RemoveFilter(int index)
+    {
+        Filters.RemoveAt(index);
     }
 }

@@ -1,11 +1,12 @@
-﻿using SpotifyAPI.Web;
+﻿using System.Windows.Input;
+using SpotifyAPI.Web;
 using SpotiSharp.Enums;
 using SpotiSharp.Interfaces;
 using SpotiSharp.Models;
 
 namespace SpotiSharp.ViewModels.Filters;
 
-public class PlaylistTextFilterViewModel : BaseViewModel, IFilterViewModel
+public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
 {
     private TrackFilter _trackFilterName;
 
@@ -25,6 +26,7 @@ public class PlaylistTextFilterViewModel : BaseViewModel, IFilterViewModel
     
     public PlaylistTextFilterViewModel(TrackFilter trackFilter)
     {
+        RemoveFilterCommand = new Command(RemoveFilter);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
     }
@@ -33,4 +35,12 @@ public class PlaylistTextFilterViewModel : BaseViewModel, IFilterViewModel
     {
         return await _trackFilterName.GetFilterFunction()(fullTracks, audioFeatures, GenreName);
     }
+
+    public void RemoveFilter()
+    {
+        int index = PlaylistCreatorPageModel.Filters.IndexOf(this);
+        InvokeEvent(index);
+    }
+    
+    public ICommand RemoveFilterCommand { private set; get; }
 }

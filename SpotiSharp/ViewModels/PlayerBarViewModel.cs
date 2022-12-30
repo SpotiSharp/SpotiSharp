@@ -71,7 +71,6 @@ public class PlayerBarViewModel : BaseViewModel
             }
         }
         
-        // TODO: fails if there is no active session
         // load volume if it hasn't been edited
         if (_lastVolume != SelectedVolume)
         {

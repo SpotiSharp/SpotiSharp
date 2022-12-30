@@ -8,6 +8,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -16,5 +17,7 @@
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding FilterName}"/>
             <Entry Grid.Row="1" Grid.Column="0" Keyboard="Numeric" Text="{Binding EnteredNumber}"/>
             <inputs:SfComboBox Grid.Row="1" Grid.Column="1" WidthRequest="200" IsEditable="False" ItemsSource="{Binding FilterOptions}" SelectedItem="{Binding SelectedFilterOption}"/>
+            <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Remove" Command="{Binding RemoveFilterCommand}"
+                    BackgroundColor="Red" TextColor="Black"/>
         </Grid>
 </ContentView>

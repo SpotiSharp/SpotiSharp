@@ -1,17 +1,21 @@
 ﻿using SpotiSharp.Enums;
+using SpotiSharp.Interfaces;
 using SpotiSharp.ViewModels;
+using SpotiSharp.ViewModels.Filters;
 using SpotiSharp.Views.Filters;
 
 namespace SpotiSharp.Views;
 
 public partial class PlaylistCreatorPage : BasePage
 {
+    private List<ContentView> FilterViews = new List<ContentView>();
+
     public PlaylistCreatorPage()
     {
         InitializeComponent();
         BindingContext = new PlaylistCreatorPageViewModel();
         PlaylistCreatorPageViewModel.OnAddingFilter += AddFilterElement;
-
+        BaseFilter.OnFilterRemove += RemoveFilterElement;
     }
 
     private void AddFilterElement(TrackFilter trackFilter)
@@ -36,6 +40,16 @@ public partial class PlaylistCreatorPage : BasePage
         Application.Current.Dispatcher.Dispatch(() =>
         {
             FilterLayout.Add(playlistFilterView);
+        });
+        FilterViews.Add(playlistFilterView);
+    }
+
+    private void RemoveFilterElement(int index)
+    {
+        Application.Current.Dispatcher.Dispatch(() =>
+        {
+            FilterLayout.RemoveAt(index+3);
+            FilterViews.RemoveAt(index);
         });
     }
 }
