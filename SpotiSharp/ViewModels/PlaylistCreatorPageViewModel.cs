@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using SpotifyAPI;
 using SpotiSharp.Enums;
 using SpotiSharp.Models;
 
@@ -10,6 +11,14 @@ public delegate void AddingFilter(TrackFilter trackFilter);
 public class PlaylistCreatorPageViewModel : BaseViewModel
 {
     public static event AddingFilter OnAddingFilter;
+    
+    private bool _isAuthenticated = false;
+
+    public bool IsAuthenticated
+    {
+        get { return _isAuthenticated; }
+        set { SetProperty(ref _isAuthenticated, value); }
+    }
     
     private string _playlistName;
 
@@ -76,6 +85,7 @@ public class PlaylistCreatorPageViewModel : BaseViewModel
     internal override void OnAppearing()
     {
         PlaylistNamesIds = PlaylistListModel.PlayLists.Select(p => $"{p.PlayListTitle}\n{p.PlayListId}").ToList();
+        IsAuthenticated = Authentication.SpotifyClient != null;
     }
 
     private void AddSongsFromPlaylistHandler()
