@@ -31,6 +31,7 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
     public PlaylistCreationSonglistViewModel()
     {
         RemoveSongs = new Command(RemoveSongsHandler);
+        ClearSongs = new Command(PlaylistCreatorPageModel.ClearSongs);
         
         PlaylistCreatorPageModel.OnSongListChange += RefreshSongs;
     }
@@ -49,7 +50,6 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
     
     private void RemoveSongsHandler()
     {
-        
         PlaylistCreatorPageModel.RemoveSongsByIndex(SelectedItems.Select(si =>
         {
             if (si is SongEditable songEditable) return songEditable.Index;
@@ -58,4 +58,5 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
     }
 
     public ICommand RemoveSongs { private set; get; }
+    public ICommand ClearSongs { private set; get; }
 }

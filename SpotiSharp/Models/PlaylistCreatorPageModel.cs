@@ -14,14 +14,11 @@ public static class PlaylistCreatorPageModel
 
     private static List<FullTrack> UnfilteredSongs
     {
-        get
-        {
-            return _unfilteredSongs;
-        }
+        get { return _unfilteredSongs; }
         set
         {
-            OnSongListChange?.Invoke(); 
             _unfilteredSongs = value;
+            OnSongListChange?.Invoke(); 
         }
     }
 
@@ -74,6 +71,11 @@ public static class PlaylistCreatorPageModel
         }
         
         UnfilteredSongs = tmpSongs;
+    }
+
+    public static void ClearSongs()
+    {
+        UnfilteredSongs = new List<FullTrack>();
     }
     
     public async static Task<List<FullTrack>> GetFilteredSongs()

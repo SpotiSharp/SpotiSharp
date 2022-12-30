@@ -6,6 +6,7 @@
              xmlns:syncfusionlistview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView">
     <VerticalStackLayout>
         <Button Text="Remove Selected" Command="{Binding RemoveSongs}"/>
+        <Button Text="Clear" Command="{Binding ClearSongs}"/>
         <syncfusionlistview:SfListView x:Name="SongListView" ItemsSource="{Binding Songs}" SelectionMode="Multiple"
                                        SelectedItems="{Binding SelectedItems}" SelectionGesture="Tap">
             <syncfusionlistview:SfListView.ItemTemplate>
