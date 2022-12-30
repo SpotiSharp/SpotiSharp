@@ -95,6 +95,7 @@ public class APICaller
 
     public SnapshotResponse CreatePlaylistWithTrackUris(string playlistName, List<string> trackUris)
     {
+        if (!trackUris.Any()) return new SnapshotResponse();
         string userId = HandleExceptions(() => Authentication.SpotifyClient.UserProfile.Current().Result.Id);
         FullPlaylist playlist = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.Create(userId, new PlaylistCreateRequest(playlistName)).Result);
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.AddItems(playlist.Id, new PlaylistAddItemsRequest(trackUris)).Result);
@@ -111,7 +112,9 @@ public class APICaller
 
     public TracksResponse GetMultipleTracksByTrackId(List<string> trackIds)
     {
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveral(new TracksRequest(trackIds)).Result);
+        return trackIds.Any() ? 
+            HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveral(new TracksRequest(trackIds)).Result) : 
+            new TracksResponse();
     }
 
     public TrackAudioFeatures GetAudioFeaturesByTrackId(string trackId)
@@ -121,7 +124,9 @@ public class APICaller
 
     public TracksAudioFeaturesResponse GetMultipleAudioFeaturesByTrackIds(List<string> trackIds)
     {
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds)).Result);
+        return trackIds.Any() ? 
+            HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds)).Result) : 
+            new TracksAudioFeaturesResponse();
     }
 
     public TrackAudioFeatures GetTrackAudioFeaturesById(string trackId)
@@ -131,7 +136,9 @@ public class APICaller
     
     public List<TrackAudioFeatures> GetMultipleTrackAudioFeaturesByTrackIds(List<string> trackIds)
     {
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds)).Result.AudioFeatures);
+        return trackIds.Any() ? 
+            HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Tracks.GetSeveralAudioFeatures(new TracksAudioFeaturesRequest(trackIds)).Result.AudioFeatures) : 
+            new List<TrackAudioFeatures>();
     }
 
     #endregion
