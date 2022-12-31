@@ -33,7 +33,7 @@
 
             <Button
                 Padding="0, 0, 40, 0"
-                Text="View Liked Playlists"
+                Text="Saved Playlists"
                 FontSize="22"
                 BackgroundColor="Transparent"
                 Command="{Binding ViewPlaylistsClicked}" 
