@@ -34,16 +34,18 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="45" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Gray900}" Text="Shuffle" Command="{Binding ChangeShuffle}" Margin="0,0,5,0"/>
-            <Button Grid.Row="0" Grid.Column="1" BackgroundColor="{StaticResource Gray900}" Text="Back" Command="{Binding SongBack}" Margin="5,0,5,0"/>
-            <Button Grid.Row="0" Grid.Column="2" BackgroundColor="{StaticResource Gray900}" Text="Play/Pause" Command="{Binding TogglePlaying}" Margin="5,0,5,0"/>
-            <Button Grid.Row="0" Grid.Column="3" BackgroundColor="{StaticResource Gray900}" Text="Skip" Command="{Binding SongSkip}" Margin="5,0,5,0"/>
-            <Button Grid.Row="0" Grid.Column="4" BackgroundColor="{StaticResource Gray900}" Text="Repeat" Command="{Binding ChangeRepeat}" Margin="5,0,0,0"/>
+            <Label Grid.Row="0" Grid.Column="0" Text="Shuffle" Margin="5,0,5,0" VerticalOptions="Center" />
+            <Switch Grid.Row="0" Grid.Column="1" ThumbColor="{StaticResource Gray900}" OnColor="{StaticResource Primary}" IsToggled="{Binding ShuffleSwitch}" Margin="5,0,0,0"/>
+            <Button Grid.Row="0" Grid.Column="2" BackgroundColor="{StaticResource Gray900}" Text="Back" Command="{Binding SongBack}" Margin="10,0,5,0"/>
+            <Button Grid.Row="0" Grid.Column="3" BackgroundColor="{StaticResource Gray900}" Text="Play/Pause" Command="{Binding TogglePlaying}" Margin="5,0,5,0"/>
+            <Button Grid.Row="0" Grid.Column="4" BackgroundColor="{StaticResource Gray900}" Text="Skip" Command="{Binding SongSkip}" Margin="5,0,5,0"/>
+            <Button Grid.Row="0" Grid.Column="5" BackgroundColor="{StaticResource Gray900}" Text="Repeat" Command="{Binding ChangeRepeat}" Margin="5,0,0,0"/>
         </Grid>
         <Frame Grid.Row="0" Grid.Column="2" BackgroundColor="Transparent" BorderColor="Transparent" />
         <Slider Grid.Row="0" Grid.Column="3"

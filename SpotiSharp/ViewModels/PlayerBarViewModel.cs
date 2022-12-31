@@ -25,6 +25,18 @@ public class PlayerBarViewModel : BaseViewModel
         set { SetProperty(ref _songImageURL, value); }
     }
     
+    private bool _shuffleSwitch = APICaller.Instance?.GetCurrentPlaybackShuffleState() ?? false;
+    
+    public bool ShuffleSwitch
+    {
+        get { return _shuffleSwitch; }
+        set
+        {
+            APICaller.Instance?.SetPlaybackShuffle(value);
+            SetProperty(ref _shuffleSwitch, value);
+        }
+    }
+
     private int _lastVolume;
     
     private int _selectedVolume;
@@ -48,6 +60,7 @@ public class PlayerBarViewModel : BaseViewModel
 
     private void RefreshPlayerValues()
     {
+        // Song
         var currentlyPlayingContext = APICaller.Instance?.GetCurrentPlaybackContext();
         if (currentlyPlayingContext?.Item == null)
         {
@@ -70,7 +83,11 @@ public class PlayerBarViewModel : BaseViewModel
                 break;
             }
         }
-        
+
+        // Shuffle
+        if (currentlyPlayingContext.ShuffleState != ShuffleSwitch) ShuffleSwitch = currentlyPlayingContext.ShuffleState;
+
+        // Volume
         // load volume if it hasn't been edited
         if (_lastVolume != SelectedVolume)
         {

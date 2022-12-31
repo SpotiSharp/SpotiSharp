@@ -246,10 +246,19 @@ public class APICaller
         return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.SetRepeat(new PlayerSetRepeatRequest(states[indexOfNextItem % states.Length])).Result);
     }
 
+    public bool GetCurrentPlaybackShuffleState()
+    {
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback().Result.ShuffleState);
+    }
+
     public bool TogglePlaybackShuffle()
     {
-        var currentlyPlayingContext = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.GetCurrentPlayback().Result);
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.SetShuffle(currentlyPlayingContext.ShuffleState ? new PlayerShuffleRequest(false) : new PlayerShuffleRequest(true)).Result);
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.SetShuffle(new PlayerShuffleRequest(!GetCurrentPlaybackShuffleState())).Result);
+    }
+    
+    public bool SetPlaybackShuffle(bool value)
+    {
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Player.SetShuffle(new PlayerShuffleRequest(value)).Result);
     }
 
     public bool SkipToNextSong()
