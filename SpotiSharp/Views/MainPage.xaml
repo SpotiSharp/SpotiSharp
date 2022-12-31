@@ -21,7 +21,8 @@
                    FontSize="100" />
             <Label
                 Text="Spotisharp is an app to create playlists. This can be done with never seen before precision."
-                FontSize="16" Margin="20" />
+                FontSize="20" Margin="20" />
+            <Label FontSize="20" Margin="20,0,20,20" IsVisible="{Binding IsUserIsNotAuthenticated}" Text="You are not authenticated. To authenticate go to the ''Authentication'' page"/>
         </VerticalStackLayout>
         <views:PlayerBarView Grid.Row="2" Grid.Column="0" />
     </Grid>
