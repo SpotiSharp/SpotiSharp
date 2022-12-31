@@ -5,24 +5,22 @@
                 xmlns:spotiSharp="clr-namespace:SpotiSharp"
                 xmlns:views="clr-namespace:SpotiSharp.Views"
                 x:Class="SpotiSharp.ManagePlaylistsPage">
-    <FlexLayout>
-        <Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <views:HeaderView Grid.Row="0" />
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <views:HeaderView Grid.Row="0" />
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Label Text="Playlists" Margin="10" FontSize="35" Grid.Column="0" Grid.Row="0" />
-                <spotiSharp:PlaylistListView Grid.Column="0" Grid.Row="1" />
-            </Grid>
-            <views:PlayerBarView  Grid.Row="2"/>
+            <Label Text="Playlists" Margin="10" FontSize="35" Grid.Column="0" Grid.Row="0" />
+            <spotiSharp:PlaylistListView Grid.Column="0" Grid.Row="1" />
         </Grid>
-    </FlexLayout>
+        <views:PlayerBarView Grid.Row="2" />
+    </Grid>
 
 </views:BasePage>
