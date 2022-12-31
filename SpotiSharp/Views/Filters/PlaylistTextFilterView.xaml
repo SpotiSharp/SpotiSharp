@@ -5,8 +5,8 @@
              x:Class="SpotiSharp.Views.Filters.PlaylistTextFilterView">
     <VerticalStackLayout>
         <Label Text="{Binding FilterName}"/>
-        <Entry WidthRequest="200" Text="{Binding GenreName}"/>
+        <Entry Text="{Binding GenreName}" HorizontalOptions="Fill" Margin="5"/>
         <Button Text="Remove" Command="{Binding RemoveFilterCommand}"
-                BackgroundColor="Red" TextColor="Black"/>
+                BackgroundColor="Red" TextColor="Black" Margin="5"/>
     </VerticalStackLayout>
 </ContentView>

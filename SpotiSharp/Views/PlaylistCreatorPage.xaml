@@ -50,7 +50,7 @@
                                                ItemsSource="{Binding PlaylistNamesIds}"
                                                SelectedItem="{Binding SelectedPlaylistNameId}" />
                             <Button BackgroundColor="{StaticResource Gray900}" Grid.Row="0" Grid.Column="1" Margin="5" Text="+"
-                                    Command="{Binding AddSongsFromPlaylist}" />
+                                    Command="{Binding AddSongsFromPlaylist}" IsEnabled="{Binding IsFilteringPlaylist, Converter={converters:BooleanConverter}}"/>
                         </Grid>
                     </Frame>
                     <Frame Grid.Column="1" Grid.ColumnSpan="2">
@@ -63,7 +63,8 @@
                                 </Grid.RowDefinitions>
                                 <core:SfBusyIndicator Grid.Row="0" HeightRequest="10" HorizontalOptions="Fill"
                                                       AnimationType="LinearMaterial"
-                                                      IsRunning="{Binding IsFilteringPlaylist}" />
+                                                      IsRunning="{Binding IsFilteringPlaylist}" 
+                                                      IndicatorColor="{StaticResource Primary}"/>
                                 <views:PlaylistCreationSonglistView Grid.Row="1" Grid.RowSpan="2" />
                             </Grid>
                         </ScrollView>
@@ -87,7 +88,7 @@
                                 <Button Grid.Column="1" BackgroundColor="{StaticResource Gray900}" Margin="5" Text="+" Command="{Binding AddFilter}" />
                             </Grid>
 
-                            <Button Grid.Row="1" BackgroundColor="{StaticResource Gray900}" Margin="5" Command="{Binding ApplyFilters}" Text="ApplyFilters" />
+                            <Button Grid.Row="1" BackgroundColor="{StaticResource Gray900}" Margin="5" Command="{Binding ApplyFilters}" Text="ApplyFilters" IsEnabled="{Binding IsFilteringPlaylist, Converter={converters:BooleanConverter}}"/>
                             <ScrollView Grid.Row="2" Margin="5">
                                 <VerticalStackLayout x:Name="FilterLayout">
 

@@ -4,22 +4,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              x:Class="SpotiSharp.Views.Filters.PlaylistNumberFilterView">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding FilterName}"/>
-            <Entry Grid.Row="1" Grid.Column="0" Keyboard="Numeric" Text="{Binding EnteredNumber}"/>
-            <inputs:SfComboBox Grid.Row="1" Grid.Column="1" BackgroundColor="{StaticResource Gray900}" TextColor="{StaticResource Primary}" WidthRequest="200" IsEditable="False" ItemsSource="{Binding FilterOptions}" SelectedItem="{Binding SelectedFilterOption}"/>
-            <Label  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding ValidationMessage}" TextColor="Red"/>
-            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Remove" Command="{Binding RemoveFilterCommand}"
-                    BackgroundColor="Red" TextColor="Black"/>
-        </Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding FilterName}" Margin="5" />
+        <Entry Grid.Row="1" Grid.Column="0" Keyboard="Numeric" Text="{Binding EnteredNumber}" Margin="5" WidthRequest="200"/>
+        <inputs:SfComboBox Grid.Row="1" Grid.Column="1" BackgroundColor="{StaticResource Gray900}"
+                           TextColor="{StaticResource Primary}" WidthRequest="200" IsEditable="False"
+                           ItemsSource="{Binding FilterOptions}" SelectedItem="{Binding SelectedFilterOption}"
+                           Margin="5" />
+        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding ValidationMessage}" TextColor="Red" Margin="5,0,0,0"/>
+        <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Remove" Command="{Binding RemoveFilterCommand}"
+                BackgroundColor="Red" TextColor="Black" Margin="5" />
+    </Grid>
 </ContentView>

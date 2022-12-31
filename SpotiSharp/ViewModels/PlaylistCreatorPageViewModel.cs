@@ -90,7 +90,9 @@ public class PlaylistCreatorPageViewModel : BaseViewModel
 
     private void AddSongsFromPlaylistHandler()
     {
-        if (SelectedPlaylistNameId != null) PlaylistCreatorPageModel.AddSongsFromPlaylist(SelectedPlaylistNameId.Split("\n")[1]);
+        if (SelectedPlaylistNameId == null) return;
+        IsFilteringPlaylist = true;
+        PlaylistCreatorPageModel.AddSongsFromPlaylist(SelectedPlaylistNameId.Split("\n")[1]);
     }
 
     private void AddFilterHandler()

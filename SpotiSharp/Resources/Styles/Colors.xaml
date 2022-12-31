@@ -46,5 +46,6 @@
     <Color x:Key="Green300">#1DB954</Color>
     <Color x:Key="Green400">#3FD150</Color>
     <Color x:Key="Green500">#34C71C</Color>
+    <Color x:Key="Red">Red</Color>
     
 </ResourceDictionary>
