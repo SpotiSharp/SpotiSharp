@@ -7,59 +7,98 @@
                 xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
                 xmlns:converters="clr-namespace:SpotiSharp.Converters"
                 x:Class="SpotiSharp.Views.PlaylistCreatorPage">
-    <VerticalStackLayout>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <views:HeaderView Grid.Row="0"/>
-            <Label Grid.Row="1" Text="You need to Authenticated to create playlists"
-                   IsVisible="{Binding IsAuthenticated, Converter={converters:BooleanConverter}}" />
-            <Frame Grid.Row="2" IsVisible="{Binding IsAuthenticated}">
-                <VerticalStackLayout>
-                    <Label Text="Create a new playlist" FontSize="30" />
-                    <Entry Placeholder="Playlist Name" Text="{Binding PlaylistName}" />
-                    <Button Text="Create Playlist" Command="{Binding CreatePlaylist}" />
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Frame Grid.Column="0">
-                            <VerticalStackLayout>
-                                <inputs:SfComboBox WidthRequest="200" IsEditable="False"
-                                                   ItemsSource="{Binding PlaylistNamesIds}"
-                                                   SelectedItem="{Binding SelectedPlaylistNameId}" />
-                                <Button Text="+" Command="{Binding AddSongsFromPlaylist}" />
-                            </VerticalStackLayout>
-                        </Frame>
-                        <Frame Grid.Column="1">
-                            <ScrollView>
-                                <VerticalStackLayout>
-                                    <core:SfBusyIndicator HeightRequest="10" HorizontalOptions="Fill"
-                                                          AnimationType="LinearMaterial"
-                                                          IsRunning="{Binding IsFilteringPlaylist}" />
-                                    <views:PlaylistCreationSonglistView />
-                                </VerticalStackLayout>
-                            </ScrollView>
-                        </Frame>
-                        <Frame Grid.Column="2">
-                            <VerticalStackLayout x:Name="FilterLayout">
-                                <inputs:SfComboBox WidthRequest="200" IsEditable="False"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <views:HeaderView Grid.Row="0" />
+        <Label Grid.Row="1" Text="You need to Authenticated to create playlists"
+               IsVisible="{Binding IsAuthenticated, Converter={converters:BooleanConverter}}" />
+        <Frame Grid.Row="2" IsVisible="{Binding IsAuthenticated}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="Create a new playlist" FontSize="30" />
+                <Entry Grid.Row="1" Placeholder="Playlist Name" Text="{Binding PlaylistName}" />
+                <Button Grid.Row="2" Text="Create Playlist" Command="{Binding CreatePlaylist}" />
+                <Grid Grid.Row="3" VerticalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Frame Grid.Column="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <inputs:SfComboBox Grid.Row="0" Grid.Column="0" Margin="5" IsEditable="False"
+                                               ItemsSource="{Binding PlaylistNamesIds}"
+                                               SelectedItem="{Binding SelectedPlaylistNameId}" />
+                            <Button Grid.Row="0" Grid.Column="1" Margin="5" Text="+"
+                                    Command="{Binding AddSongsFromPlaylist}" />
+                        </Grid>
+                    </Frame>
+                    <Frame Grid.Column="1" Grid.ColumnSpan="2">
+                        <ScrollView>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <core:SfBusyIndicator Grid.Row="0" HeightRequest="10" HorizontalOptions="Fill"
+                                                      AnimationType="LinearMaterial"
+                                                      IsRunning="{Binding IsFilteringPlaylist}" />
+                                <views:PlaylistCreationSonglistView Grid.Row="1" Grid.RowSpan="2" />
+                            </Grid>
+                        </ScrollView>
+                    </Frame>
+                    <Frame Grid.Column="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <inputs:SfComboBox Grid.Column="0" Margin="5" HorizontalOptions="Fill"
+                                                   IsEditable="False"
                                                    ItemsSource="{Binding Filters}"
                                                    SelectedItem="{Binding SelectedFilter}" />
-                                <Button Text="+" Command="{Binding AddFilter}" />
-                                <Button Command="{Binding ApplyFilters}" Text="ApplyFilters" />
-                            </VerticalStackLayout>
-                        </Frame>
-                    </Grid>
-                </VerticalStackLayout>
-            </Frame>
-            <views:PlayerBarView Grid.Row="3"/>
-        </Grid>
-    </VerticalStackLayout>
+                                <Button Grid.Column="1" Margin="5" Text="+" Command="{Binding AddFilter}" />
+                            </Grid>
+
+                            <Button Grid.Row="1" Margin="5" Command="{Binding ApplyFilters}" Text="ApplyFilters" />
+                            <ScrollView Grid.Row="2" Margin="5">
+                                <VerticalStackLayout x:Name="FilterLayout">
+
+                                </VerticalStackLayout>
+                            </ScrollView>
+                        </Grid>
+                    </Frame>
+                </Grid>
+            </Grid>
+        </Frame>
+        <views:PlayerBarView Grid.Row="3" />
+    </Grid>
 </views:BasePage>

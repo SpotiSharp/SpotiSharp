@@ -48,7 +48,7 @@ public partial class PlaylistCreatorPage : BasePage
     {
         Application.Current.Dispatcher.Dispatch(() =>
         {
-            FilterLayout.RemoveAt(index+3);
+            FilterLayout.RemoveAt(index);
             FilterViews.RemoveAt(index);
         });
     }

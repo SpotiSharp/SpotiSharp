@@ -4,8 +4,7 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:views="clr-namespace:SpotiSharp.Views"
                 x:Class="SpotiSharp.AuthenticationPage">
-    <views:BasePage.Content>
-        <VerticalStackLayout
+        <VerticalStackLayout 
             Spacing="25"
             Padding="30,0">
             <views:HeaderView/>
@@ -63,5 +62,4 @@
                 WidthRequest="150"
                 HorizontalOptions="Start" />
         </VerticalStackLayout>
-    </views:BasePage.Content>
 </views:BasePage>
