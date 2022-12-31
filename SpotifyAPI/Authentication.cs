@@ -12,7 +12,6 @@ public static class Authentication
 
     private static PKCETokenResponse _initialResponse;
 
-    // loaded from local file for development
     private static string _clientId;
 
     private static SpotifyClient _spotifyClient;
