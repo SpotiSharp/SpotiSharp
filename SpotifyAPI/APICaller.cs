@@ -1,4 +1,6 @@
 ﻿using SpotifyAPI.Web;
+using SpotifyAPI.Web.Http;
+using SpotiSharp.Models;
 
 
 namespace SpotifyAPI;
@@ -36,7 +38,7 @@ public class APICaller
         return instance;
     }
 
-    private const int MAX_RETRIES = 10;
+    private const int MAX_RETRIES = 20;
     private const int TIME_OUT_IN_MILLI = 100;
     
     private APICaller() {}
@@ -85,7 +87,10 @@ public class APICaller
 
     public FullPlaylist GetPlaylistById(string playlistId)
     {
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.Get(playlistId).Result);
+        var response = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient?.Playlists.Get(playlistId, new PlaylistGetRequest(PlaylistGetRequest.AdditionalTypes.Track)).Result);
+        var tracks = HandleExceptions(() => Authentication.SpotifyClient?.PaginateAll(response.Tracks, new CustomPaginator()).Result);
+        response?.Tracks?.Items?.AddRange(tracks);
+        return response ?? new FullPlaylist();
     }
 
     public Paging<SimplePlaylist> GetAllUserPlaylists()
@@ -119,7 +124,7 @@ public class APICaller
             return trackUris.ConvertAll(tu => (string)tu);
         });
 
-        return playlist.Tracks.Items.Count < 100 ? 
+        return trackUris.Count < 100 ? 
             apiCallFunc(trackUris.ConvertAll(tu => (object)tu)) : 
             ChunkRequest(trackUris.ConvertAll(tu => (object)tu), 100, apiCallFunc);
     }
