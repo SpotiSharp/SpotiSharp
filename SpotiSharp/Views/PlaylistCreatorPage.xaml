@@ -46,10 +46,10 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <inputs:SfComboBox Grid.Row="0" Grid.Column="0" Margin="5" IsEditable="False"
+                            <inputs:SfComboBox Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Gray900}" TextColor="{StaticResource Primary}" Margin="5" IsEditable="False"
                                                ItemsSource="{Binding PlaylistNamesIds}"
                                                SelectedItem="{Binding SelectedPlaylistNameId}" />
-                            <Button Grid.Row="0" Grid.Column="1" Margin="5" Text="+"
+                            <Button BackgroundColor="{StaticResource Gray900}" Grid.Row="0" Grid.Column="1" Margin="5" Text="+"
                                     Command="{Binding AddSongsFromPlaylist}" />
                         </Grid>
                     </Frame>
@@ -80,14 +80,14 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <inputs:SfComboBox Grid.Column="0" Margin="5" HorizontalOptions="Fill"
+                                <inputs:SfComboBox Grid.Column="0" BackgroundColor="{StaticResource Gray900}" TextColor="{StaticResource Primary}" Margin="5" HorizontalOptions="Fill"
                                                    IsEditable="False"
                                                    ItemsSource="{Binding Filters}"
                                                    SelectedItem="{Binding SelectedFilter}" />
-                                <Button Grid.Column="1" Margin="5" Text="+" Command="{Binding AddFilter}" />
+                                <Button Grid.Column="1" BackgroundColor="{StaticResource Gray900}" Margin="5" Text="+" Command="{Binding AddFilter}" />
                             </Grid>
 
-                            <Button Grid.Row="1" Margin="5" Command="{Binding ApplyFilters}" Text="ApplyFilters" />
+                            <Button Grid.Row="1" BackgroundColor="{StaticResource Gray900}" Margin="5" Command="{Binding ApplyFilters}" Text="ApplyFilters" />
                             <ScrollView Grid.Row="2" Margin="5">
                                 <VerticalStackLayout x:Name="FilterLayout">
 
@@ -96,7 +96,7 @@
                         </Grid>
                     </Frame>
                 </Grid>
-                <Button Grid.Row="3" Text="Create Playlist" WidthRequest="600" HeightRequest="65" FontSize="24" HorizontalOptions="Start" Margin="20" Command="{Binding CreatePlaylist}" />
+                <Button Grid.Row="3" BackgroundColor="{StaticResource Gray900}" Text="Create Playlist" HeightRequest="65" FontSize="24" HorizontalOptions="Fill" Margin="100,20,100,20" Command="{Binding CreatePlaylist}" />
             </Grid>
         </Frame>
         <views:PlayerBarView Grid.Row="3" />

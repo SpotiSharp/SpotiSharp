@@ -9,7 +9,7 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell AutomationId="{Binding PlayListId}">
-                    <Grid>
+                    <Grid Margin="0,2,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -26,9 +26,12 @@
                                WidthRequest="60" />
                         <Label Grid.Column="1" Grid.Row="0"
                                x:Name="PlayListName"
+                               FontSize="18"
+                               Margin="10"
                                Text="{Binding PlayListTitle}" />
                         <Label Grid.Column="1" Grid.Row="1"
                                x:Name="SongCount"
+                               Margin="15,0,10,0"
                                Text="{Binding SongAmount, StringFormat='{0} Songs'}" />
                     </Grid>
                 </ViewCell>

@@ -58,6 +58,7 @@
                 Command="{Binding ConnectToSpotifyAPI}"
                 Margin="10,5,5,5"
                 WidthRequest="150"
+                BackgroundColor="{StaticResource Gray900}"
                 HorizontalOptions="Start" />
             <VerticalStackLayout Margin="10">
                 <Label Text="How To Authenticate" FontSize="35" Margin="5,10,10,10"/>

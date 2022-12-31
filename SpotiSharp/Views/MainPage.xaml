@@ -4,24 +4,25 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:views="using:SpotiSharp.Views"
                 x:Class="SpotiSharp.MainPage">
-    <VerticalStackLayout>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <views:HeaderView Grid.Row="0" Grid.Column="0" />
-            <Label Grid.Row="1" Grid.Column="0"
-                   Text="SpotiSharp"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <views:HeaderView Grid.Row="0" Grid.Column="0" />
+        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Margin="50,20,20,20">
+            <Label Text="SpotiSharp"
                    VerticalOptions="Center"
-                   Margin="50"
+                   Margin="0,50,50,50"
                    FontSize="100" />
-            <views:PlayerBarView Grid.Row="2" Grid.Column="0" />
-        </Grid>
-
-    </VerticalStackLayout>
+            <Label
+                Text="Spotisharp is an app to create playlists. This can be done with never seen before precision."
+                FontSize="16" Margin="20" />
+        </VerticalStackLayout>
+        <views:PlayerBarView Grid.Row="2" Grid.Column="0" />
+    </Grid>
 </views:BasePage>
