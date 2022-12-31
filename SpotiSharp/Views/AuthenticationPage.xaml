@@ -63,13 +63,23 @@
             <VerticalStackLayout Margin="10">
                 <Label Text="How To Authenticate" FontSize="35" Margin="5,10,10,10"/>
                 <Label Text="1. Login on the spotify developer portal" FontSize="24" Margin="5"/>
-                <Label Text="You will need to have Spotify premium to use all features of this application. You can get to the spotify developer portal via this link https://developer.spotify.com/dashboard/." Margin="10,3,3,3"/>
-                <Label Text="2. Create a spotify app" FontSize="24" Margin="5"/>
-                <Label Text="First click on 'create app' you can enter any name and description." Margin="10,3,3,3"/>
+                <Grid Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" VerticalOptions="Center" Text="You will need to have Spotify premium to use all features of this application. You can get to the spotify developer portal via this link:"/> 
+                    <Button Grid.Column="1" Grid.Row="0" Text="https://developer.spotify.com/dashboard/" Command="{Binding OpenSpotifyDevDashBoard}" BackgroundColor="Transparent" BorderColor="Transparent" Margin="0" Padding="0" VerticalOptions="Center" WidthRequest="300" HeightRequest="10"/>
+                </Grid>
+                <Label Text="2. Create a spotify app" FontSize="24" Margin="5,0,5,5"/>
+                <Label Text="First click on ''create app'' you can enter any name and description." Margin="10,3,3,3"/>
                 <Label Text="3. Setting the redirect uri" FontSize="24" Margin="5"/>
-                <Label Text="Click on 'edit settings'. Under Redirect URIs click 'add' and enter 'http://127.0.0.1:5000/callback/' this needs to be exact. After that you need to click save to apply the new settings." Margin="10,3,3,3"/>
+                <Label Text="Click on ''edit settings''. Under Redirect URIs click 'add' and enter ''http://127.0.0.1:5000/callback/'' this needs to be exact. After that you need to click save to apply the new settings." Margin="10,3,3,3"/>
                 <Label Text="4. Coping the client id" FontSize="24" Margin="5"/>
-                <Label Text="On the main page of the spotify app you have a field called 'Client ID' copy the id to the right of that and enter it in the input field in the SpotiSharp application. Finally click the 'Connect' button above." Margin="10,3,3,3"/>
+                <Label Text="On the main page of the spotify app you have a field called '^Client ID'' copy the id to the right of that and enter it in the input field in the SpotiSharp application. Finally click the ''Connect'' button above." Margin="10,3,3,3"/>
             </VerticalStackLayout>
         </VerticalStackLayout>
         

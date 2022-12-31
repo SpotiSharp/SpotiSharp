@@ -40,14 +40,10 @@ public class AuthenticationPageViewModel : BaseViewModel
     
     public AuthenticationPageViewModel()
     {
-        ConnectToSpotifyAPI = new Command(ConnectToSpotifyAPIFunc);
+        ConnectToSpotifyAPI = new Command(() => Authentication.Authenticate(ClientId));
+        OpenSpotifyDevDashBoard = new Command(() => Browser.Default.OpenAsync("https://developer.spotify.com/dashboard/", BrowserLaunchMode.SystemPreferred));
         Authentication.OnAuthenticate += RefreshProfile;
         ClientId = Task.Run(async () => await SecureStorage.Default.GetAsync("clientId")).Result;
-    }
-
-    private void ConnectToSpotifyAPIFunc()
-    {
-        Authentication.Authenticate(ClientId);
     }
 
     internal override void OnAppearing()
@@ -65,5 +61,7 @@ public class AuthenticationPageViewModel : BaseViewModel
     }
     
     public ICommand ConnectToSpotifyAPI { private set; get; }
+    
+    public ICommand OpenSpotifyDevDashBoard { private set; get; }
 
 }
