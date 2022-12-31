@@ -39,7 +39,7 @@ public class PlaylistListViewModel : BaseViewModel
 
     private void RefreshPlaylist()
     {
-        if (REFRESH_DELAY_IN_UILOOP_INTERVALS == _updateDelayCounter && isParentVisible)
+        if (REFRESH_DELAY_IN_UILOOP_INTERVALS <= _updateDelayCounter && isParentVisible)
         {
             if (!comparePlaylists(PlayLists, PlaylistListModel.PlayLists)) PlayLists = PlaylistListModel.PlayLists;
             _updateDelayCounter = 0;
