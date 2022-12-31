@@ -75,7 +75,7 @@ public class APICaller
             
             List<object> subsetOfInputElements = inputElements.GetRange(rangeStart, rangeCount);
             result.AddRange(func(subsetOfInputElements));
-
+            Thread.Sleep(100);
         }
         return result;
     }
