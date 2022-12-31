@@ -11,6 +11,14 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
 {
     public static event PlaylistIsFiltered OnPlalistIsFiltered;
 
+    private string _filteredAndNonFilterSongCount = "0 / 0 Songs";
+    
+    public string FilteredAndNonFilterSongCount
+    {
+        get { return _filteredAndNonFilterSongCount; }
+        set { SetProperty(ref _filteredAndNonFilterSongCount, value); }
+    } 
+    
     private ObservableCollection<object> _selectedItems = new ObservableCollection<object>();
     
     public ObservableCollection<object> SelectedItems
@@ -31,7 +39,7 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
     public PlaylistCreationSonglistViewModel()
     {
         RemoveSongs = new Command(RemoveSongsHandler);
-        ClearSongs = new Command(PlaylistCreatorPageModel.ClearSongs);
+        ClearSongs = new Command(() => PlaylistCreatorPageModel.UnfilteredSongs = new List<FullTrack>());
         
         PlaylistCreatorPageModel.OnSongListChange += RefreshSongs;
     }
@@ -45,6 +53,7 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
         {
             return new SongEditable(index, fullTrack);
         }).ToList();
+        FilteredAndNonFilterSongCount = $"{Songs.Count} / {PlaylistCreatorPageModel.UnfilteredSongs.Count} Songs";
         OnPlalistIsFiltered?.Invoke();
     }
     

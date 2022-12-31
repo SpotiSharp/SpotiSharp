@@ -12,7 +12,7 @@ public static class PlaylistCreatorPageModel
     
     private static List<FullTrack> _unfilteredSongs = new List<FullTrack>();
 
-    private static List<FullTrack> UnfilteredSongs
+    public static List<FullTrack> UnfilteredSongs
     {
         get { return _unfilteredSongs; }
         set
