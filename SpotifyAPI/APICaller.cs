@@ -93,9 +93,11 @@ public class APICaller
         return response ?? new FullPlaylist();
     }
 
-    public Paging<SimplePlaylist> GetAllUserPlaylists()
+    public IList<SimplePlaylist>? GetAllUserPlaylists()
     {
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.CurrentUsers().Result);
+        var response = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Playlists.CurrentUsers().Result);
+        return HandleExceptions(() => Authentication.SpotifyClient?.PaginateAll(response, new CustomPaginator()).Result);
+        
     }
 
     public Paging<PlaylistTrack<IPlayableItem>> GetTracksByPlaylistId(string playlistId)

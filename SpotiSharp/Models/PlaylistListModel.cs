@@ -32,8 +32,8 @@ public class PlaylistListModel
         
         // followed playlists
         var userPlaylists = APICaller.Instance?.GetAllUserPlaylists();
-        if (userPlaylists?.Items == null) return;
-        foreach (var playlist in userPlaylists.Items)
+        if (userPlaylists == null) return;
+        foreach (var playlist in userPlaylists)
         {
             tmpPlaylist.Add(new Playlist(playlist.Id, playlist.Images.ElementAtOrDefault(0)?.Url ?? string.Empty, playlist.Name, playlist.Tracks.Total));
         }
