@@ -26,7 +26,7 @@
             <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
                    Source="{Binding SongImageURL}"
                    HeightRequest="60" />
-            <Label Grid.Row="1" Grid.Column="1" Text="{Binding SongName}" Margin="20,0,0,0" VerticalOptions="Center" />
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding SongName}" FontSize="18" Margin="20,0,0,0" VerticalOptions="Center" />
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
             <Grid.RowDefinitions>
@@ -39,11 +39,11 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Row="0" Grid.Column="0" Text="Shuffle" Command="{Binding ChangeShuffle}" />
-            <Button Grid.Row="0" Grid.Column="1" Text="Back" Command="{Binding SongBack}" />
-            <Button Grid.Row="0" Grid.Column="2" Text="Play/Pause" Command="{Binding TogglePlaying}" />
-            <Button Grid.Row="0" Grid.Column="3" Text="Skip" Command="{Binding SongSkip}" />
-            <Button Grid.Row="0" Grid.Column="4" Text="Repeat" Command="{Binding ChangeRepeat}" />
+            <Button Grid.Row="0" Grid.Column="0" Text="Shuffle" Command="{Binding ChangeShuffle}" Margin="0,0,5,0"/>
+            <Button Grid.Row="0" Grid.Column="1" Text="Back" Command="{Binding SongBack}" Margin="5,0,5,0"/>
+            <Button Grid.Row="0" Grid.Column="2" Text="Play/Pause" Command="{Binding TogglePlaying}" Margin="5,0,5,0"/>
+            <Button Grid.Row="0" Grid.Column="3" Text="Skip" Command="{Binding SongSkip}" Margin="5,0,5,0"/>
+            <Button Grid.Row="0" Grid.Column="4" Text="Repeat" Command="{Binding ChangeRepeat}" Margin="5,0,0,0"/>
         </Grid>
         <Frame Grid.Row="0" Grid.Column="2" BackgroundColor="Transparent" BorderColor="Transparent" />
         <Slider Grid.Row="0" Grid.Column="3"

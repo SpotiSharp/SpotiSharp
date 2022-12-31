@@ -17,13 +17,12 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-
                     </Grid.ColumnDefinitions>
                     <Button Grid.Row="0" Grid.Column="0" Text="Remove Selected" Command="{Binding RemoveSongs}" Margin="5" />
                     <Button Grid.Row="1" Grid.Column="0" Text="Clear" Command="{Binding ClearSongs}" Margin="5" />
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding FilteredAndNonFilterSongCount}"></Label>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding FilteredAndNonFilterSongCount}" VerticalOptions="End" Margin="40,0,40,0" />
                 </Grid>
             </StackLayout>
             <Grid Grid.Row="1">

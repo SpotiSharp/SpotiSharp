@@ -18,7 +18,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Text="PlayLists" Grid.Column="0" Grid.Row="0" />
+                <Label Text="Playlists" Margin="10" FontSize="30" Grid.Column="0" Grid.Row="0" />
                 <spotiSharp:PlaylistListView Grid.Column="0" Grid.Row="1" />
             </Grid>
             <views:PlayerBarView  Grid.Row="2"/>

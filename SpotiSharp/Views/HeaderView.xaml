@@ -6,49 +6,43 @@
     <Grid
         Margin="0"
         Padding="10"
-        HeightRequest="60">
+        HeightRequest="80">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image
+        <ImageButton 
             Grid.Column="0"
             Source="spotisharp_logo.png"
-            HeightRequest="45"
-            Margin="0"
-            HorizontalOptions="Start">
-        </Image>
+            HeightRequest="60"
+            Margin="10"
+            HorizontalOptions="Start"
+            Command="{Binding HomeClicked}">
+        </ImageButton>
         <HorizontalStackLayout
             Grid.Column="1"
             HorizontalOptions="End">
-            <Button
-                Padding="0, 0, 20, 0"
-                Text="Home"
-                FontSize="18"
-                BackgroundColor="Transparent"
-                BorderColor="Transparent"
-                Command="{Binding HomeClicked}" />
 
             <Button
-                Padding="0, 0, 20, 0"
+                Padding="0, 0, 40, 0"
                 Text="Create Playlist"
-                FontSize="18"
+                FontSize="22"
                 BackgroundColor="Transparent"
                 Command="{Binding PlaylistCreationClicked}"
                 BorderColor="Transparent" />
 
             <Button
-                Padding="0, 0, 20, 0"
+                Padding="0, 0, 40, 0"
                 Text="View Liked Playlists"
-                FontSize="18"
+                FontSize="22"
                 BackgroundColor="Transparent"
                 Command="{Binding ViewPlaylistsClicked}" 
                 BorderColor="Transparent"/>
             
             <Button
-                Padding="0, 0, 20, 0"
+                Padding="0, 0, 40, 0"
                 Text="Authentication"
-                FontSize="18"
+                FontSize="22"
                 BackgroundColor="Transparent"
                 Command="{Binding AuthenticationClicked}"
                 BorderColor="Transparent"/>

@@ -15,20 +15,19 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <views:HeaderView Grid.Row="0" />
-        <Label Grid.Row="1" Text="You need to Authenticated to create playlists"
+        <Label Grid.Row="1" Text="You need to Authenticated to create playlists" FontSize="30" Margin="10"
                IsVisible="{Binding IsAuthenticated, Converter={converters:BooleanConverter}}" />
         <Frame Grid.Row="2" IsVisible="{Binding IsAuthenticated}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Text="Create a new playlist" FontSize="30" />
-                <Entry Grid.Row="1" Placeholder="Playlist Name" Text="{Binding PlaylistName}" />
-                <Button Grid.Row="2" Text="Create Playlist" Command="{Binding CreatePlaylist}" />
-                <Grid Grid.Row="3" VerticalOptions="Fill">
+                <Label Grid.Row="0" Text="Create a new playlist" Margin="10" FontSize="35" />
+                <Entry Grid.Row="1" WidthRequest="600" HorizontalOptions="Start" Margin="10" FontSize="24" Placeholder="Playlist Name" Text="{Binding PlaylistName}" />
+                <Grid Grid.Row="2" VerticalOptions="Fill">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -97,6 +96,7 @@
                         </Grid>
                     </Frame>
                 </Grid>
+                <Button Grid.Row="3" Text="Create Playlist" WidthRequest="600" HeightRequest="65" FontSize="24" HorizontalOptions="Start" Margin="20" Command="{Binding CreatePlaylist}" />
             </Grid>
         </Frame>
         <views:PlayerBarView Grid.Row="3" />

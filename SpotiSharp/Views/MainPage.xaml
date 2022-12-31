@@ -1,32 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="using:SpotiSharp.Views"
-             x:Class="SpotiSharp.MainPage">
-        <VerticalStackLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <views:HeaderView Grid.Row="0" Grid.Column="0"/>
-                <Grid Grid.Row="1" Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0"
-                           Text="SpotiSharp" 
-                           FontSize="50"/>
-                </Grid>
-                <views:PlayerBarView Grid.Row="2" Grid.Column="0"/>
-            </Grid>
-            
-        </VerticalStackLayout>
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="using:SpotiSharp.Views"
+                x:Class="SpotiSharp.MainPage">
+    <VerticalStackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <views:HeaderView Grid.Row="0" Grid.Column="0" />
+            <Label Grid.Row="1" Grid.Column="0"
+                   Text="SpotiSharp"
+                   VerticalOptions="Center"
+                   Margin="50"
+                   FontSize="100" />
+            <views:PlayerBarView Grid.Row="2" Grid.Column="0" />
+        </Grid>
+
+    </VerticalStackLayout>
 </views:BasePage>
