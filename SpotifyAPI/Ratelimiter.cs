@@ -2,7 +2,7 @@
 
 public static class Ratelimiter
 {
-    private const int MAX_API_CALLS_PER_SCOND = 10;
+    private const int MAX_API_CALLS_PER_SCOND = 5;
     private static int _currentCallCount;
 
     static Ratelimiter()
@@ -15,7 +15,7 @@ public static class Ratelimiter
     {
         while (true)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             _currentCallCount = 0;
         }
     }
