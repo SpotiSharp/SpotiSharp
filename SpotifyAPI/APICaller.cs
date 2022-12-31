@@ -56,13 +56,10 @@ public class APICaller
             {
                 if (Ratelimiter.RequestCall()) return call();
             }
-            catch (AggregateException)
-            {
-                currentRetries++;
-                Thread.Sleep(TIME_OUT_IN_MILLI);
-            }
+            catch (AggregateException) { }
+            currentRetries++;
+            Thread.Sleep(TIME_OUT_IN_MILLI);
         }
-
         return default;
     }
 
