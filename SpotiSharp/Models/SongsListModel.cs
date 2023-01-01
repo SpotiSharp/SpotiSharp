@@ -20,8 +20,8 @@ public class SongsListModel
             return;
         }
         var songs = APICaller.Instance?.GetTracksByPlaylistId(playlistId);
-        if (songs?.Items == null) return;
-        foreach (var playableObject in songs.Items.ToArray())
+        if (songs == null) return;
+        foreach (var playableObject in songs.ToList())
         {
             if (playableObject.Track.Type == ItemType.Track)
             {

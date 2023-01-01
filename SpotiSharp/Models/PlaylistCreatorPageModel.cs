@@ -47,9 +47,9 @@ public static class PlaylistCreatorPageModel
             return;
         }
         
-        Paging<PlaylistTrack<IPlayableItem>>? songs = APICaller.Instance?.GetTracksByPlaylistId(playlistId);
-        if (songs?.Items == null) return;
-        foreach (var playable in songs.Items)
+        IList<PlaylistTrack<IPlayableItem>>? songs = APICaller.Instance?.GetTracksByPlaylistId(playlistId);
+        if (songs == null) return;
+        foreach (var playable in songs)
         {
             if (playable.Track is FullTrack song)
             {

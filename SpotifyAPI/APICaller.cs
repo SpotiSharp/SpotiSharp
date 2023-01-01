@@ -87,10 +87,8 @@ public class APICaller
 
     public FullPlaylist GetPlaylistById(string playlistId)
     {
-        var response = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient?.Playlists.Get(playlistId, new PlaylistGetRequest(PlaylistGetRequest.AdditionalTypes.Track)).Result);
-        var tracks = HandleExceptions(() => Authentication.SpotifyClient?.PaginateAll(response.Tracks, new CustomPaginator()).Result);
-        response?.Tracks?.Items?.AddRange(tracks);
-        return response ?? new FullPlaylist();
+        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient?.Playlists.Get(playlistId, new PlaylistGetRequest(PlaylistGetRequest.AdditionalTypes.Track)).Result) 
+               ?? new FullPlaylist();
     }
 
     public IList<SimplePlaylist>? GetAllUserPlaylists()
@@ -100,16 +98,17 @@ public class APICaller
         
     }
 
-    public Paging<PlaylistTrack<IPlayableItem>> GetTracksByPlaylistId(string playlistId)
+    public IList<PlaylistTrack<IPlayableItem>> GetTracksByPlaylistId(string playlistId)
     {
         FullPlaylist playlist = GetPlaylistById(playlistId);
-        return playlist.Tracks ??= new Paging<PlaylistTrack<IPlayableItem>>();
+        var result = HandleExceptions(() => Authentication.SpotifyClient.PaginateAll(playlist.Tracks).Result);
+        return result ?? new List<PlaylistTrack<IPlayableItem>>();
     }
 
     public List<string> GetTrackIdsByPlaylistId(string playlistId)
     {
-        Paging<PlaylistTrack<IPlayableItem>> songs = GetTracksByPlaylistId(playlistId);
-        return (from song in songs.Items
+        IList<PlaylistTrack<IPlayableItem>> songs = GetTracksByPlaylistId(playlistId);
+        return (from song in songs
             let songAsTrack = song.Track as FullTrack
             select songAsTrack.Uri).ToList();
     }
