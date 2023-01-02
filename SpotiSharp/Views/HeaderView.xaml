@@ -17,6 +17,7 @@
             HeightRequest="60"
             Margin="10"
             HorizontalOptions="Start"
+            BackgroundColor="{StaticResource Black}"
             Command="{Binding HomeClicked}">
         </ImageButton>
         <HorizontalStackLayout
