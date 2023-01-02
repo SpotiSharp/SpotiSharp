@@ -17,6 +17,14 @@ public class CallBackListener
         var _responseThread = new Thread(ResponseThread);
         _responseThread.Start();
     }
+
+    ~CallBackListener()
+    {
+        if (_httpListener.IsListening)
+        {
+            _httpListener.Close();
+        }
+    }
     
     private void ResponseThread()
     {
