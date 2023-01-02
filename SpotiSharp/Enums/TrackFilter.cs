@@ -51,8 +51,16 @@ public static class FilterMethods
                             var apiCallerInstance = await APICaller.WaitForRateLimitWindowInstance;
                             generesOfSong.AddRange(apiCallerInstance?.GetGenresByArtistId(artist.Id).Select(genreName => genreName.ToLower()) ?? new List<string>());
                         }
+
+                        var totalGeneres = new List<string>();
+                        foreach (var genereOfSong in generesOfSong)
+                        {
+                            totalGeneres.Add(genereOfSong);
+                            string[] splitGenere = genereOfSong.Split(" ");
+                            if (splitGenere.Length > 0) totalGeneres.AddRange(splitGenere);
+                        }
                         
-                        if (generesOfSong.SelectMany(sg => sg.Split(" ")).ToList().Contains(enteredGenre.ToLower()))
+                        if (totalGeneres.Contains(enteredGenre.ToLower()))
                         {
                             filteredTracks.Add(fullTrack);
                         }
