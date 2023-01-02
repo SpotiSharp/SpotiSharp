@@ -75,8 +75,7 @@ public static class Authentication
             }
         };
         // start webserver for callback
-        var callBackListener = new CallBackListener();
-        callBackListener.StartListener();
+        _ = CallBackListener.Instance;
 
         var uri = loginRequest.ToUri();
         await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
