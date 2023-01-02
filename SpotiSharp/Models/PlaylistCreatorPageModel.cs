@@ -30,6 +30,7 @@ public static class PlaylistCreatorPageModel
 
     public static void AddSong(string songId)   
     {
+        if (songId == null) return;
         FullTrack? song = APICaller.Instance?.GetTrackById(songId);
         var tmpSongs = UnfilteredSongs;
         if (song != null) tmpSongs.Add(song);
@@ -51,7 +52,7 @@ public static class PlaylistCreatorPageModel
         if (songs == null) return;
         foreach (var playable in songs)
         {
-            if (playable.Track is FullTrack song)
+            if (playable.Track is FullTrack song && song.Id != null)
             {
                 tmpSongs.Add(song);
             }

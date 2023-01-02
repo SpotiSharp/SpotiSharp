@@ -107,7 +107,15 @@ public class APICaller
     public IList<PlaylistTrack<IPlayableItem>> GetTracksByPlaylistId(string playlistId)
     {
         FullPlaylist playlist = GetPlaylistById(playlistId);
-        var result = HandleExceptions(() => Authentication.SpotifyClient.PaginateAll(playlist.Tracks).Result);
+        IList<PlaylistTrack<IPlayableItem>>? result;
+        if (playlist.Tracks.Total > playlist.Tracks.Limit)
+        {
+            result = HandleExceptions(() => Authentication.SpotifyClient.PaginateAll(playlist.Tracks).Result);
+        }
+        else
+        {
+            result = playlist.Tracks.Items;
+        }
         return result ?? new List<PlaylistTrack<IPlayableItem>>();
     }
 
@@ -204,6 +212,7 @@ public class APICaller
 
     public bool SetCurrentPlayingSong(string songId, string playlistId)
     {
+        if (songId == null) return false;
         var playlist = GetPlaylistById(playlistId);
         var songToPlay = GetTrackById(songId);
 
