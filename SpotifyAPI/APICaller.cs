@@ -1,5 +1,4 @@
 ﻿using SpotifyAPI.Web;
-using SpotifyAPI.Web.Http;
 using SpotiSharp.Models;
 
 
@@ -24,23 +23,30 @@ public class APICaller
 
     public static Task<APICaller?> WaitForRateLimitWindowInstance => GetInstanceAsync();
 
+    private static async Task<bool> DelayLoop()
+    {
+        await Task.Delay(100);
+        return true;
+    }
+    
     public static async Task<APICaller?> GetInstanceAsync()
     {
         APICaller? instance = null;
         var retries = 0;
-        while (instance == null && retries < 100)
+        do
         {
             instance = Instance;
             retries++;
-            await Task.Delay(100);
-        }
+        } while (instance == null && retries < 100 && await DelayLoop());
 
         return instance;
     }
 
     private const int MAX_RETRIES = 20;
     private const int TIME_OUT_IN_MILLI = 100;
-    
+
+    private List<FullArtist> _cachedArtists = new List<FullArtist>();
+
     private APICaller() {}
     
     private T HandleExceptionsNonAbstract<T>(Func<T> call) where T : new()
@@ -170,12 +176,16 @@ public class APICaller
 
     public FullArtist GetArtistById(string id)
     {
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Artists.Get(id).Result);
+        var cachedArtist = _cachedArtists.FirstOrDefault(a => a.Id == id);
+        if (cachedArtist != null) return cachedArtist;
+        var artist = HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Artists.Get(id).Result);
+        _cachedArtists.Add(artist);
+        return artist;
     }
 
     public List<string> GetGenresByArtistId(string id)
     {
-        return HandleExceptionsNonAbstract(() => Authentication.SpotifyClient.Artists.Get(id).Result.Genres);
+        return GetArtistById(id).Genres;
     }
 
     #endregion
