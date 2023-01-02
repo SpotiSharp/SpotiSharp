@@ -77,7 +77,7 @@
                 <Label Text="2. Create a spotify app" FontSize="24" Margin="5,0,5,5"/>
                 <Label Text="First click on ''create app'' you can enter any name and description." Margin="10,3,3,3"/>
                 <Label Text="3. Setting the redirect uri" FontSize="24" Margin="5"/>
-                <Label Text="Click on ''edit settings''. Under Redirect URIs click 'add' and enter ''http://127.0.0.1:5000/callback'' this needs to be exact. After that you need to click save to apply the new settings." Margin="10,3,3,3"/>
+                <Label Text="Click on ''edit settings''. Under Redirect URIs enter ''http://127.0.0.1:5000/callback'' this needs to be exact and  click 'add'. After that you need to click save to apply the new settings." Margin="10,3,3,3"/>
                 <Label Text="4. Coping the client id" FontSize="24" Margin="5"/>
                 <Label Text="On the main page of the spotify app you have a field called '^Client ID'' copy the id to the right of that and enter it in the input field in the SpotiSharp application. Finally click the ''Connect'' button above." Margin="10,3,3,3"/>
             </VerticalStackLayout>
