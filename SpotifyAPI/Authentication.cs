@@ -92,6 +92,7 @@ public static class Authentication
             
             SpotifyClient = new SpotifyClient(newResponse.AccessToken);
             SecureStorage.Default.SetAsync("refreshToken", newResponse.RefreshToken);
+            OnAuthenticate?.Invoke();
         }
         catch (APIException)
         {

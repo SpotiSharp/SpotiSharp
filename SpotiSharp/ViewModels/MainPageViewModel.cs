@@ -12,6 +12,11 @@ public class MainPageViewModel : BaseViewModel
         set { SetProperty(ref _isUserIsNotAuthenticated, value); }
     }
 
+    public MainPageViewModel()
+    {
+        Authentication.OnAuthenticate += () => IsUserIsNotAuthenticated = Authentication.SpotifyClient == null;
+    }
+
     internal override void OnAppearing()
     {
         IsUserIsNotAuthenticated = Authentication.SpotifyClient == null;
