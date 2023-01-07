@@ -24,9 +24,9 @@ public static class FilterMethods
         {
             case NumericFilterOption.Equal:
                 return valueFromSpotify == valueEnteredByUser;
-            case NumericFilterOption.MoreThen:
+            case NumericFilterOption.MoreThan:
                 return valueFromSpotify >= valueEnteredByUser;
-            case NumericFilterOption.LessThen:
+            case NumericFilterOption.LessThan:
                 return valueFromSpotify <= valueEnteredByUser;
             default:
                 return false;

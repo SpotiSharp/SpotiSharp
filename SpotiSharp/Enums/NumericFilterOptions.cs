@@ -3,6 +3,6 @@
 public enum NumericFilterOption
 {
     Equal,
-    MoreThen,
-    LessThen
+    MoreThan,
+    LessThan
 }
