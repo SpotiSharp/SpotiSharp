@@ -47,6 +47,15 @@ public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
         FilterName = trackFilter.ToString();
     }
     
+    public PlaylistRangeFilterViewModel(TrackFilter trackFilter, params object[] parameters)
+    {
+        RemoveFilterCommand = new Command(RemoveFilter);
+        PlaylistCreatorPageModel.Filters.Add(this);
+        FilterName = trackFilter.ToString();
+        SelectedFilterOption = (NumericFilterOption)parameters[0];
+        SliderValue = (int)parameters[1];
+    }
+    
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)
     {
         return await _trackFilterName.GetFilterFunction()(fullTracks, audioFeatures, SliderValue, SelectedFilterOption);

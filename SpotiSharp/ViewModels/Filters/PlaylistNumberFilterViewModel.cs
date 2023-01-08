@@ -72,6 +72,15 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
     }
+    
+    public PlaylistNumberFilterViewModel(TrackFilter trackFilter, params object[] parameters)
+    {
+        RemoveFilterCommand = new Command(RemoveFilter);
+        PlaylistCreatorPageModel.Filters.Add(this);
+        FilterName = trackFilter.ToString();
+        SelectedFilterOption = (NumericFilterOption)parameters[0];
+        EnteredNumber = (string)parameters[1];
+    }
 
     private void OnlyNumerics(string input)
     {

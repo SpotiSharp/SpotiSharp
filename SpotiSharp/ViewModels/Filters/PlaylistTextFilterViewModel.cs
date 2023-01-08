@@ -30,6 +30,14 @@ public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
     }
+    
+    public PlaylistTextFilterViewModel(TrackFilter trackFilter, params object[] parameters)
+    {
+        RemoveFilterCommand = new Command(RemoveFilter);
+        PlaylistCreatorPageModel.Filters.Add(this);
+        FilterName = trackFilter.ToString();
+        GenreName = (string)parameters[0];
+    }
 
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)
     {
