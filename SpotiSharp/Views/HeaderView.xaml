@@ -18,7 +18,8 @@
             Margin="10"
             HorizontalOptions="Start"
             BackgroundColor="{StaticResource Black}"
-            Command="{Binding HomeClicked}">
+            Command="{Binding ItemClicked}"
+            CommandParameter="MainPage">
         </ImageButton>
         <HorizontalStackLayout
             Grid.Column="1"
@@ -29,7 +30,8 @@
                 Text="Create Playlist"
                 FontSize="22"
                 BackgroundColor="Transparent"
-                Command="{Binding PlaylistCreationClicked}"
+                Command="{Binding ItemClicked}"
+                CommandParameter="PlaylistCreatorPage"
                 BorderColor="Transparent" />
 
             <Button
@@ -37,7 +39,8 @@
                 Text="Saved Playlists"
                 FontSize="22"
                 BackgroundColor="Transparent"
-                Command="{Binding ViewPlaylistsClicked}" 
+                Command="{Binding ItemClicked}" 
+                CommandParameter="ManagePlayListsPage"
                 BorderColor="Transparent"/>
             
             <Button
@@ -45,7 +48,17 @@
                 Text="Authentication"
                 FontSize="22"
                 BackgroundColor="Transparent"
-                Command="{Binding AuthenticationClicked}"
+                Command="{Binding ItemClicked}"
+                CommandParameter="AuthenticationPage"
+                BorderColor="Transparent"/>
+            
+            <Button
+                Padding="0, 0, 40, 0"
+                Text="Settings"
+                FontSize="22"
+                BackgroundColor="Transparent"
+                Command="{Binding ItemClicked}"
+                CommandParameter="SettingsPage"
                 BorderColor="Transparent"/>
         </HorizontalStackLayout>
     </Grid>
