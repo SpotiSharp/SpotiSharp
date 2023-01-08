@@ -103,6 +103,12 @@ public class PlaylistCreatorPageViewModel : BaseViewModel
     private void ApplyFiltersHandler()
     {
         IsFilteringPlaylist = true;
+        if (StorageHandler.IsUsingCollaborationHost)
+        {
+            CollaborationAPI.Instance.TriggerFiltering(StorageHandler.CollaborationSession);
+            IsFilteringPlaylist = false;
+            return;
+        }
         PlaylistCreatorPageModel.ApplyFilters();
     }
 

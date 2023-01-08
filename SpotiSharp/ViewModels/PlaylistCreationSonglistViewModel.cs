@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using SpotifyAPI.Web;
 using SpotiSharp.Models;
+using SpotiSharpBackend;
 
 namespace SpotiSharp.ViewModels;
 
@@ -40,21 +41,35 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
     {
         RemoveSongs = new Command(RemoveSongsHandler);
         ClearSongs = new Command(() => PlaylistCreatorPageModel.UnfilteredSongs = new List<FullTrack>());
-        
         PlaylistCreatorPageModel.OnSongListChange += RefreshSongs;
+    }
+
+    public static void PlaylistFinishedFiltering()
+    {
+        OnPlalistIsFiltered?.Invoke();
     }
 
     private async void RefreshSongs()
     {
-        List<FullTrack> fullTracksFiltered = await PlaylistCreatorPageModel.GetFilteredSongs();
-        PlaylistCreatorPageModel.CurrentFilteredSongs = fullTracksFiltered;
+
+        List<FullTrack> fullTracksFiltered;
+        if (StorageHandler.IsUsingCollaborationHost)
+        {
+            fullTracksFiltered = PlaylistCreatorPageModel.CurrentFilteredSongs;
+        }
+        else
+        {
+            fullTracksFiltered = await PlaylistCreatorPageModel.GetFilteredSongs();
+            PlaylistCreatorPageModel.CurrentFilteredSongs = fullTracksFiltered;
+        }
+        
         
         Songs = fullTracksFiltered.Select((fullTrack, index) =>
         {
             return new SongEditable(index, fullTrack);
         }).ToList();
         FilteredAndNonFilterSongCount = $"{Songs.Count} / {PlaylistCreatorPageModel.UnfilteredSongs.Count} Songs";
-        OnPlalistIsFiltered?.Invoke();
+        PlaylistFinishedFiltering();
     }
     
     private void RemoveSongsHandler()
