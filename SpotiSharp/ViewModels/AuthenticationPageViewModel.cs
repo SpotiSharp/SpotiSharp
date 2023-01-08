@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using SpotifyAPI;
+using SpotiSharpBackend;
 using SpotiSharp.Models;
 
 namespace SpotiSharp.ViewModels;

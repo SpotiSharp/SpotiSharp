@@ -1,4 +1,5 @@
-﻿using SpotifyAPI;
+﻿using SpotiSharp.Models;
+using SpotiSharpBackend;
 
 namespace SpotiSharp.ViewModels;
 

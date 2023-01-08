@@ -1,6 +1,4 @@
-﻿using SpotifyAPI;
-
-namespace SpotiSharp.Models;
+﻿namespace SpotiSharp.Models;
 
 public class Playlist
 {

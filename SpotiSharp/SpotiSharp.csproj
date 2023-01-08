@@ -55,7 +55,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\SpotifyAPI\SpotifyAPI.csproj" />
+	  <ProjectReference Include="..\SpotiSharpBackend\SpotiSharpBackend.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
