@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using SpotiSharpBackend;
-using SpotiSharp.Enums;
 using SpotiSharp.Models;
+using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.ViewModels;
 

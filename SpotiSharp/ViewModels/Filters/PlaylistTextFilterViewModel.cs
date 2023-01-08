@@ -1,8 +1,8 @@
 ﻿using System.Windows.Input;
 using SpotifyAPI.Web;
-using SpotiSharp.Enums;
 using SpotiSharp.Interfaces;
 using SpotiSharp.Models;
+using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.ViewModels.Filters;
 

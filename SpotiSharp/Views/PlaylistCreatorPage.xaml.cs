@@ -1,8 +1,7 @@
-﻿using SpotiSharp.Enums;
-using SpotiSharp.Interfaces;
-using SpotiSharp.ViewModels;
+﻿using SpotiSharp.ViewModels;
 using SpotiSharp.ViewModels.Filters;
 using SpotiSharp.Views.Filters;
+using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.Views;
 

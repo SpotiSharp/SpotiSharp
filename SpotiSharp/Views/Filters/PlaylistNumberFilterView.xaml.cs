@@ -1,5 +1,5 @@
-﻿using SpotiSharp.Enums;
-using SpotiSharp.ViewModels.Filters;
+﻿using SpotiSharp.ViewModels.Filters;
+using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.Views.Filters;
 
