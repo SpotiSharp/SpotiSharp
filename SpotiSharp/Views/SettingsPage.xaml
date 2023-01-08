@@ -29,7 +29,7 @@
                 <Label Grid.Row="1" Grid.Column="0" Text="Use CollaborationHost" />
                 <Switch Grid.Row="2" Grid.Column="0" IsToggled="{Binding IsUsingCollaborationHost}"/>
                 <Label Grid.Row="3" Grid.Column="0" Text="CollaborationHost Address" />
-                <Entry Grid.Row="4" Grid.Column="0" Text="{Binding CollaborationHostAddress}" Placeholder="[IP/Domain]:[Port] example: 127.0.0.1:5000" />
+                <Entry Grid.Row="4" Grid.Column="0" Text="{Binding CollaborationHostAddress}" Placeholder="[IP/Domain]:[Port] example: http://127.0.0.1:5000" />
                 <Label Grid.Row="5" Grid.Column="0" Text="CollaborationSession" />
                 <Entry Grid.Row="6" Grid.Column="0" Text="{Binding CollaborationSession}" />
                 <Button Grid.Row="7" Grid.Column="0" Text="Apply Settings" Command="{Binding ApplySettings}"/>
