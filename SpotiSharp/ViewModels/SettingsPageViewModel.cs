@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using SpotiSharp.Models;
 using SpotiSharpBackend;
 
 namespace SpotiSharp.ViewModels;
@@ -36,7 +37,9 @@ public class SettingsPageViewModel : BaseViewModel
             StorageHandler.IsUsingCollaborationHost = IsUsingCollaborationHost;
             StorageHandler.CollaborationHostAddress = CollaborationHostAddress;
             StorageHandler.CollaborationSession = CollaborationSession;
-        });
+            if (IsUsingCollaborationHost) CollaborationAPI.Instance?.CreateSession(CollaborationSession);
+            // TODO: else clear current state of playlist creation.
+            });
     }
     
     public ICommand ApplySettings { private set; get; }
