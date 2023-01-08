@@ -6,10 +6,11 @@ using SpotiSharp.Interfaces;
 namespace SpotiSharp.Models;
 
 public delegate void SongsChange();
+
 public static class PlaylistCreatorPageModel
 {
     public static string PlaylistName = string.Empty;
-    
+
     private static List<FullTrack> _unfilteredSongs = new List<FullTrack>();
 
     public static List<FullTrack> UnfilteredSongs
@@ -18,7 +19,7 @@ public static class PlaylistCreatorPageModel
         set
         {
             _unfilteredSongs = value;
-            OnSongListChange?.Invoke(); 
+            OnSongListChange?.Invoke();
         }
     }
 
@@ -28,7 +29,7 @@ public static class PlaylistCreatorPageModel
 
     public static event SongsChange OnSongListChange;
 
-    public static void AddSong(string songId)   
+    public static void AddSong(string songId)
     {
         if (songId == null) return;
         FullTrack? song = APICaller.Instance?.GetTrackById(songId);
@@ -36,7 +37,7 @@ public static class PlaylistCreatorPageModel
         if (song != null) tmpSongs.Add(song);
         UnfilteredSongs = tmpSongs;
     }
-    
+
     public static void AddSongsFromPlaylist(string playlistId)
     {
         var tmpSongs = UnfilteredSongs;
@@ -44,20 +45,24 @@ public static class PlaylistCreatorPageModel
         if (playlistId == Constants.LIKED_PLALIST_ID)
         {
             tmpSongs.AddRange(APICaller.Instance?.GetUserLikedSongs().Select(ls => ls.Track).ToList() ?? new List<FullTrack>());
-            UnfilteredSongs = tmpSongs;
-            return;
         }
-        
-        IList<PlaylistTrack<IPlayableItem>>? songs = APICaller.Instance?.GetTracksByPlaylistId(playlistId);
-        if (songs == null) return;
-        foreach (var playable in songs)
+        else
         {
-            if (playable.Track is FullTrack song && song.Id != null)
+            IList<PlaylistTrack<IPlayableItem>>? songs = APICaller.Instance?.GetTracksByPlaylistId(playlistId);
+            if (songs == null) return;
+            foreach (var playable in songs)
             {
-                tmpSongs.Add(song);
+                if (playable.Track is FullTrack song && song.Id != null)
+                {
+                    tmpSongs.Add(song);
+                }
             }
         }
 
+        if (StorageHandler.IsUsingCollaborationHost)
+        {
+            CollaborationAPI.Instance.SetSongsOfSession(StorageHandler.CollaborationSession, tmpSongs.Select(ts => ts.Id).ToList());
+        }
         UnfilteredSongs = tmpSongs;
     }
 
@@ -70,7 +75,7 @@ public static class PlaylistCreatorPageModel
         {
             tmpSongs.RemoveAt(index);
         }
-        
+
         UnfilteredSongs = tmpSongs;
     }
 
@@ -78,11 +83,12 @@ public static class PlaylistCreatorPageModel
     {
         UnfilteredSongs = new List<FullTrack>();
     }
-    
-    public async static Task<List<FullTrack>> GetFilteredSongs()
+
+    public static async Task<List<FullTrack>> GetFilteredSongs()
     {
+        if (StorageHandler.IsUsingCollaborationHost) return CurrentFilteredSongs;
         var resultSongs = UnfilteredSongs;
-        
+
         foreach (var filter in Filters)
         {
             var apiCallerInstance = await APICaller.WaitForRateLimitWindowInstance;
