@@ -24,4 +24,8 @@
         Title="Authentication"
         ContentTemplate="{DataTemplate local:AuthenticationPage}"
         Route="AuthenticationPage" />
+    <ShellContent
+        Title="Settings"
+        ContentTemplate="{DataTemplate views:SettingsPage}"
+        Route="SettingsPage" />
 </Shell>
