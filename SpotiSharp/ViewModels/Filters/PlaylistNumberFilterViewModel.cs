@@ -8,6 +8,8 @@ namespace SpotiSharp.ViewModels.Filters;
 
 public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
 {
+    private Guid _guid = new Guid();
+    
     private List<char> _allowedChars = new List<char>
     {
         '0',
@@ -30,6 +32,11 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
         set { SetProperty(ref _trackFilter, Enum.Parse<TrackFilter>(value)); }
     }
 
+    public Guid GetGuid()
+    {
+        return _guid;
+    }
+    
     public TrackFilter GetTrackFilter()
     {
         return _trackFilter;

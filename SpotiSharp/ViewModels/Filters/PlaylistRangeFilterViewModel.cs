@@ -8,12 +8,19 @@ namespace SpotiSharp.ViewModels.Filters;
 
 public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
 {
+    private Guid _guid = new Guid();
+    
     private TrackFilter _trackFilter;
 
     public string FilterName
     {
         get { return _trackFilter.ToString(); }
         set { SetProperty(ref _trackFilter, Enum.Parse<TrackFilter>(value)); }
+    }
+
+    public Guid GetGuid()
+    {
+        return _guid;
     }
     
     public TrackFilter GetTrackFilter()
