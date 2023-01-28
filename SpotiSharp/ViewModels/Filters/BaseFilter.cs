@@ -8,7 +8,7 @@ public class BaseFilter : BaseViewModel
 {
     public static event FilterRemove OnFilterRemove;
 
-    internal void InvokeEvent(int index)
+    internal void InvokeRemoveEvent(int index)
     {
         OnFilterRemove?.Invoke(index);
         PlaylistCreatorPageModel.Filters.RemoveAt(index);

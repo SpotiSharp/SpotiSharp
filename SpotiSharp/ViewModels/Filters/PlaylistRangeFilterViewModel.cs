@@ -76,7 +76,7 @@ public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
     public void RemoveFilter()
     {
         int index = PlaylistCreatorPageModel.Filters.IndexOf(this);
-        InvokeEvent(index);
+        InvokeRemoveEvent(index);
     }
     
     public ICommand RemoveFilterCommand { private set; get; }
