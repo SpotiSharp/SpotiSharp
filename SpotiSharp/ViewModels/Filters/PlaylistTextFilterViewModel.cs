@@ -16,6 +16,12 @@ public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
         set { SetProperty(ref _trackFilterName, Enum.Parse<TrackFilter>(value)); }
     }
 
+    public TrackFilter TrackFilter
+    {
+        get { return _trackFilterName; }
+        set { _trackFilterName = value; }
+    }
+    
     private string _genreName = String.Empty;
     
     public string GenreName

@@ -29,6 +29,12 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
         get { return _trackFilterName.ToString(); }
         set { SetProperty(ref _trackFilterName, Enum.Parse<TrackFilter>(value)); }
     }
+
+    public TrackFilter TrackFilter
+    {
+        get { return _trackFilterName; }
+        set { _trackFilterName = value; }
+    }
     
     private string _enteredNumber = string.Empty;
 
