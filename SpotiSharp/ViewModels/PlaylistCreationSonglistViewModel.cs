@@ -41,7 +41,7 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
     {
         RemoveSongs = new Command(RemoveSongsHandler);
         ClearSongs = new Command(() => PlaylistCreatorPageModel.UnfilteredSongs = new List<FullTrack>());
-        PlaylistCreatorPageModel.OnSongListChange += RefreshSongs;
+        PlaylistCreatorPageModel.OnSongsUiUpdate += RefreshSongs;
     }
 
     public static void PlaylistFinishedFiltering()

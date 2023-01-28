@@ -6,6 +6,7 @@ using SpotiSharp.Interfaces;
 namespace SpotiSharp.Models;
 
 public delegate void SongsChange();
+public delegate void SongsUiUpdate();
 
 public static class PlaylistCreatorPageModel
 {
@@ -51,6 +52,8 @@ public static class PlaylistCreatorPageModel
     public static List<IFilterViewModel> Filters { get; set; } = new List<IFilterViewModel>();
 
     public static event SongsChange OnSongListChange;
+    public static event SongsUiUpdate OnSongsUiUpdate;
+
 
     public static void AddSong(string songId)
     {
