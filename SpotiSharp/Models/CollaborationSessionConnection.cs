@@ -28,9 +28,9 @@ public class CollaborationSessionConnection
         List<FullTrack>? songs = CollaborationAPI.Instance?.GetSongsFromSession(StorageHandler.CollaborationSession).Result?.Select(item => item.FullTrack).ToList();
         List<FullTrack>? songsFiltered = CollaborationAPI.Instance?.GetFilteredSongsFromSession(StorageHandler.CollaborationSession).Result?.Select(item => item.FullTrack).ToList();
         if (songs == null || songsFiltered == null) return;
-        // TODO: implement Equals to so that the ui is only updated if the list has actually changed.
-        if (!PlaylistCreatorPageModel.UnfilteredSongs.Equals(songs)) PlaylistCreatorPageModel.UnfilteredSongs = songs;
-        if (!PlaylistCreatorPageModel.CurrentFilteredSongs.Equals(songsFiltered)) PlaylistCreatorPageModel.CurrentFilteredSongs = songsFiltered;
+
+        if (!PlaylistCreatorPageModel.SongsEqual(PlaylistCreatorPageModel.UnfilteredSongs, songs)) PlaylistCreatorPageModel.UnfilteredSongs = songs;
+        if (!PlaylistCreatorPageModel.SongsEqual(PlaylistCreatorPageModel.CurrentFilteredSongs, songsFiltered)) PlaylistCreatorPageModel.CurrentFilteredSongs = songsFiltered;
     }
 
     private void ApplyFiltersFromSession()

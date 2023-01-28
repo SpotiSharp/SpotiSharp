@@ -113,4 +113,16 @@ public static class PlaylistCreatorPageModel
     {
         Filters.RemoveAt(index);
     }
+
+    public static bool SongsEqual(List<FullTrack> songs1, List<FullTrack> songs2)
+    {
+        if (songs1.Count != songs2.Count) return false;
+
+        for (int i = 0; i < songs1.Count; i++)
+        {
+            if (!songs1[i].Id.Equals(songs2[i].Id)) return false;
+        }
+
+        return true;
+    }
 }
