@@ -8,18 +8,17 @@ namespace SpotiSharp.ViewModels.Filters;
 
 public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
 {
-    private TrackFilter _trackFilterName;
+    private TrackFilter _trackFilter;
 
     public string FilterName
     {
-        get { return _trackFilterName.ToString(); }
-        set { SetProperty(ref _trackFilterName, Enum.Parse<TrackFilter>(value)); }
+        get { return _trackFilter.ToString(); }
+        set { SetProperty(ref _trackFilter, Enum.Parse<TrackFilter>(value)); }
     }
     
-    public TrackFilter TrackFilter
+    public TrackFilter GetTrackFilter()
     {
-        get { return _trackFilterName; }
-        set { _trackFilterName = value; }
+        return _trackFilter;
     }
     
     private int _sliderValue = 0;
@@ -64,7 +63,7 @@ public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
     
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)
     {
-        return await _trackFilterName.GetFilterFunction()(fullTracks, audioFeatures, SliderValue, SelectedFilterOption);
+        return await _trackFilter.GetFilterFunction()(fullTracks, audioFeatures, SliderValue, SelectedFilterOption);
     }
 
     public void RemoveFilter()

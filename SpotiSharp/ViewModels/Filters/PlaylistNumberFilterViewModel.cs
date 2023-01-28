@@ -22,20 +22,19 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
         '9'
     };
     
-    private TrackFilter _trackFilterName;
+    private TrackFilter _trackFilter;
 
     public string FilterName
     {
-        get { return _trackFilterName.ToString(); }
-        set { SetProperty(ref _trackFilterName, Enum.Parse<TrackFilter>(value)); }
+        get { return _trackFilter.ToString(); }
+        set { SetProperty(ref _trackFilter, Enum.Parse<TrackFilter>(value)); }
     }
 
-    public TrackFilter TrackFilter
+    public TrackFilter GetTrackFilter()
     {
-        get { return _trackFilterName; }
-        set { _trackFilterName = value; }
+        return _trackFilter;
     }
-    
+
     private string _enteredNumber = string.Empty;
 
     public string EnteredNumber
@@ -109,7 +108,7 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
      
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)
     {
-        if (ValidationMessage == string.Empty && EnteredNumber != string.Empty) return await _trackFilterName.GetFilterFunction()(fullTracks, audioFeatures, int.Parse(EnteredNumber), SelectedFilterOption);
+        if (ValidationMessage == string.Empty && EnteredNumber != string.Empty) return await _trackFilter.GetFilterFunction()(fullTracks, audioFeatures, int.Parse(EnteredNumber), SelectedFilterOption);
         return fullTracks;
     }
 
