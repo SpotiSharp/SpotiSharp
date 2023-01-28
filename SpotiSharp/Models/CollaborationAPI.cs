@@ -99,6 +99,8 @@ public class CollaborationAPI
     public async Task SetSongsOfSession(string sessionId, List<string> songIds)
     {
         await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/set-songs?sessionId={sessionId}", new StringContent(JsonConvert.SerializeObject(songIds), Encoding.UTF8, "application/json"));
+        // filter songs (the filtered version will be get on next ui refresh)
+        await TriggerFiltering(sessionId);
         // stopping loading animation
         PlaylistCreationSonglistViewModel.PlaylistFinishedFiltering();
     }
