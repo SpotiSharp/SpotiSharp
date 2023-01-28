@@ -23,8 +23,31 @@ public static class PlaylistCreatorPageModel
         }
     }
 
-    public static List<FullTrack> CurrentFilteredSongs = new List<FullTrack>();
+    public static List<FullTrack> UnfilteredSongsOnlyUiUpdate
+    {
+        get => _unfilteredSongs;
+        set
+        {
+            _unfilteredSongs = value;
+            OnSongsUiUpdate?.Invoke();
+        }
+    }
 
+    private static List<FullTrack> _currentFilteredSongs = new List<FullTrack>();
+
+
+    public static List<FullTrack> CurrentFilteredSongs
+    {
+        get => _currentFilteredSongs;
+        set
+        {
+            _currentFilteredSongs = value;
+            OnSongsUiUpdate?.Invoke();
+        }
+    }
+    
+    
+    
     public static List<IFilterViewModel> Filters { get; set; } = new List<IFilterViewModel>();
 
     public static event SongsChange OnSongListChange;
@@ -61,7 +84,7 @@ public static class PlaylistCreatorPageModel
 
         if (StorageHandler.IsUsingCollaborationHost)
         {
-            CollaborationAPI.Instance.SetSongsOfSession(StorageHandler.CollaborationSession, tmpSongs.Select(ts => ts.Id).ToList());
+            UnfilteredSongsOnlyUiUpdate = tmpSongs;
         }
         UnfilteredSongs = tmpSongs;
     }
