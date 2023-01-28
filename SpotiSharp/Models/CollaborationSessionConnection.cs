@@ -13,6 +13,7 @@ public class CollaborationSessionConnection
     private CollaborationSessionConnection()
     {
         UiLoop.Instance.OnRefreshUi += RefreshValues;
+        PlaylistCreatorPageModel.OnSongListChange += SendChangedSongs;
     }
 
     private void RefreshValues()
@@ -29,7 +30,7 @@ public class CollaborationSessionConnection
         List<FullTrack>? songsFiltered = CollaborationAPI.Instance?.GetFilteredSongsFromSession(StorageHandler.CollaborationSession).Result?.Select(item => item.FullTrack).ToList();
         if (songs == null || songsFiltered == null) return;
 
-        if (!PlaylistCreatorPageModel.SongsEqual(PlaylistCreatorPageModel.UnfilteredSongs, songs)) PlaylistCreatorPageModel.UnfilteredSongs = songs;
+        if (!PlaylistCreatorPageModel.SongsEqual(PlaylistCreatorPageModel.UnfilteredSongs, songs)) PlaylistCreatorPageModel.UnfilteredSongsOnlyUiUpdate = songs;
         if (!PlaylistCreatorPageModel.SongsEqual(PlaylistCreatorPageModel.CurrentFilteredSongs, songsFiltered)) PlaylistCreatorPageModel.CurrentFilteredSongs = songsFiltered;
     }
 
@@ -37,5 +38,10 @@ public class CollaborationSessionConnection
     { 
         List<IFilterViewModel>? filters = CollaborationAPI.Instance?.GetFiltersFromSession(StorageHandler.CollaborationSession).Result;
         if (filters == null) return;
+    }
+    
+    private void SendChangedSongs()
+    {
+        CollaborationAPI.Instance?.SetSongsOfSession(StorageHandler.CollaborationSession, PlaylistCreatorPageModel.UnfilteredSongs.Select(ft => ft.Id).ToList());
     }
 }
