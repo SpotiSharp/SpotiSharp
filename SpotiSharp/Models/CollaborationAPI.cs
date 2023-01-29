@@ -60,33 +60,11 @@ public class CollaborationAPI
         return songs ?? new List<SongData>();
     }
 
-    public async Task<List<IFilterViewModel>> GetFiltersFromSession(string sessionId)
+    public async Task<Dictionary<TrackFilter, List<object>>?> GetFiltersFromSession()
     {
         var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get-filters?sessionId={sessionId}");
         if (!response.IsSuccessStatusCode) return null;
-        var filterDict = JObject.Parse(await response.Content.ReadAsStringAsync()).ToObject<Dictionary<TrackFilter, List<object>>>();
-        if (filterDict == null) return null;
-        List<IFilterViewModel> filters = new List<IFilterViewModel>();
-        foreach (KeyValuePair<TrackFilter, List<object>> filterkvp in filterDict)
-        {
-            IFilterViewModel filter = new PlaylistTextFilterViewModel(filterkvp.Key);
-            switch (filterkvp.Key)
-            {
-                case TrackFilter.Genre:
-                    filter = new PlaylistTextFilterViewModel(filterkvp.Key, filterkvp.Value);
-                    break;
-                case TrackFilter.Popularity:
-                case TrackFilter.Danceability:
-                case TrackFilter.Energy:
-                case TrackFilter.Positivity:
-                    filter = new PlaylistRangeFilterViewModel(filterkvp.Key, filterkvp.Value);
-                    break;
-                case TrackFilter.Tempo:
-                    filter = new PlaylistNumberFilterViewModel(filterkvp.Key, filterkvp.Value); 
-                    break;
-            }
-            filters.Add(filter);
-        }
+        var filters = JObject.Parse(await response.Content.ReadAsStringAsync()).ToObject<Dictionary<TrackFilter, List<object>>>();
 
         return filters;
     }

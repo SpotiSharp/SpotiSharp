@@ -95,9 +95,15 @@ public class PlaylistCreatorPageViewModel : BaseViewModel
         PlaylistCreatorPageModel.AddSongsFromPlaylist(SelectedPlaylistNameId.Split("\n")[1]);
     }
 
+    public static void InvokeAddFilter(TrackFilter trackFilter, Guid guid, List<object> parameters)
+    {
+        OnAddingFilter?.Invoke(trackFilter, guid, parameters);
+        
+    }
+
     private void AddFilterHandler()
     {
-        OnAddingFilter?.Invoke(_selectedFilter); 
+        InvokeAddFilter(_selectedFilter, Guid.Empty, null);
     }
 
     private void ApplyFiltersHandler()
