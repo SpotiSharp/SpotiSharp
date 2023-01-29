@@ -81,14 +81,14 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
 
     public PlaylistNumberFilterViewModel(TrackFilter trackFilter)
     {
-        RemoveFilterCommand = new Command(RemoveFilter);
+        RemoveFilterCommand = new Command(RemoveFilterFromCommand);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
     }
     
     public PlaylistNumberFilterViewModel(TrackFilter trackFilter, Guid guid, List<object> parameters)
     {
-        RemoveFilterCommand = new Command(RemoveFilter);
+        RemoveFilterCommand = new Command(RemoveFilterFromCommand);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
         if (guid == Guid.Empty)
@@ -132,6 +132,12 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
         return fullTracks;
     }
 
+    private void RemoveFilterFromCommand()
+    {
+        RemoveFilter();
+        if (StorageHandler.IsUsingCollaborationHost) CollaborationAPI.Instance?.SetFiltersOfSession();
+    }
+    
     public void RemoveFilter()
     {
         int index = PlaylistCreatorPageModel.Filters.IndexOf(this);

@@ -39,14 +39,14 @@ public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
     
     public PlaylistTextFilterViewModel(TrackFilter trackFilter)
     {
-        RemoveFilterCommand = new Command(RemoveFilter);
+        RemoveFilterCommand = new Command(RemoveFilterFromCommand);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
     }
     
     public PlaylistTextFilterViewModel(TrackFilter trackFilter, Guid guid, List<object> parameters)
     {
-        RemoveFilterCommand = new Command(RemoveFilter);
+        RemoveFilterCommand = new Command(RemoveFilterFromCommand);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
         if (guid == Guid.Empty)
@@ -68,6 +68,12 @@ public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
         return await _trackFilter.GetFilterFunction()(fullTracks, audioFeatures, GenreName);
     }
 
+    private void RemoveFilterFromCommand()
+    {
+        RemoveFilter();
+        if (StorageHandler.IsUsingCollaborationHost) CollaborationAPI.Instance?.SetFiltersOfSession();
+    }
+    
     public void RemoveFilter()
     {
         int index = PlaylistCreatorPageModel.Filters.IndexOf(this);

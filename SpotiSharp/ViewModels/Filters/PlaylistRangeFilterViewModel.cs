@@ -55,14 +55,14 @@ public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
 
     public PlaylistRangeFilterViewModel(TrackFilter trackFilter)
     {
-        RemoveFilterCommand = new Command(RemoveFilter);
+        RemoveFilterCommand = new Command(RemoveFilterFromCommand);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
     }
     
     public PlaylistRangeFilterViewModel(TrackFilter trackFilter, Guid guid, List<object> parameters)
     {
-        RemoveFilterCommand = new Command(RemoveFilter);
+        RemoveFilterCommand = new Command(RemoveFilterFromCommand);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
         if (guid == Guid.Empty)
@@ -86,6 +86,12 @@ public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
         return await _trackFilter.GetFilterFunction()(fullTracks, audioFeatures, SliderValue, SelectedFilterOption);
     }
 
+    private void RemoveFilterFromCommand()
+    {
+        RemoveFilter();
+        if (StorageHandler.IsUsingCollaborationHost) CollaborationAPI.Instance?.SetFiltersOfSession();
+    }
+    
     public void RemoveFilter()
     {
         int index = PlaylistCreatorPageModel.Filters.IndexOf(this);
