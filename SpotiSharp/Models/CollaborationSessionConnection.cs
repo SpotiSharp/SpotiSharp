@@ -38,9 +38,9 @@ public class CollaborationSessionConnection
 
     private void ApplyFiltersFromSession()
     { 
-        Dictionary<TrackFilter, List<object>>? incomingFilters = CollaborationAPI.Instance?.GetFiltersFromSession().Result;
+        List<List<object>>? incomingFilters = CollaborationAPI.Instance?.GetFiltersFromSession().Result;
         if (incomingFilters == null) return;
-        IEnumerable<Guid> incomingGuids = incomingFilters.Select(kvp => new Guid(kvp.Value[0].ToString()));
+        IEnumerable<Guid> incomingGuids = incomingFilters.Select(kvp => new Guid(kvp[1].ToString()));
         List<IFilterViewModel> existingFilters = PlaylistCreatorPageModel.Filters;
 
         var filtersToRemove = new List<IFilterViewModel>();
@@ -50,8 +50,8 @@ public class CollaborationSessionConnection
             if (incomingGuids.Contains(existingFilter.GetGuid()))
             {
                 // update local filter values
-                var incomingFilter = incomingFilters.First(inf => new Guid(inf.Value[0].ToString()).Equals(existingFilter.GetGuid()));
-                existingFilter.SyncValues(incomingFilter.Value.Skip(1).ToList());
+                var incomingFilter = incomingFilters.First(inf => new Guid(inf[1].ToString()).Equals(existingFilter.GetGuid()));
+                existingFilter.SyncValues(incomingFilter.Skip(2).ToList());
             }
             filtersToRemove.Add(existingFilter);
         }
@@ -64,8 +64,8 @@ public class CollaborationSessionConnection
         IEnumerable<Guid> existingGuids = existingFilters.Select(fvm => fvm.GetGuid());
         foreach (var filter in incomingFilters)
         {
-            if (existingGuids.Contains(new Guid(filter.Value[0].ToString()))) continue;
-            PlaylistCreatorPageViewModel.InvokeAddFilter(filter.Key, new Guid(filter.Value[0].ToString()), filter.Value.Skip(1).ToList());
+            if (existingGuids.Contains(new Guid(filter[1].ToString()))) continue;
+            PlaylistCreatorPageViewModel.InvokeAddFilter(Enum.Parse<TrackFilter>(filter[0].ToString()), new Guid(filter[1].ToString()), filter.Skip(2).ToList());
         }
     }
     

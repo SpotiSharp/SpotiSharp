@@ -6,7 +6,6 @@ using SpotiSharp.Interfaces;
 using SpotiSharp.ViewModels;
 using SpotiSharp.ViewModels.Filters;
 using SpotiSharpBackend;
-using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.Models;
 
@@ -60,13 +59,11 @@ public class CollaborationAPI
         return songs ?? new List<SongData>();
     }
 
-    public async Task<Dictionary<TrackFilter, List<object>>?> GetFiltersFromSession()
+    public async Task<List<List<object>>?> GetFiltersFromSession()
     {
         var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get-filters?sessionId={StorageHandler.CollaborationSession}");
         if (!response.IsSuccessStatusCode) return null;
-        var filters = JObject.Parse(await response.Content.ReadAsStringAsync()).ToObject<Dictionary<TrackFilter, List<object>>>();
-
-        return filters;
+        return JArray.Parse(await response.Content.ReadAsStringAsync()).ToObject<List<List<object>>>();
     }
 
     public async Task SetFiltersOfSession()
@@ -93,26 +90,26 @@ public class CollaborationAPI
         await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/filter-songs?sessionId={StorageHandler.CollaborationSession}", new StringContent(string.Empty));
     }
 
-    private Dictionary<TrackFilter, List<object>> DeserializeFilters(List<IFilterViewModel> filterInputs)
+    private List<List<object>> DeserializeFilters(List<IFilterViewModel> filterInputs)
     {
-        var filters = new Dictionary<TrackFilter, List<object>>();
+        var filters = new List<List<object>>();
         foreach (var filterInput in filterInputs)
         {
-            KeyValuePair<TrackFilter, List<object>> filter = new KeyValuePair<TrackFilter, List<object>>();
+            List<object> filter = new List<object>();
             switch (filterInput)
             {
                 case PlaylistTextFilterViewModel textFilter:
-                    filter = new KeyValuePair<TrackFilter, List<object>>(textFilter.GetTrackFilter(), new List<object>{textFilter.GetGuid(), textFilter.GenreName});
+                    filter = new List<object>(new List<object>{textFilter.GetTrackFilter(), textFilter.GetGuid(), textFilter.GenreName});
                     break;
                 case PlaylistRangeFilterViewModel rangeFilter:
-                    filter = new KeyValuePair<TrackFilter, List<object>>(rangeFilter.GetTrackFilter(), new List<object>{rangeFilter.GetGuid(), rangeFilter.SelectedFilterOption, rangeFilter.SliderValue});
+                    filter = new List<object>(new List<object>{rangeFilter.GetTrackFilter(), rangeFilter.GetGuid(), rangeFilter.SelectedFilterOption, rangeFilter.SliderValue});
                     break;
                 case PlaylistNumberFilterViewModel numberFilter:
-                    filter = new KeyValuePair<TrackFilter, List<object>>(numberFilter.GetTrackFilter(), new List<object>{numberFilter.GetGuid(), numberFilter.SelectedFilterOption, numberFilter.EnteredNumber});
+                    filter = new List<object>(new List<object>{numberFilter.GetTrackFilter(), numberFilter.GetGuid(), numberFilter.SelectedFilterOption, numberFilter.EnteredNumber});
                     break;
             }
             
-            filters.Add(filter.Key, filter.Value);
+            filters.Add(filter);
         }
 
         return filters;
