@@ -90,8 +90,13 @@ public class CollaborationAPI
 
         return filters;
     }
+
+    public async Task SetFiltersOfSession()
+    {
+        await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/set-filters?sessionId={StorageHandler.CollaborationSession}", new StringContent(JsonConvert.SerializeObject(DeserializeFilters(PlaylistCreatorPageModel.Filters)), Encoding.UTF8, "application/json"));
+    }
     
-    public async Task CreateSession(string sessionId)
+    public async Task CreateSession()
     {
         await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/create-session?sessionId={sessionId}", new StringContent(string.Empty, Encoding.UTF8, "application/json"));
     }
