@@ -52,6 +52,7 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
         {
             OnlyNumerics(value);
             SetProperty(ref _enteredNumber, value);
+            CollaborationAPI.Instance?.SetFiltersOfSession();
         }
     }
 
@@ -63,12 +64,16 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
         set { SetProperty(ref _validationMessage, value); }
     }
 
-    private NumericFilterOption _selectedfilterOption = NumericFilterOption.Equal;
+    private NumericFilterOption _selectedFilterOption = NumericFilterOption.Equal;
 
     public NumericFilterOption SelectedFilterOption
     {
-        get { return _selectedfilterOption; }
-        set { SetProperty(ref _selectedfilterOption, value); }
+        get { return _selectedFilterOption; }
+        set
+        {
+            SetProperty(ref _selectedFilterOption, value);
+            CollaborationAPI.Instance?.SetFiltersOfSession();
+        }
     }
     
     private List<NumericFilterOption> _filterOptions = Enum.GetValues<NumericFilterOption>().ToList();
@@ -103,8 +108,8 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
 
     public void SyncValues(List<object> values)
     {
-        SelectedFilterOption = Enum.Parse<NumericFilterOption>(values[0].ToString());
-        EnteredNumber = values[1].ToString();
+        _selectedFilterOption = Enum.Parse<NumericFilterOption>(values[0].ToString());
+        _enteredNumber = values[1].ToString();
     }
 
     private void OnlyNumerics(string input)

@@ -29,12 +29,16 @@ public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
         return _trackFilter;
     }
     
-    private string _genreName = String.Empty;
+    private string _genreName = string.Empty;
     
     public string GenreName
     {
         get { return _genreName; }
-        set { SetProperty(ref _genreName, value); }
+        set
+        {
+            SetProperty(ref _genreName, value);
+            CollaborationAPI.Instance?.SetFiltersOfSession();
+        }
     }
     
     public PlaylistTextFilterViewModel(TrackFilter trackFilter)
@@ -60,7 +64,7 @@ public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
     
     public void SyncValues(List<object> values)
     {
-        GenreName = values[0].ToString();
+        _genreName = values[0].ToString();
     }
 
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)
