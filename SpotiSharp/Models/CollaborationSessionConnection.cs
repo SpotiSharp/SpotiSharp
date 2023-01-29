@@ -53,7 +53,11 @@ public class CollaborationSessionConnection
                 var incomingFilter = incomingFilters.First(inf => new Guid(inf[1].ToString()).Equals(existingFilter.GetGuid()));
                 existingFilter.SyncValues(incomingFilter.Skip(2).ToList());
             }
-            filtersToRemove.Add(existingFilter);
+            else
+            {
+                filtersToRemove.Add(existingFilter);
+            }
+            
         }
         foreach (var filterToRemove in filtersToRemove)
         {
