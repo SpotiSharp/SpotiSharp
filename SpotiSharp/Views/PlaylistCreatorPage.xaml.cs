@@ -17,22 +17,22 @@ public partial class PlaylistCreatorPage : BasePage
         BaseFilter.OnFilterRemove += RemoveFilterElement;
     }
 
-    private void AddFilterElement(TrackFilter trackFilter)
+    private void AddFilterElement(TrackFilter trackFilter, Guid guid, List<object> parameters)
     {
         ContentView playlistFilterView = null;
         switch (trackFilter)
         {
             case TrackFilter.Genre:
-                playlistFilterView = new PlaylistTextFilterView(trackFilter);
+                playlistFilterView = new PlaylistTextFilterView(trackFilter, guid, parameters);
                 break;
             case TrackFilter.Popularity:
             case TrackFilter.Danceability:
             case TrackFilter.Energy:
             case TrackFilter.Positivity:
-                playlistFilterView = new PlaylistRangeFilterView(trackFilter);
+                playlistFilterView = new PlaylistRangeFilterView(trackFilter, guid, parameters);
                 break;
             case TrackFilter.Tempo:
-                playlistFilterView = new PlaylistNumberFilterView(trackFilter); 
+                playlistFilterView = new PlaylistNumberFilterView(trackFilter, guid, parameters); 
                 break;
         }
         if (playlistFilterView == null) return;

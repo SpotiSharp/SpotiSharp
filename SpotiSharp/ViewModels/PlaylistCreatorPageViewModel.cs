@@ -5,7 +5,7 @@ using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.ViewModels;
 
-public delegate void AddingFilter(TrackFilter trackFilter);
+public delegate void AddingFilter(TrackFilter trackFilter, Guid guid, List<object> parameters);
 
 
 public class PlaylistCreatorPageViewModel : BaseViewModel
