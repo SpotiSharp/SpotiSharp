@@ -30,15 +30,15 @@ public class CollaborationAPI
         _client.DefaultRequestHeaders.Add("Accept", "*/*");
     }
 
-    public async Task GetSession(string sessionId)
+    public async Task GetSession()
     {
-        var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get?sessionId={sessionId}");
-        if (response.StatusCode == HttpStatusCode.BadRequest) await CreateSession(sessionId);
+        var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get?sessionId={StorageHandler.CollaborationSession}");
+        if (response.StatusCode == HttpStatusCode.BadRequest) await CreateSession();
     }
 
-    public async Task<List<SongData>> GetSongsFromSession(string sessionId)
+    public async Task<List<SongData>> GetSongsFromSession()
     {
-        var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get-songs?sessionId={sessionId}");
+        var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get-songs?sessionId={StorageHandler.CollaborationSession}");
         if (!response.IsSuccessStatusCode) return null;
         List<SongData> songs = new List<SongData>();
         try
@@ -48,9 +48,9 @@ public class CollaborationAPI
         return songs ?? new List<SongData>();
     }
     
-    public async Task<List<SongData>> GetFilteredSongsFromSession(string sessionId)
+    public async Task<List<SongData>> GetFilteredSongsFromSession()
     {
-        var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get-filtered-songs?sessionId={sessionId}");
+        var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get-filtered-songs?sessionId={StorageHandler.CollaborationSession}");
         if (!response.IsSuccessStatusCode) return null;
         List<SongData> songs = new List<SongData>();
         try
@@ -62,7 +62,7 @@ public class CollaborationAPI
 
     public async Task<Dictionary<TrackFilter, List<object>>?> GetFiltersFromSession()
     {
-        var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get-filters?sessionId={sessionId}");
+        var response = await _client.GetAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/get-filters?sessionId={StorageHandler.CollaborationSession}");
         if (!response.IsSuccessStatusCode) return null;
         var filters = JObject.Parse(await response.Content.ReadAsStringAsync()).ToObject<Dictionary<TrackFilter, List<object>>>();
 
@@ -76,21 +76,21 @@ public class CollaborationAPI
     
     public async Task CreateSession()
     {
-        await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/create-session?sessionId={sessionId}", new StringContent(string.Empty, Encoding.UTF8, "application/json"));
+        await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/create-session?sessionId={StorageHandler.CollaborationSession}", new StringContent(string.Empty, Encoding.UTF8, "application/json"));
     }
 
-    public async Task SetSongsOfSession(string sessionId, List<string> songIds)
+    public async Task SetSongsOfSession(List<string> songIds)
     {
-        await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/set-songs?sessionId={sessionId}", new StringContent(JsonConvert.SerializeObject(songIds), Encoding.UTF8, "application/json"));
+        await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/set-songs?sessionId={StorageHandler.CollaborationSession}", new StringContent(JsonConvert.SerializeObject(songIds), Encoding.UTF8, "application/json"));
         // filter songs (the filtered version will be get on next ui refresh)
-        await TriggerFiltering(sessionId);
+        await TriggerFiltering();
         // stopping loading animation
         PlaylistCreationSonglistViewModel.PlaylistFinishedFiltering();
     }
 
-    public async Task TriggerFiltering(string sessionId)
+    public async Task TriggerFiltering()
     {
-        await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/filter-songs?sessionId={sessionId}", new StringContent(string.Empty));
+        await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/filter-songs?sessionId={StorageHandler.CollaborationSession}", new StringContent(string.Empty));
     }
 
     private Dictionary<TrackFilter, List<object>> DeserializeFilters(List<IFilterViewModel> filterInputs)

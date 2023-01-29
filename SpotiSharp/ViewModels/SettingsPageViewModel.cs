@@ -37,7 +37,7 @@ public class SettingsPageViewModel : BaseViewModel
             StorageHandler.IsUsingCollaborationHost = IsUsingCollaborationHost;
             StorageHandler.CollaborationHostAddress = CollaborationHostAddress;
             StorageHandler.CollaborationSession = CollaborationSession;
-            if (IsUsingCollaborationHost) CollaborationAPI.Instance?.CreateSession(CollaborationSession);
+            if (IsUsingCollaborationHost) CollaborationAPI.Instance?.CreateSession();
             // TODO: else clear current state of playlist creation.
             });
     }
