@@ -109,4 +109,29 @@ public class CollaborationAPI
     {
         await _client.PostAsync($"{StorageHandler.CollaborationHostAddress}/CollaborationSession/filter-songs?sessionId={sessionId}", new StringContent(string.Empty));
     }
+
+    private Dictionary<TrackFilter, List<object>> DeserializeFilters(List<IFilterViewModel> filterInputs)
+    {
+        var filters = new Dictionary<TrackFilter, List<object>>();
+        foreach (var filterInput in filterInputs)
+        {
+            KeyValuePair<TrackFilter, List<object>> filter = new KeyValuePair<TrackFilter, List<object>>();
+            switch (filterInput)
+            {
+                case PlaylistTextFilterViewModel textFilter:
+                    filter = new KeyValuePair<TrackFilter, List<object>>(textFilter.GetTrackFilter(), new List<object>{textFilter.GetGuid(), textFilter.GenreName});
+                    break;
+                case PlaylistRangeFilterViewModel rangeFilter:
+                    filter = new KeyValuePair<TrackFilter, List<object>>(rangeFilter.GetTrackFilter(), new List<object>{rangeFilter.GetGuid(), rangeFilter.SelectedFilterOption, rangeFilter.SliderValue});
+                    break;
+                case PlaylistNumberFilterViewModel numberFilter:
+                    filter = new KeyValuePair<TrackFilter, List<object>>(numberFilter.GetTrackFilter(), new List<object>{numberFilter.GetGuid(), numberFilter.SelectedFilterOption, numberFilter.EnteredNumber});
+                    break;
+            }
+            
+            filters.Add(filter.Key, filter.Value);
+        }
+
+        return filters;
+    }
 }
