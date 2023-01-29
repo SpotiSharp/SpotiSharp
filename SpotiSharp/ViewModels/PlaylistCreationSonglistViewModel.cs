@@ -64,10 +64,7 @@ public class PlaylistCreationSonglistViewModel : BaseViewModel
         }
         
         
-        Songs = fullTracksFiltered.Select((fullTrack, index) =>
-        {
-            return new SongEditable(index, fullTrack);
-        }).ToList();
+        Songs = fullTracksFiltered.Select((fullTrack, index) => new SongEditable(index, fullTrack)).ToList();
         FilteredAndNonFilterSongCount = $"{Songs.Count} / {PlaylistCreatorPageModel.UnfilteredSongs.Count} Songs";
         PlaylistFinishedFiltering();
     }

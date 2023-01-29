@@ -47,8 +47,6 @@ public static class PlaylistCreatorPageModel
         }
     }
     
-    
-    
     public static List<IFilterViewModel> Filters { get; set; } = new List<IFilterViewModel>();
 
     public static event SongsChange OnSongListChange;
