@@ -41,6 +41,12 @@ public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
         }
     }
     
+    public string GenreNameUiRefresh
+    {
+        get { return _genreName; }
+        set { SetProperty(ref _genreName, value, propertyName: "GenreName"); }
+    }
+    
     public PlaylistTextFilterViewModel(TrackFilter trackFilter)
     {
         RemoveFilterCommand = new Command(RemoveFilterFromCommand);
@@ -64,7 +70,7 @@ public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
     
     public void SyncValues(List<object> values)
     {
-        _genreName = values[0].ToString();
+        GenreNameUiRefresh = values[0].ToString();
     }
 
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)

@@ -55,6 +55,16 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
             CollaborationAPI.Instance?.SetFiltersOfSession();
         }
     }
+    
+    public string EnteredNumberUiRefresh
+    {
+        get { return _enteredNumber; }
+        set
+        {
+            OnlyNumerics(value);
+            SetProperty(ref _enteredNumber, value, propertyName: "EnteredNumber");
+        }
+    }
 
     private string _validationMessage = string.Empty;
     
@@ -74,6 +84,12 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
             SetProperty(ref _selectedFilterOption, value);
             CollaborationAPI.Instance?.SetFiltersOfSession();
         }
+    }
+    
+    public NumericFilterOption SelectedFilterOptionUiRefresh
+    {
+        get { return _selectedFilterOption; }
+        set { SetProperty(ref _selectedFilterOption, value, propertyName: "SelectedFilterOption"); }
     }
     
     private List<NumericFilterOption> _filterOptions = Enum.GetValues<NumericFilterOption>().ToList();
@@ -108,8 +124,8 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
 
     public void SyncValues(List<object> values)
     {
-        _selectedFilterOption = Enum.Parse<NumericFilterOption>(values[0].ToString());
-        _enteredNumber = values[1].ToString();
+        SelectedFilterOptionUiRefresh = Enum.Parse<NumericFilterOption>(values[0].ToString());
+        EnteredNumberUiRefresh = values[1].ToString();
     }
 
     private void OnlyNumerics(string input)
