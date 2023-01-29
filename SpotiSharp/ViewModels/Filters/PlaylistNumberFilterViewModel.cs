@@ -2,13 +2,14 @@
 using SpotifyAPI.Web;
 using SpotiSharp.Interfaces;
 using SpotiSharp.Models;
+using SpotiSharpBackend;
 using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.ViewModels.Filters;
 
 public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
 {
-    private Guid _guid = new Guid();
+    private Guid _guid = Guid.NewGuid();
     
     private List<char> _allowedChars = new List<char>
     {
@@ -85,13 +86,25 @@ public class PlaylistNumberFilterViewModel : BaseFilter, IFilterViewModel
         FilterName = trackFilter.ToString();
     }
     
-    public PlaylistNumberFilterViewModel(TrackFilter trackFilter, params object[] parameters)
+    public PlaylistNumberFilterViewModel(TrackFilter trackFilter, Guid guid, List<object> parameters)
     {
         RemoveFilterCommand = new Command(RemoveFilter);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
-        SelectedFilterOption = (NumericFilterOption)parameters[0];
-        EnteredNumber = (string)parameters[1];
+        if (guid == Guid.Empty)
+        {
+            CollaborationAPI.Instance?.SetFiltersOfSession();
+            return;
+        }
+        _guid = guid;
+        SelectedFilterOption = Enum.Parse<NumericFilterOption>(parameters[0].ToString());
+        EnteredNumber = parameters[1].ToString();
+    }
+
+    public void SyncValues(List<object> values)
+    {
+        SelectedFilterOption = Enum.Parse<NumericFilterOption>(values[0].ToString());
+        EnteredNumber = values[1].ToString();
     }
 
     private void OnlyNumerics(string input)

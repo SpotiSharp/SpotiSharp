@@ -2,13 +2,14 @@
 using SpotifyAPI.Web;
 using SpotiSharp.Interfaces;
 using SpotiSharp.Models;
+using SpotiSharpBackend;
 using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.ViewModels.Filters;
 
 public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
 {
-    private Guid _guid = new Guid();
+    private Guid _guid = Guid.NewGuid();
     
     private TrackFilter _trackFilter;
 
@@ -59,13 +60,25 @@ public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
         FilterName = trackFilter.ToString();
     }
     
-    public PlaylistRangeFilterViewModel(TrackFilter trackFilter, params object[] parameters)
+    public PlaylistRangeFilterViewModel(TrackFilter trackFilter, Guid guid, List<object> parameters)
     {
         RemoveFilterCommand = new Command(RemoveFilter);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
-        SelectedFilterOption = (NumericFilterOption)parameters[0];
-        SliderValue = (int)parameters[1];
+        if (guid == Guid.Empty)
+        {
+            CollaborationAPI.Instance?.SetFiltersOfSession();
+            return;
+        }
+        _guid = guid;
+        SelectedFilterOption = Enum.Parse<NumericFilterOption>(parameters[0].ToString());
+        SliderValue = Convert.ToInt32(parameters[1]);
+    }
+    
+    public void SyncValues(List<object> values)
+    {
+        SelectedFilterOption = Enum.Parse<NumericFilterOption>(values[0].ToString());
+        SliderValue = Convert.ToInt32(values[1]);
     }
     
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)

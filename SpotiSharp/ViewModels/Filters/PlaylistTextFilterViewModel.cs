@@ -2,13 +2,14 @@
 using SpotifyAPI.Web;
 using SpotiSharp.Interfaces;
 using SpotiSharp.Models;
+using SpotiSharpBackend;
 using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.ViewModels.Filters;
 
 public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
 {
-    private Guid _guid = new Guid();
+    private Guid _guid = Guid.NewGuid();
     
     private TrackFilter _trackFilter;
 
@@ -43,12 +44,23 @@ public class PlaylistTextFilterViewModel : BaseFilter, IFilterViewModel
         FilterName = trackFilter.ToString();
     }
     
-    public PlaylistTextFilterViewModel(TrackFilter trackFilter, params object[] parameters)
+    public PlaylistTextFilterViewModel(TrackFilter trackFilter, Guid guid, List<object> parameters)
     {
         RemoveFilterCommand = new Command(RemoveFilter);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
-        GenreName = (string)parameters[0];
+        if (guid == Guid.Empty)
+        {
+            CollaborationAPI.Instance?.SetFiltersOfSession();
+            return;
+        }
+        _guid = guid;
+        GenreName = parameters[0].ToString();
+    }
+    
+    public void SyncValues(List<object> values)
+    {
+        GenreName = values[0].ToString();
     }
 
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)
