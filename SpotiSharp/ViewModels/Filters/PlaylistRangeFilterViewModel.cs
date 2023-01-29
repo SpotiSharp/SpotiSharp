@@ -7,6 +7,8 @@ using SpotiSharpBackend.Enums;
 
 namespace SpotiSharp.ViewModels.Filters;
 
+public delegate void RangeValueCallback()  ;
+
 public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
 {
     private Guid _guid = Guid.NewGuid();
@@ -28,23 +30,69 @@ public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
     {
         return _trackFilter;
     }
+
+    private bool _isInCallBack = false;
+
+    private int? _lastPendingSliderValue = null;
+
+    private int? _pendingSliderValue = null;
     
     private int _sliderValue = 0;
 
     public int SliderValue
     {
         get { return _sliderValue; }
-        set { SetProperty(ref _sliderValue, value); }
+        set 
+        {
+            _pendingSliderValue = value;
+            if (_pendingSliderValue != _lastPendingSliderValue && !_isInCallBack)
+            {
+                StartRangeValueCallback?.Invoke();
+            }
+            else
+            {
+                SetProperty(ref _sliderValue, value);
+            }
+
+            _lastPendingSliderValue = _pendingSliderValue;
+        }
     }
     
-    private NumericFilterOption _selectedfilterOption = NumericFilterOption.Equal;
+    private async void ProcessRangeValueCallback()
+    {
+        _isInCallBack = true;
+        await Task.Delay(200);
+        _isInCallBack = false;
+        SliderValue = _pendingSliderValue ?? 0;
+        CollaborationAPI.Instance?.SetFiltersOfSession();
+    }
+    
+    public event RangeValueCallback StartRangeValueCallback;
+    
+    public int SliderValueUiRefresh
+    {
+        get { return _sliderValue; }
+        set { SetProperty(ref _sliderValue, value, propertyName: "SliderValue"); }
+    }
+    
+    private NumericFilterOption _selectedFilterOption = NumericFilterOption.Equal;
 
     public NumericFilterOption SelectedFilterOption
     {
-        get { return _selectedfilterOption; }
-        set { SetProperty(ref _selectedfilterOption, value); }
+        get { return _selectedFilterOption; }
+        set
+        {
+            SetProperty(ref _selectedFilterOption, value);
+            CollaborationAPI.Instance?.SetFiltersOfSession();
+        }
     }
     
+    public NumericFilterOption SelectedFilterOptionUiRefresh
+    {
+        get { return _selectedFilterOption; }
+        set { SetProperty(ref _selectedFilterOption, value, propertyName: "SelectedFilterOption"); }
+    }
+
     private List<NumericFilterOption> _filterOptions = Enum.GetValues<NumericFilterOption>().ToList();
 
     public List<NumericFilterOption> FilterOptions
@@ -58,13 +106,15 @@ public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
         RemoveFilterCommand = new Command(RemoveFilterFromCommand);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
+        StartRangeValueCallback += ProcessRangeValueCallback;
     }
-    
+
     public PlaylistRangeFilterViewModel(TrackFilter trackFilter, Guid guid, List<object> parameters)
     {
         RemoveFilterCommand = new Command(RemoveFilterFromCommand);
         PlaylistCreatorPageModel.Filters.Add(this);
         FilterName = trackFilter.ToString();
+        StartRangeValueCallback += ProcessRangeValueCallback;
         if (guid == Guid.Empty)
         {
             CollaborationAPI.Instance?.SetFiltersOfSession();
@@ -77,8 +127,8 @@ public class PlaylistRangeFilterViewModel : BaseFilter, IFilterViewModel
     
     public void SyncValues(List<object> values)
     {
-        SelectedFilterOption = Enum.Parse<NumericFilterOption>(values[0].ToString());
-        SliderValue = Convert.ToInt32(values[1]);
+        SelectedFilterOptionUiRefresh = Enum.Parse<NumericFilterOption>(values[0].ToString());
+        SliderValueUiRefresh = Convert.ToInt32(values[1]);
     }
     
     public async Task<List<FullTrack>> FilterSongs(List<FullTrack> fullTracks, List<TrackAudioFeatures> audioFeatures)
